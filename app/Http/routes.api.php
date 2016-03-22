@@ -11,7 +11,8 @@
 */
 
 Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
-    //
+
+    Route::get('test',['uses' => 'UserController@test']);
 });
 
 Route::group(['prefix' => 'api'], function () {
