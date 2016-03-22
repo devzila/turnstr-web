@@ -4,6 +4,7 @@ use Closure;
 use DB;
 use Config;
 use App\Models\Api;
+use App\Models\SessionUser;
 /**
  * Middleware class to verify user access for
  * API requests.
@@ -29,23 +30,17 @@ class AuthorizeMiddleware {
             return response()->json($response, 200);
         }
 
+        $userDevice = UserDevice::where(['device_id' => $accessDevice, 'access_token' => $accessToken])->get();
 
 
-
-        $queryResult = DB::table('user_devices as ud')
-            ->where('ud.device_id',$accessDevice)
-            ->where('ud.access_token',$accessToken)
-            ->select('ud.user_id', 'app_version', 'os_type')
-            ->first();
-        if($queryResult){
-            return $next($request);
-
-        }
-        else {
+        if(!$userDevice){
             $arrResponse['status'] = Config::get(Api::ERROR_CODE);
-            $arrResponse['msg'] = "Access ke might have been expired. Please login again";
+            $arrResponse['msg'] = "Access key have been expired or invalid. Please login again";
             return $arrResponse;
         }
+
+        SessionUser::set($userDevice->user_id);
+        return $next($request);
 
     }
 }
