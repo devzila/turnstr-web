@@ -4,7 +4,8 @@ use Closure;
 use DB;
 use Config;
 use App\Models\Api;
-use App\Models\SessionUser;
+use App\Models\DeviceSession;
+use App\Models\UserDevice;
 /**
  * Middleware class to verify user access for
  * API requests.
@@ -25,21 +26,21 @@ class AuthorizeMiddleware {
 
         if(empty($accessToken) || empty($accessDevice)){
             $response=array();
-            $response['status'] = Config::get(Api::ERROR_CODE);
-            $response['msg']= "Please login into your Wowtables account.";
+            $response['status'] =Api::ERROR_CODE;
+            $response['msg']= "Please login into your Turnstr account.";
             return response()->json($response, 200);
         }
 
-        $userDevice = UserDevice::where(['device_id' => $accessDevice, 'access_token' => $accessToken])->get();
+        $userDevice = UserDevice::where(['device_id' => $accessDevice, 'access_token' => $accessToken])->get()->first();
 
 
         if(!$userDevice){
-            $arrResponse['status'] = Config::get(Api::ERROR_CODE);
+            $arrResponse['status'] = Api::ERROR_CODE;
             $arrResponse['msg'] = "Access key have been expired or invalid. Please login again";
-            return $arrResponse;
+            return response()->json($arrResponse, 200);
         }
 
-        SessionUser::set($userDevice->user_id);
+        DeviceSession::set($userDevice);
         return $next($request);
 
     }

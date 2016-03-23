@@ -2,7 +2,7 @@
 
 class API
 {
-    const ERROR_CODE = "OK";
-    const SUCCESS_CODE = "FAIL";
+    const ERROR_CODE = "FAIL";
+    const SUCCESS_CODE = "OK";
 
 }

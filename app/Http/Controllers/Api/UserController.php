@@ -2,6 +2,8 @@
 
 use Config;
 
+use App\Models\DeviceSession;
+
 class UserController extends Controller {
 
     public function __construct()
@@ -10,7 +12,7 @@ class UserController extends Controller {
     }
 
     public function test(){
-        return response()->json(['status' => 'OK']);
+        return response()->json(DeviceSession::get()->user);
     }
 
 }
