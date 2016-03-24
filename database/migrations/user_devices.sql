@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS `user_devices` (
   `hardware` varchar(25) NOT NULL DEFAULT '',
   `app_version` varchar(255) NOT NULL DEFAULT '',
   `rest_app_version` varchar(255) NOT NULL DEFAULT '1.0.4',
-  `created_at` timestamp NOT NULL DEFAULT now(),
-  `updated_at` timestamp NOT NULL DEFAULT 0 ON UPDATE CURRENT_TIMESTAMP
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
