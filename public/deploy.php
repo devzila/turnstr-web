@@ -11,7 +11,7 @@
 		'echo $PWD',
 		'whoami',
 		'git pull origin staging',
-		'composer install'
+		'composer install',
 		'git status',
 		'git submodule sync',
 		'git submodule update',
