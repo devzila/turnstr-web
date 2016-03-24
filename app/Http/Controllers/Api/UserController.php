@@ -31,6 +31,21 @@ class UserController extends Controller {
 
     public function register(UserRegistrationRequest $userRegistrationRequest){
 
+        $user = User::create([
+            'name' => $this->request->get('name'),
+            'email' => $this->request->get('email'),
+            'password' =>$this->request->get('passoword'),
+            'phone' => $this->request->get('phone'),
+            'password' => bcrypt($this->request->get('password'))
+        ]);
+
+        if($user){
+            $device = UserDevice::add($user, $this->request->all());
+            return response()->json($device, 200);
+        }
+
+        return response()->json(["status" => Api::ERROR_CODE, "message" => "Unable to create user"], 200);
+
     }
 
     public function login(UserLoginRequest $userLoginRequest){
@@ -54,5 +69,6 @@ class UserController extends Controller {
 
         return response()->json($device, 200);
     }
+
 
 }

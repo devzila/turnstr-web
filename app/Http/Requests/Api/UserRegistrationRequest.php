@@ -1,6 +1,7 @@
 <?php namespace App\Http\Requests\Api;
 
 use App\Http\Requests\Request;
+use App\Models\Api;
 
 class UserRegistrationRequest extends Request {
 
@@ -23,7 +24,7 @@ class UserRegistrationRequest extends Request {
 	{
 		return [
 			'name'     		=> 'required',
-            'email'         => 'required|email',
+            'email'         => 'required|email|unique:users,email',
             'password'      => 'required|between:6,15',
             'phone_number'  => 'required|regex:/^\d{10,11}$/',
             'device_id'     => 'required',
