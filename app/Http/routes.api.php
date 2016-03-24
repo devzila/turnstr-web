@@ -17,13 +17,13 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
 
 Route::group(['prefix' => 'api'], function () {
     Route::post('login', [
-        'uses' => 'Api\UserController@login',
+        'uses' => 'UserController@login',
         'as' => 'MobileUserLogin',
         'middleware' => []
     ]);
 
     Route::post('register', [
-        'uses' => 'Api\UserController@register',
+        'uses' => 'UserController@register',
         'as' => 'MobileUserRegister',
         'middleware' => []
     ]);

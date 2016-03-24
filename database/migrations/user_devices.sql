@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `user_devices` (
 -- Indexes for table `user_devices`
 --
 ALTER TABLE `user_devices`
-  ADD PRIMARY KEY (`device_id`),
+  ADD PRIMARY KEY (`device_id`, `user_id`),
   ADD KEY `fk_ud_user_idx` (`user_id`);
 
 --
