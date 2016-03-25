@@ -27,7 +27,11 @@ Route::group(['prefix' => 'api'], function () {
         'as' => 'MobileUserRegister',
         'middleware' => []
     ]);
+	
 });
 
+Route::resource('api/posts', 'PostsController');
 
 
+
+?>
