@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Response;
 use App\Models\Posts;
+use App\Models\DeviceSession;
 
 class PostsController extends Controller
 {
@@ -17,8 +18,8 @@ class PostsController extends Controller
      */
     public function index() 
     {
-         $posts = Posts::all();
-		 return $posts->toJson();
+         $posts = Posts::where('user_id', DeviceSession::get()->user->id);
+		 return  Response::json($posts, 200);
 		 
     }
 
@@ -89,7 +90,8 @@ class PostsController extends Controller
 		$post->media3_url = $request->input('media3_url');
 		$post->media4_url = $request->input('media4_url');
 		$post->update();
-		
+
+        return $post->toJson();
     }
 
     /**
@@ -103,5 +105,6 @@ class PostsController extends Controller
         //
 		$post = Posts::find($id);
 		$post->delete();
+        return Response::json(['status'=>"OK"], 200);
     }
 }

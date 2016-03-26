@@ -13,6 +13,8 @@
 Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
 
     Route::get('test',['uses' => 'UserController@test']);
+    Route::resource('posts', 'PostsController');
+
 });
 
 Route::group(['prefix' => 'api'], function () {
@@ -30,7 +32,6 @@ Route::group(['prefix' => 'api'], function () {
 	
 });
 
-Route::resource('api/posts', 'PostsController');
 
 
 
