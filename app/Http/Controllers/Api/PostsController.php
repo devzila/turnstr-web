@@ -83,6 +83,13 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
         //
+		$post = Posts::find($id);
+    	$post->media1_url = $request->input('media1_url');
+		$post->media2_url = $request->input('media2_url');
+		$post->media3_url = $request->input('media3_url');
+		$post->media4_url = $request->input('media4_url');
+		$post->update();
+		
     }
 
     /**
