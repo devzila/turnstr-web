@@ -18,7 +18,7 @@ class PostsController extends Controller
      */
     public function index() 
     {
-         $posts = Posts::where('user_id', DeviceSession::get()->user->id);
+         $posts = Posts::where('user_id', DeviceSession::get()->user->id)->get();
 		 return  Response::json($posts, 200);
 		 
     }
