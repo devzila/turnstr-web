@@ -16,6 +16,12 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
     Route::resource('posts', 'PostsController');
     Route::resource('posts.comments', 'CommentsController');
 
+    Route::post('posts/upload', [
+        'uses' => 'PostsController@upload',
+        'as' => 'UploadPhoto',
+        'middleware' => []
+    ]);
+
 });
 
 Route::group(['prefix' => 'api'], function () {
@@ -30,6 +36,8 @@ Route::group(['prefix' => 'api'], function () {
         'as' => 'MobileUserRegister',
         'middleware' => []
     ]);
+
+
 	
 });
 
