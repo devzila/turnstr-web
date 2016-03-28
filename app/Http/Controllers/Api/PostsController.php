@@ -16,7 +16,7 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() 
+    public function index()  
     {
          $posts = Posts::where('user_id', DeviceSession::get()->user->id)->get();
 		 return  Response::json($posts, 200);
