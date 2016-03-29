@@ -5,6 +5,7 @@ use Config;
 use App\Models\DeviceSession;
 use App\Http\Requests\Api\UserLoginRequest;
 use App\Http\Requests\Api\UserRegistrationRequest;
+use App\Http\Requests\Api\UserLogoutRequest;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -34,7 +35,7 @@ class UserController extends Controller {
         $user = User::create([
             'name' => $this->request->get('name'),
             'email' => $this->request->get('email'),
-            'password' =>$this->request->get('passoword'),
+            'username' =>$this->request->get('username'),
             'phone' => $this->request->get('phone'),
             'password' => bcrypt($this->request->get('password'))
         ]);
@@ -50,8 +51,9 @@ class UserController extends Controller {
 
     public function login(UserLoginRequest $userLoginRequest){
 
-        $user = User::where('email', $this->request->get('email'))
-            ->first();
+
+        $field = filter_var($this->request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $user = User::where($field, $this->request->get('email'))->first();
 
         if(!$user){
             return response()->json(["status" => Api::ERROR_CODE, "message" => "Email/Password did not match"], 200);
@@ -70,5 +72,14 @@ class UserController extends Controller {
         return response()->json($device, 200);
     }
 
+    /*
+    *   
+    */
+    public function logout(UserLogoutRequest $UserLogoutRequest){
+
+        UserDevice::remove($this->request->get('access_token'));
+
+        return response()->json(["status" => Api::SUCCESS_CODE, "message" => "logged out successfully"], 200);
+    }
 
 }
