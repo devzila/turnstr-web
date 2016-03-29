@@ -38,11 +38,11 @@ class CommentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $post_id)
     {
       $result = Comments::create([
         'user_id' => DeviceSession::get()->user->id,
-         'post_id' => $request->input('post_id'),
+         'post_id' => $post_id,
 		 'comments' => $request->input('comments'),
 	 ]);
         return Response::json($result, 200);
