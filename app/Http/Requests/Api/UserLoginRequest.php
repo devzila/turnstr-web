@@ -23,7 +23,7 @@ class UserLoginRequest extends Request {
 	public function rules()
 	{
 		return [
-			'email'         => 'required|email',
+			'email'         => 'required',
             'password'      => 'required|between:6,15',
             'device_id'     => 'required',
             'os_type'       => 'required|in:iOS,Android',

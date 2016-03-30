@@ -36,6 +36,11 @@ Route::group(['prefix' => 'api'], function () {
         'as' => 'MobileUserRegister',
         'middleware' => []
     ]);
+    Route::post('logout', [
+        'uses' => 'UserController@logout',
+        'as' => 'MobileUserLogout',
+        'middleware' => []
+    ]);
 
 
 	

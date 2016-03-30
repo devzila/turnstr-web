@@ -44,8 +44,10 @@ class UserDevice extends Model
             $device->user = $device->user;
             return $device;
         }
+    }
 
-
-
+    public static function remove($token){
+        return self::where('access_token', '=', $token)
+            ->delete();
     }
 }

@@ -3,7 +3,7 @@
 use App\Http\Requests\Request;
 use App\Models\Api;
 
-class UserRegistrationRequest extends Request {
+class UserLogoutRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -23,16 +23,7 @@ class UserRegistrationRequest extends Request {
 	public function rules()
 	{
 		return [
-			'name'     		=> 'required',
-            'email'         => 'required|email|unique:users,email',
-            'username'      => 'required|min:4|unique:users',
-            'password'      => 'required|between:6,15',
-            'phone_number'  => 'required|regex:/^\d{10,11}$/',
-            'device_id'     => 'required',
-            'os_type'       => 'required|in:iOS,Android',
-            'os_version'    => 'required',
-            'hardware'      => 'required',
-            'app_version'   => 'required'            
+            'access_token' => 'required'
 		];
 	}
 
