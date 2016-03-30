@@ -25,9 +25,9 @@ class UserRegistrationRequest extends Request {
 		return [
 			'name'     		=> 'required',
             'email'         => 'required|email|unique:users,email',
-            'username'      => 'required|min:4|unique:users',
+            'username'      => 'required|min:4|unique:users,username',
             'password'      => 'required|between:6,15',
-            'phone_number'  => 'required|regex:/^\d{10,11}$/',
+            'phone_number'  => 'sometimes|regex:/^\d{10,11}$/',
             'device_id'     => 'required',
             'os_type'       => 'required|in:iOS,Android',
             'os_version'    => 'required',
