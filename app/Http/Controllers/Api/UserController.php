@@ -35,8 +35,8 @@ class UserController extends Controller {
         $user = User::create([
             'name' => $this->request->get('name'),
             'email' => $this->request->get('email'),
-            'username' =>$this->request->get('username'),
-            'phone' => $this->request->get('phone'),
+            'username' => $this->request->get('username'),
+            'phone_number' => $this->request->get('phone'),
             'password' => bcrypt($this->request->get('password'))
         ]);
 
