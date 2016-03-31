@@ -44,12 +44,17 @@ class UserRegistrationRequest extends Request {
      */
     public function response(array $errors)
     {
-        return response()->json([
+		return response()->json([
+			'message' => "REST api"
+		], 200);
+		/*
+		return response()->json([
 			'status' => Api::ERROR_CODE,
             'action' => 'Check for errors in the data sent',
             'message' => 'There were errors in the input sent. Please check your request and try again',
             'errors' => $errors
         ], 422);
+		*/
     }
 
 }
