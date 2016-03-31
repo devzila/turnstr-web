@@ -1,0 +1,30 @@
+<html>
+<head>
+    <title>Api Test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+
+<body>
+<form id="sample" action="/api/register">
+    name<input name="name" value="nilay"/>
+	phone_number<input name="phone_number" value="908657432"/>
+	email<input name="email" value="nilay@devzila.com"/>
+    password<input name="password" value="root1234"/>
+    device_id<input name="device_id" value="abc123456"/>
+    os_type<input name="os_type" value="iOS"/>
+    os_version<input name="os_version" value="5.0"/>
+    hardware<input name="hardware" value="Motorola"/>
+    app_version<input name="app_version" value="1.0"/>
+
+    <button type="submit">Submit data using Ajax call</button>
+</form>
+
+<script>
+    $("#sample").submit(function(e) {
+        e.preventDefault();
+        $.post('/api/register', $('#sample').serialize())
+
+    });
+</script>
+</body>
+</html>
