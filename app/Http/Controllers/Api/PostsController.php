@@ -22,7 +22,8 @@ class PostsController extends Controller
     public function index()
     {
         $posts = Posts::where('user_id', DeviceSession::get()->user->id)->get();
-        return Response::json($posts, 200);
+        return Response::json(['status' => "OK",'posts'=>$posts], 200);
+        // return Response::json($posts, 200);
 
     }
 
