@@ -22,6 +22,12 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
         'middleware' => []
     ]);
 
+    Route::post('posts/uploads', [
+        'uses' => 'PostsController@uploads',
+        'as' => 'UploadPhoto',
+        'middleware' => []
+    ]);
+
 });
 
 Route::group(['prefix' => 'api'], function () {
