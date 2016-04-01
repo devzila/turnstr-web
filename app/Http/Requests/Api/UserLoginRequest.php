@@ -44,8 +44,7 @@ class UserLoginRequest extends Request {
         return response()->json([
 			'status' => Api::ERROR_CODE,
             'action' => 'Check for errors in the data sent',
-            'message' => 'There were errors in the input sent. Please check your request and try again',
-            'errors' => $errors
+            'message' => 'There were errors in the input sent. Please check your request and try again'
         ], 422);
     }
 
