@@ -37,6 +37,8 @@ class CommentsController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     *
+     * api/posts/<post_id>/comments
      */
     public function store(Request $request, $post_id)
     {
