@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Helpers\ResponseClass;
 use Response;
 use Validator;
 use App\Models\Posts;
@@ -22,7 +23,8 @@ class PostsController extends Controller
     public function index()
     {
         $posts = Posts::where('user_id', DeviceSession::get()->user->id)->get();
-        return Response::json(['status' => true,'posts'=>$posts], 200);
+        return ResponseClass::Prepare_Response($posts,true,200);
+        // return Response::json(['status' => true,'posts'=>$posts], 200);
         // return Response::json($posts, 200);
 
     }
@@ -51,7 +53,8 @@ class PostsController extends Controller
             'media3_url' => $request->input('media3_url'),
             'media4_url' => $request->input('media4_url')
         ]);
-        return Response::json($result, 200);
+        return ResponseClass::Prepare_Response($result,true,200);
+        // return Response::json($result, 200);
     }
 
     /**
@@ -109,7 +112,8 @@ class PostsController extends Controller
         //
         $post = Posts::find($id);
         $post->delete();
-        return Response::json(['status' => "OK"], 200);
+        return ResponseClass::Prepare_Response(['status' => "OK"],true,200);
+        // return Response::json(['status' => "OK"], 200);
     }
 
 
@@ -169,7 +173,8 @@ class PostsController extends Controller
             'media3_thumb_url' => $thumbNames[3] ? URL::to('/') . '/media/' . $thumbNames[3] : '',
             'media4_thumb_url' => $thumbNames[4] ? URL::to('/') . '/media/' . $thumbNames[4] : ''
         ]);
-        return Response::json($result, 200);
+        return ResponseClass::Prepare_Response($result,true,200);
+        // return Response::json($result, 200);
 
 
     }

@@ -2,6 +2,7 @@
 
 use App\Http\Requests\Request;
 use App\Models\Api;
+use App\Helpers\ResponseClass;
 
 class UserRegistrationRequest extends Request {
 
@@ -44,12 +45,13 @@ class UserRegistrationRequest extends Request {
      */
     public function response(array $errors)
     {
-        return response()->json([
-			'status' => Api::ERROR_CODE,
-            'action' => 'Check for errors in the data sent',
-            'message' => 'There were errors in the input sent. Please check your request and try again',
-            'errors' => $errors
-        ], 422);
+        return ResponseClass::Prepare_Response('',false,422,['message'=> "There were errors in the input sent. Please check your request and try again",'action' => 'Check for errors in the data sent','errors'=>$errors]);
+   //      return response()->json([
+			// 'status' => Api::ERROR_CODE,
+   //          'action' => 'Check for errors in the data sent',
+   //          'message' => 'There were errors in the input sent. Please check your request and try again',
+   //          'errors' => $errors
+   //      ], 422);
     }
 
 }
