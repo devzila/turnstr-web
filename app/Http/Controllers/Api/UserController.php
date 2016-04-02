@@ -44,7 +44,8 @@ class UserController extends Controller {
 
         if($user){
             $device = UserDevice::add($user, $this->request->all());
-            return response()->json($device, 200);
+            return ResponseClass::Prepare_Response($device,true,200);
+            // return response()->json($device, 200);
         }
 
         return ResponseClass::Prepare_Response('',false,200,['message'=> "Unable to create user"]);
