@@ -45,7 +45,7 @@ class UserRegistrationRequest extends Request {
      */
     public function response(array $errors)
     {
-        return ResponseClass::Prepare_Response('',false,422,['message'=> "There were errors in the input sent. Please check your request and try again",'action' => 'Check for errors in the data sent','errors'=>$errors]);
+        return ResponseClass::Prepare_Response(['message'=> "There were errors in the input sent. Please check your request and try again",'action' => 'Check for errors in the data sent','errors'=>$errors],false,422);
    //      return response()->json([
 			// 'status' => Api::ERROR_CODE,
    //          'action' => 'Check for errors in the data sent',
