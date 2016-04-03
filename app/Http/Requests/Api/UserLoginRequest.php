@@ -41,6 +41,7 @@ class UserLoginRequest extends Request {
      */
     public function response(array $errors)
     {
+		// TODO: add error details in response
         return response()->json([
 			'status' => Api::ERROR_CODE,
             'action' => 'Check for errors in the data sent',
