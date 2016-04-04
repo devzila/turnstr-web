@@ -59,10 +59,10 @@
 
         <script>
             var slides = [
-                {src: 'http://az801229.vo.msecnd.net/wetpaint/2015/05/05282015-kim-kardashian-selfish-book-signing-750x522-1433179006.jpg'},
-                {src: 'http://img.wennermedia.com/social/kim-kardashian-zoom-18a51ce4-cf10-4d5f-bec3-659866fba83e.jpg'},
-                {src: 'http://cdn.mhpbooks.com/uploads/2015/04/Screen-Shot-2015-04-15-at-3.58.15-PM.png'},
-                {src: 'http://blogs-images.forbes.com/maseenaziegler/files/2014/07/0687aa87de2bbb21f13dc0d181114f39-e1405522798838.jpg'}
+                {src: 'http://static.dnaindia.com/sites/default/files/2015/11/28/399304-getty2.jpg'},
+                {src: 'http://www.beautiful-self.com/wp-content/uploads/2016/02/kim-look-3.jpg'},
+                {src: 'http://images.agoramedia.com/wte3.0/gcms/kim-kardashian-reveals-scary-pregnancy-experience.jpeg'},
+                {src: 'http://www.allure.com/beauty-trends/blogs/daily-beauty-reporter/2015/12/18/kim-skin.jpg'}
             ];
 
            $('.jR3DCarouselGallery').jR3DCarousel({
