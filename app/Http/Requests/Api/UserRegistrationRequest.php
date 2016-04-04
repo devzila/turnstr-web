@@ -24,7 +24,7 @@ class UserRegistrationRequest extends Request {
 	public function rules()
 	{
 		return [
-			'name'     		=> 'required',
+			     'name'     		=> 'required',
             'email'         => 'required|email|unique:users,email',
             'username'      => 'required|min:4|unique:users,username',
             'password'      => 'required|between:6,15',
@@ -45,7 +45,11 @@ class UserRegistrationRequest extends Request {
      */
     public function response(array $errors)
     {
-        return ResponseClass::Prepare_Response(['message'=> "There were errors in the input sent. Please check your request and try again",'action' => 'Check for errors in the data sent','errors'=>$errors],false,422);
+      $finalErrors = array();
+        foreach ($errors as $key => $value) {
+          $finalErrors[$key] = $value[0];
+        }
+        return ResponseClass::Prepare_Response(['message'=> "There were errors in the input sent. Please check your request and try again",'action' => 'Check for errors in the data sent','errors'=>$finalErrors],false,422);
    //      return response()->json([
 			// 'status' => Api::ERROR_CODE,
    //          'action' => 'Check for errors in the data sent',
