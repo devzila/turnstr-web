@@ -47,6 +47,11 @@ Route::group(['prefix' => 'api'], function () {
         'as' => 'MobileUserLogout',
         'middleware' => []
     ]);
+    Route::post('forgotpassword', [
+        'uses' => 'UserController@forgotpassword',
+        'as' => 'MobileUserForgot',
+        'middleware' => []
+    ]);
 
 
 	
