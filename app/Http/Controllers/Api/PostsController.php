@@ -22,7 +22,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Posts::where('user_id', DeviceSession::get()->user->id)->get();
+        $posts = Posts::where('user_id', DeviceSession::get()->user->id)->orderBy('updated_at','DESC')->get();
         return ResponseClass::Prepare_Response($posts,true,200);
         // return Response::json(['status' => true,'posts'=>$posts], 200);
         // return Response::json($posts, 200);
