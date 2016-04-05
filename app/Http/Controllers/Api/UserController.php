@@ -6,6 +6,7 @@ use App\Models\DeviceSession;
 use App\Http\Requests\Api\UserLoginRequest;
 use App\Http\Requests\Api\UserRegistrationRequest;
 use App\Http\Requests\Api\UserLogoutRequest;
+use App\Http\Requests\Api\UserForgotpasswordRequest ;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -109,7 +110,6 @@ class UserController extends Controller {
         });
 
         return ResponseClass::Prepare_Response(['message'=> "Email sent successfully"],"false",200);
-        // return response()->json(["status" => Api::SUCCESS_CODE, "message" => "logged out successfully"], 200);
     }
 
 }
