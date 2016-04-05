@@ -14,6 +14,7 @@ use App\Helpers\ResponseClass;
 use Hash;
 use Response;
 use App\Models\UserDevice;
+use Mail;
 class UserController extends Controller {
     /**
      * The Http Request Object
@@ -95,9 +96,19 @@ class UserController extends Controller {
     */
     public function forgotpassword(UserForgotpasswordRequest $UserForgotpasswordRequest){
 
-        UserDevice::remove($this->request->get('access_token'));
+        $user = User::where('email', $this->request->get('email'))->first();
 
-        return ResponseClass::Prepare_Response('',"false",200,['message'=> "logged out successfully"]);
+        if(!$user){
+            return ResponseClass::Prepare_Response('',"false",200,['message'=> "Email did not match"]);
+        }
+
+        Mail::send('emails.forgotpassword', ['user' => $user], function ($m) use ($user) {
+            $m->from('admin@turnstr.com', 'Turnstr');
+
+            $m->to($user->email, $user->username)->subject('Forgot Password');
+        });
+
+        return ResponseClass::Prepare_Response(['message'=> "Email sent successfully"],"false",200);
         // return response()->json(["status" => Api::SUCCESS_CODE, "message" => "logged out successfully"], 200);
     }
 

@@ -41,7 +41,7 @@ class UserForgotpasswordRequest extends Request {
         foreach ($errors as $key => $value) {
           $finalErrors[$key] = $value[0];
         }
-        return ResponseClass::Prepare_Response(['message'=> "There were errors in the input sent. Please check your request and try again",'action' => 'Check for errors in the data sent','errors'=>$finalErrors],false,422);
+        return ResponseClass::Prepare_Response(['message'=> "There were errors in the input sent. Please check your request and try again",'action' => 'Check for errors in the data sent','errors'=>$finalErrors],"false",422);
     }
 
 }
