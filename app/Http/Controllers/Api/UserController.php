@@ -44,11 +44,11 @@ class UserController extends Controller {
 
         if($user){
             $device = UserDevice::add($user, $this->request->all());
-            return ResponseClass::Prepare_Response($device,true,200);
+            return ResponseClass::Prepare_Response($device,"true",200);
             // return response()->json($device, 200);
         }
 
-        return ResponseClass::Prepare_Response('',false,200,['message'=> "Unable to create user"]);
+        return ResponseClass::Prepare_Response('',"false",200,['message'=> "Unable to create user"]);
         // return response()->json(["status" => Api::ERROR_CODE, "message" => "Unable to create user"], 200);
 
     }
@@ -60,13 +60,13 @@ class UserController extends Controller {
         $user = User::where($field, $this->request->get('email'))->first();
 
         if(!$user){
-            return ResponseClass::Prepare_Response('',false,200,['message'=> "Email/Password did not match"]);
+            return ResponseClass::Prepare_Response('',"false",200,['message'=> "Email/Password did not match"]);
             // return response()->json(["status" => Api::ERROR_CODE, "message" => "Email/Password did not match"], 200);
         }
 
         if (!Hash::check($this->request->get('password'), $user->password))
         {
-            return ResponseClass::Prepare_Response('',false,200,['message'=> "Email/Password did not match"]);
+            return ResponseClass::Prepare_Response('',"false",200,['message'=> "Email/Password did not match"]);
             // return response()->json(["status" => Api::ERROR_CODE, "message" => "Email/Password did not match"], 200);
         }
 
@@ -75,18 +75,29 @@ class UserController extends Controller {
         // create access token for device
         $device = UserDevice::add($user, $this->request->all());
 
-        return ResponseClass::Prepare_Response($device,true,200);
+        return ResponseClass::Prepare_Response($device,"true",200);
         // return response()->json($device, 200);
     }
 
     /*
-    *   
+    *   Function to logout from api
     */
     public function logout(UserLogoutRequest $UserLogoutRequest){
 
         UserDevice::remove($this->request->get('access_token'));
 
-        return ResponseClass::Prepare_Response('',false,200,['message'=> "logged out successfully"]);
+        return ResponseClass::Prepare_Response('',"false",200,['message'=> "logged out successfully"]);
+        // return response()->json(["status" => Api::SUCCESS_CODE, "message" => "logged out successfully"], 200);
+    }
+
+    /*
+    *   Function to recover password
+    */
+    public function forgotpassword(UserForgotpasswordRequest $UserForgotpasswordRequest){
+
+        UserDevice::remove($this->request->get('access_token'));
+
+        return ResponseClass::Prepare_Response('',"false",200,['message'=> "logged out successfully"]);
         // return response()->json(["status" => Api::SUCCESS_CODE, "message" => "logged out successfully"], 200);
     }
 
