@@ -23,7 +23,8 @@ class PostsController extends Controller
     public function index()
     {
         $posts = Posts::where('user_id', DeviceSession::get()->user->id)->orderBy('updated_at','DESC')->get();
-        return ResponseClass::Prepare_Response($posts,'Post Listing',"true",200);
+
+        return ResponseClass::Prepare_Response($posts,'Post Listing',true,200);
     }
 
     /**
@@ -50,7 +51,7 @@ class PostsController extends Controller
             'media3_url' => $request->input('media3_url'),
             'media4_url' => $request->input('media4_url')
         ]);
-        return ResponseClass::Prepare_Response($result,'Posts created successfuly',"true",200);
+        return ResponseClass::Prepare_Response($result,'Posts created successfuly',true,200);
     }
 
     /**
@@ -108,7 +109,7 @@ class PostsController extends Controller
         //
         $post = Posts::find($id);
         $post->delete();
-        return ResponseClass::Prepare_Response('','Deleted successfuly',"true",200);
+        return ResponseClass::Prepare_Response('','Deleted successfuly',true,200);
     }
 
 
@@ -168,8 +169,8 @@ class PostsController extends Controller
             'media3_thumb_url' => $thumbNames[3] ? URL::to('/') . '/media/' . $thumbNames[3] : '',
             'media4_thumb_url' => $thumbNames[4] ? URL::to('/') . '/media/' . $thumbNames[4] : ''
         ]);
-        return ResponseClass::Prepare_Response($result,'uploaded successfuly',"true",200);
-        // return Response::json($result, 200);
+
+        return ResponseClass::Prepare_Response($result,'uploaded successfuly',true,200);
 
 
     }

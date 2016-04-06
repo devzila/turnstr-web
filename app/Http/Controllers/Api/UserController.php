@@ -48,7 +48,7 @@ class UserController extends Controller {
 
         if($user){
             $device = UserDevice::add($user, $this->request->all());
-            return ResponseClass::Prepare_Response($device,"true",200);
+            return ResponseClass::Prepare_Response($device,true,200);
         }
 
         return ResponseClass::Prepare_Response('','Unable to create user',"false",200);
@@ -71,8 +71,7 @@ class UserController extends Controller {
         }
 
         $device = UserDevice::add($user, $this->request->all());
-
-        return ResponseClass::Prepare_Response($device,'Login successfully',"true",200);
+        return ResponseClass::Prepare_Response($device,'Login successfully',true,200);
     }
 
     /*
@@ -81,8 +80,7 @@ class UserController extends Controller {
     public function logout(UserLogoutRequest $UserLogoutRequest){
 
         UserDevice::remove($this->request->get('access_token'));
-
-        return ResponseClass::Prepare_Response('','logged out successfully',"false",200);
+        return ResponseClass::Prepare_Response('','logged out successfully',false,200);
     }
 
     /*
@@ -134,7 +132,7 @@ class UserController extends Controller {
             $m->to($user->email, $user->username)->subject('New password');
         });
 
-        return ResponseClass::Prepare_Response('','Password updated successfully',"true",200);
+        return ResponseClass::Prepare_Response('','Password updated successfully',true,200);
     }
 
 }
