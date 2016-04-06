@@ -44,7 +44,7 @@ class UserController extends Controller {
 
         if($user){
             $device = UserDevice::add($user, $this->request->all());
-            return ResponseClass::Prepare_Response($device,"true",200);
+            return ResponseClass::Prepare_Response($device,true,200);
             // return response()->json($device, 200);
         }
 
@@ -75,7 +75,7 @@ class UserController extends Controller {
         // create access token for device
         $device = UserDevice::add($user, $this->request->all());
 
-        return ResponseClass::Prepare_Response($device,"true",200);
+        return ResponseClass::Prepare_Response($device,true,200);
         // return response()->json($device, 200);
     }
 
@@ -86,7 +86,7 @@ class UserController extends Controller {
 
         UserDevice::remove($this->request->get('access_token'));
 
-        return ResponseClass::Prepare_Response('',"false",200,['message'=> "logged out successfully"]);
+        return ResponseClass::Prepare_Response('',false,200,['message'=> "logged out successfully"]);
         // return response()->json(["status" => Api::SUCCESS_CODE, "message" => "logged out successfully"], 200);
     }
 
@@ -97,7 +97,7 @@ class UserController extends Controller {
 
         UserDevice::remove($this->request->get('access_token'));
 
-        return ResponseClass::Prepare_Response('',"false",200,['message'=> "logged out successfully"]);
+        return ResponseClass::Prepare_Response('',false,200,['message'=> "logged out successfully"]);
         // return response()->json(["status" => Api::SUCCESS_CODE, "message" => "logged out successfully"], 200);
     }
 
