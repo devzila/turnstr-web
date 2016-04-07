@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -112,6 +112,20 @@ class PostsController extends Controller
         return ResponseClass::Prepare_Response('','Deleted successfuly',true,200);
     }
 
+    /**
+     * Search and return objects thumbnails.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function explorer()
+    {
+        $searchData = Input::get('searchData');
+
+        $imagesToExplore = Posts::getImages($searchData);
+        return ResponseClass::Prepare_Response($imagesToExplore,'List of images to explore',true,200);
+    }
+
 
     public function upload(Request $request)
     {
@@ -175,64 +189,4 @@ class PostsController extends Controller
 
     }
 
-    public function uploads(Request $request)
-    {
-        $files = [
-            'image1' => $request->file('image1'),
-            'image2' => $request->file('image2'),
-            'image3' => $request->file('image3'),
-            'image4' => $request->file('image4')
-        ];
-
-        $rules = [
-            'image1' => 'required',
-            'image2' => 'required',
-            'image3' => 'required',
-            'image4' => 'required',
-        ];
-
-
-        $validator = Validator::make($files, $rules);
-        if ($validator->fails()) {
-            return Response::json(['status' => "FAIL", 'message' => 'validation fails'], 200);
-        }
-
-
-
-
-        $destinationPath = public_path() . '/media'; // upload path
-
-        $fileNames =[];
-        $thumbNames = [];
-        for($i = 1; $i<=4; $i++){
-            $extension = $request->file("image$i")->getClientOriginalExtension();
-            $fileNames[$i] = Uuid::uuid1()->toString() . '.' . $extension;
-            $request->file("image$i")->move($destinationPath, $fileNames[$i]);
-
-            $thumbNames[$i] = '';
-            if($request->file("thumb$i")){
-                $extension = $request->file("thumb$i")->getClientOriginalExtension();
-                $thumbNames[$i] = Uuid::uuid1()->toString() . '.' . $extension;
-                $request->file("thumb$i")->move($destinationPath, $thumbNames[$i]);
-
-            }
-        }
-
-
-        $result = Posts::create([
-            'user_id' => DeviceSession::get()->user->id,
-            'caption' => $request->get('caption'),
-            'media1_url' => URL::to('/') . '/media/' . $fileNames[1],
-            'media2_url' => URL::to('/') . '/media/' . $fileNames[2],
-            'media3_url' => URL::to('/') . '/media/' . $fileNames[3],
-            'media4_url' => URL::to('/') . '/media/' . $fileNames[4],
-            'media1_thumb_url' => $thumbNames[1] ? URL::to('/') . '/media/' . $thumbNames[1] : '',
-            'media2_thumb_url' => $thumbNames[2] ? URL::to('/') . '/media/' . $thumbNames[2] : '',
-            'media3_thumb_url' => $thumbNames[3] ? URL::to('/') . '/media/' . $thumbNames[3] : '',
-            'media4_thumb_url' => $thumbNames[4] ? URL::to('/') . '/media/' . $thumbNames[4] : ''
-        ]);
-        return Response::json($result, 200);
-
-
-    }
 }
