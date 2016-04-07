@@ -6,14 +6,18 @@ use App\Models\DeviceSession;
 use App\Http\Requests\Api\UserLoginRequest;
 use App\Http\Requests\Api\UserRegistrationRequest;
 use App\Http\Requests\Api\UserLogoutRequest;
+use App\Http\Requests\Api\UserForgotpasswordRequest ;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Passwordreset;
 use App\Models\Api;
 use App\Helpers\ResponseClass;
 use Hash;
 use Response;
 use App\Models\UserDevice;
+use Mail;
+use URL;
 class UserController extends Controller {
     /**
      * The Http Request Object
@@ -45,11 +49,9 @@ class UserController extends Controller {
         if($user){
             $device = UserDevice::add($user, $this->request->all());
             return ResponseClass::Prepare_Response($device,true,200);
-            // return response()->json($device, 200);
         }
 
-        return ResponseClass::Prepare_Response('',"false",200,['message'=> "Unable to create user"]);
-        // return response()->json(["status" => Api::ERROR_CODE, "message" => "Unable to create user"], 200);
+        return ResponseClass::Prepare_Response('','Unable to create user',"false",200);
 
     }
 
@@ -60,23 +62,16 @@ class UserController extends Controller {
         $user = User::where($field, $this->request->get('email'))->first();
 
         if(!$user){
-            return ResponseClass::Prepare_Response('',"false",200,['message'=> "Email/Password did not match"]);
-            // return response()->json(["status" => Api::ERROR_CODE, "message" => "Email/Password did not match"], 200);
+            return ResponseClass::Prepare_Response('','Email/Password did not match',"false",200);
         }
 
         if (!Hash::check($this->request->get('password'), $user->password))
         {
-            return ResponseClass::Prepare_Response('',"false",200,['message'=> "Email/Password did not match"]);
-            // return response()->json(["status" => Api::ERROR_CODE, "message" => "Email/Password did not match"], 200);
+            return ResponseClass::Prepare_Response('','Email/Password did not match',"false",200);
         }
 
-
-        // credential is correct
-        // create access token for device
         $device = UserDevice::add($user, $this->request->all());
-
-        return ResponseClass::Prepare_Response($device,true,200);
-        // return response()->json($device, 200);
+        return ResponseClass::Prepare_Response($device,'Login successfully',true,200);
     }
 
     /*
@@ -85,9 +80,7 @@ class UserController extends Controller {
     public function logout(UserLogoutRequest $UserLogoutRequest){
 
         UserDevice::remove($this->request->get('access_token'));
-
-        return ResponseClass::Prepare_Response('',false,200,['message'=> "logged out successfully"]);
-        // return response()->json(["status" => Api::SUCCESS_CODE, "message" => "logged out successfully"], 200);
+        return ResponseClass::Prepare_Response('','logged out successfully',false,200);
     }
 
     /*
@@ -95,10 +88,51 @@ class UserController extends Controller {
     */
     public function forgotpassword(UserForgotpasswordRequest $UserForgotpasswordRequest){
 
-        UserDevice::remove($this->request->get('access_token'));
+        $user = User::where('email', $this->request->get('email'))->first();
 
-        return ResponseClass::Prepare_Response('',false,200,['message'=> "logged out successfully"]);
-        // return response()->json(["status" => Api::SUCCESS_CODE, "message" => "logged out successfully"], 200);
+        if(!$user){
+            return ResponseClass::Prepare_Response('','Email did not match',"false",200);
+        }
+
+        $randomString = date('YmdHis').str_random(4);
+        Passwordreset::insert(array('token'=>$randomString,'email'=>$user->email));
+
+        $link = URL::to('api/forgotpassword').'/'.$randomString;
+
+        Mail::send('emails.forgotpassword', ['user' => $user,'link'=>$link], function ($m) use ($user) {
+            $m->from('admin@turnstr.com', 'Turnstr');
+
+            $m->to($user->email, $user->username)->subject('Forgot Password');
+        });
+
+        return ResponseClass::Prepare_Response('','Email sent successfully',"true",200);
+    }
+
+    /*
+    *   Function to reset password
+    */
+    public function resetpassword($shortcode = ''){
+
+        if(!$shortcode){
+            return ResponseClass::Prepare_Response('','Invalid link hit',"false",200);
+        }
+        $userEmail = Passwordreset::where('token',$shortcode)->first();
+        if(!$userEmail){
+            return ResponseClass::Prepare_Response('','Invalid link',"false",200);
+        }
+        Passwordreset::where('token',$shortcode)->delete();
+        $user = User::where('email',$userEmail->email)->first();
+
+        $randomString = str_random(7);
+        User::where('email',$userEmail->email)->update(array('forgot_password_token'=>'','password'=>$randomString));
+
+        Mail::send('emails.updatedPassword', ['user' => $user,'password'=>$randomString], function ($m) use ($user) {
+            $m->from('admin@turnstr.com', 'Turnstr');
+
+            $m->to($user->email, $user->username)->subject('New password');
+        });
+
+        return ResponseClass::Prepare_Response('','Password updated successfully',true,200);
     }
 
 }

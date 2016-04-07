@@ -20,8 +20,7 @@ class CommentsController extends Controller
     public function index()  
     {
          $comments = Comments::where('user_id', DeviceSession::get()->user->id)->get();
-         return ResponseClass::Prepare_Response($comments,true,200);
-		 // return  Response::json($comments, 200);
+         return ResponseClass::Prepare_Response($comments,'',true,200);
 		 
     }
 
@@ -49,7 +48,7 @@ class CommentsController extends Controller
          'post_id' => $post_id,
 		 'comments' => $request->input('comments'),
 	 ]);
-      return ResponseClass::Prepare_Response($result,true,200);
+      return ResponseClass::Prepare_Response($result,'',true,200);
         // return Response::json($result, 200);
     }
 
@@ -104,7 +103,6 @@ class CommentsController extends Controller
         //
 		$comments = Comments::find($id);
 		$comments->delete();
-        return ResponseClass::Prepare_Response('',true,200);
-        // return Response::json(['status'=>"OK"], 200);
+        return ResponseClass::Prepare_Response('','',true,200);
     }
 }
