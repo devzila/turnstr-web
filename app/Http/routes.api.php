@@ -56,8 +56,11 @@ Route::group(['prefix' => 'api'], function () {
         'as' => 'MobileUserForgot',
         'middleware' => []
     ]);
-
-
 	
+    Route::post('explorer', [
+        'uses' => 'PostsController@explorer',
+        'as' => 'ExploreImages',
+        'middleware' => []
+    ]);
 });
 ?>
