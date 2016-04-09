@@ -95,44 +95,22 @@ class UserController extends Controller {
         }
 
         $randomString = date('YmdHis').str_random(4);
-        Passwordreset::insert(array('token'=>$randomString,'email'=>$user->email));
+        $isTokenExist = Passwordreset::where('email',$user->email)->first();
+        if ($isTokenExist) {
+            Passwordreset::where('email','=',$user->email)->update(array('token'=>$randomString));
+        } else {
+            Passwordreset::insert(array('token'=>$randomString,'email'=>$user->email));
+        }
 
-        $link = URL::to('api/forgotpassword').'/'.$randomString;
+        $link = URL::to('forgotpassword').'/'.$randomString;
 
-        Mail::send('emails.forgotpassword', ['user' => $user,'link'=>$link], function ($m) use ($user) {
-            $m->from('admin@turnstr.com', 'Turnstr');
+        // Mail::send('emails.forgotpassword', ['user' => $user,'link'=>$link], function ($m) use ($user) {
+        //     $m->from('admin@turnstr.com', 'Turnstr');
 
-            $m->to($user->email, $user->username)->subject('Forgot Password');
-        });
+        //     $m->to($user->email, $user->username)->subject('Forgot Password');
+        // });
 
         return ResponseClass::Prepare_Response('','Email sent successfully',"true",200);
-    }
-
-    /*
-    *   Function to reset password
-    */
-    public function resetpassword($shortcode = ''){
-
-        if(!$shortcode){
-            return ResponseClass::Prepare_Response('','Invalid link hit',"false",200);
-        }
-        $userEmail = Passwordreset::where('token',$shortcode)->first();
-        if(!$userEmail){
-            return ResponseClass::Prepare_Response('','Invalid link',"false",200);
-        }
-        Passwordreset::where('token',$shortcode)->delete();
-        $user = User::where('email',$userEmail->email)->first();
-
-        $randomString = str_random(7);
-        User::where('email',$userEmail->email)->update(array('forgot_password_token'=>'','password'=>$randomString));
-
-        Mail::send('emails.updatedPassword', ['user' => $user,'password'=>$randomString], function ($m) use ($user) {
-            $m->from('admin@turnstr.com', 'Turnstr');
-
-            $m->to($user->email, $user->username)->subject('New password');
-        });
-
-        return ResponseClass::Prepare_Response('','Password updated successfully',true,200);
     }
 
 }

@@ -13,4 +13,5 @@ class Passwordreset extends Model
      * @var string
      */
     protected $table = 'password_resets';
+    public $timestamps = false;
 }

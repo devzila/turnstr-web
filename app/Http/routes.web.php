@@ -17,4 +17,16 @@
 
 // for shared image
 
+Route::get('forgotpassword/{shortcode}', [
+    'uses' => 'UserController@resetpassword',
+    'middleware' => []
+]);
+
+Route::post('updatePasword', [
+    'uses' => 'UserController@updatePasword',
+    'as' => 'updatePasword',
+    'middleware' => []
+]);
+
 Route::resource('/','HomeController');
+
