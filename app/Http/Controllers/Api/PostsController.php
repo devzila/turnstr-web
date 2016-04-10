@@ -64,7 +64,8 @@ class PostsController extends Controller
     {
         //
         $post = Posts::find($id);
-        return $post->toJson();
+        return ResponseClass::Prepare_Response($post,'List of posts',true,200);
+        // return $post->toJson();
     }
 
     /**
@@ -95,7 +96,8 @@ class PostsController extends Controller
         $post->media4_url = $request->input('media4_url');
         $post->update();
 
-        return $post->toJson();
+        return ResponseClass::Prepare_Response($post,'Post updated successfuly',true,200);
+        // return $post->toJson();
     }
 
     /**
@@ -146,7 +148,7 @@ class PostsController extends Controller
 
         $validator = Validator::make($files, $rules);
         if ($validator->fails()) {
-            return ResponseClass::Prepare_Response('','validation fails','false', 200);
+            return ResponseClass::Prepare_Response('','validation fails',false, 200);
         }
 
 

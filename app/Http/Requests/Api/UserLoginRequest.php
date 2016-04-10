@@ -42,11 +42,16 @@ class UserLoginRequest extends Request {
     public function response(array $errors)
     {
 		// TODO: add error details in response
-        return response()->json([
-			'status' => Api::ERROR_CODE,
-            'action' => 'Check for errors in the data sent',
-            'message' => 'There were errors in the input sent. Please check your request and try again'
-        ], 422);
+   //      return response()->json([
+			// 'status' => Api::ERROR_CODE,
+   //          'action' => 'Check for errors in the data sent',
+   //          'message' => 'There were errors in the input sent. Please check your request and try again'
+   //      ], 422);
+    	$finalErrors = array();
+        foreach ($errors as $key => $value) {
+          $finalErrors[$key] = $value[0];
+        }
+        return ResponseClass::Prepare_Response('',$finalErrors,false,422);
     }
 
 }

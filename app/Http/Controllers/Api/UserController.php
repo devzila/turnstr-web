@@ -51,7 +51,7 @@ class UserController extends Controller {
             return ResponseClass::Prepare_Response($device,true,200);
         }
 
-        return ResponseClass::Prepare_Response('','Unable to create user',"false",200);
+        return ResponseClass::Prepare_Response('','Unable to create user',false,200);
 
     }
 
@@ -62,12 +62,12 @@ class UserController extends Controller {
         $user = User::where($field, $this->request->get('email'))->first();
 
         if(!$user){
-            return ResponseClass::Prepare_Response('','Email/Password did not match',"false",200);
+            return ResponseClass::Prepare_Response('','Email/Password did not match',false,200);
         }
 
         if (!Hash::check($this->request->get('password'), $user->password))
         {
-            return ResponseClass::Prepare_Response('','Email/Password did not match',"false",200);
+            return ResponseClass::Prepare_Response('','Email/Password did not match',false,200);
         }
 
         $device = UserDevice::add($user, $this->request->all());
@@ -91,7 +91,7 @@ class UserController extends Controller {
         $user = User::where('email', $this->request->get('email'))->first();
 
         if(!$user){
-            return ResponseClass::Prepare_Response('','Email did not match',"false",200);
+            return ResponseClass::Prepare_Response('','Email did not match',false,200);
         }
 
         $randomString = date('YmdHis').str_random(4);
@@ -110,8 +110,7 @@ class UserController extends Controller {
         //     $m->to($user->email, $user->username)->subject('Forgot Password');
         // });
 
-        $tempMsgArr = array('url_link'=>$link,'success_message'=>'Email sent successfully');
-        return ResponseClass::Prepare_Response('',$tempMsgArr,"true",200);
+        return ResponseClass::Prepare_Response($link,'Email sent successfully',true,200);
     }
 
 }
