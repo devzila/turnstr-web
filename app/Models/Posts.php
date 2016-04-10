@@ -20,6 +20,7 @@ class Posts extends Model
     	}
 
     		return	$returnData->groupBy('posts.user_id')
+                    ->select('users.*','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.caption')
     				->orderBy('posts.updated_at','desc')
     				->get();
     }

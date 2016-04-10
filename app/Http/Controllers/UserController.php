@@ -34,12 +34,15 @@ class UserController extends Controller {
     */
     public function resetpassword($shortcode = ''){
 
+        $errorMessage = "Link you are trying to access is no more valid.";
         if(!$shortcode){
-            return ResponseClass::Prepare_Response('','Invalid link',"false",200);
+            return view('errorView',compact('errorMessage'));
+            // return ResponseClass::Prepare_Response('','Invalid link',"false",200);
         }
         $userEmail = Passwordreset::where('token',$shortcode)->first();
         if(!$userEmail){
-            return ResponseClass::Prepare_Response('','Invalid link',"false",200);
+            return view('errorView',compact('errorMessage'));
+            // return ResponseClass::Prepare_Response('','Invalid link',"false",200);
         }
         // Passwordreset::where('token',$shortcode)->delete();
         $user = User::where('email',$userEmail->email)->first();
@@ -63,15 +66,17 @@ class UserController extends Controller {
     public function updatePasword(){
 
         $shortcode = Input::get('confirmationCode');
+        $errorMessage = 'Unable to update your password due to invalid link.';
         if(!$shortcode){
-            return ResponseClass::Prepare_Response('','Invalid link',"false",200);
+            return view('errorView',compact('errorMessage'));
         }
         $userEmail = Passwordreset::where('token',$shortcode)->first();
         if(!$userEmail){
-            return ResponseClass::Prepare_Response('','Invalid link',"false",200);
+            return view('errorView',compact('errorMessage'));
         }
         // Passwordreset::where('token',$shortcode)->delete();
-        User::where('email',$userEmail->email)->update(array('password'=>Input::get('password')));
+        $hashedPassword = Hash::make(Input::get('password'));
+        User::where('email',$userEmail->email)->update(array('password'=>$hashedPassword));
         return view('successView');
     }
 
