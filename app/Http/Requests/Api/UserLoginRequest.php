@@ -2,6 +2,7 @@
 
 use App\Http\Requests\Request;
 use App\Models\Api;
+use App\Helpers\ResponseClass;
 
 class UserLoginRequest extends Request {
 

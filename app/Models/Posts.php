@@ -20,7 +20,7 @@ class Posts extends Model
     	}
 
     		return	$returnData->groupBy('posts.user_id')
-                    ->select('users.username','posts.user_id','users.name','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.caption')
+                    ->select('users.username','posts.user_id','users.name','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.updated_at','posts.created_at','posts.caption')
     				->orderBy('posts.updated_at','desc')
     				->get();
     }

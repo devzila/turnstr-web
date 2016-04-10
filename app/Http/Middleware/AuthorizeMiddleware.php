@@ -6,6 +6,7 @@ use Config;
 use App\Models\Api;
 use App\Models\DeviceSession;
 use App\Models\UserDevice;
+use App\Helpers\ResponseClass;
 /**
  * Middleware class to verify user access for
  * API requests.
@@ -28,7 +29,8 @@ class AuthorizeMiddleware {
             $response=array();
             $response['status'] =Api::ERROR_CODE;
             $response['msg']= "Please login into your Turnstr account.";
-            return response()->json($response, 200);
+            return ResponseClass::Prepare_Response('','Please login into your Turnstr account.',false,200);
+            // return response()->json($response, 200);
         }
 
         $userDevice = UserDevice::where(['device_id' => $accessDevice, 'access_token' => $accessToken])->get()->first();
@@ -37,7 +39,8 @@ class AuthorizeMiddleware {
         if(!$userDevice){
             $arrResponse['status'] = Api::ERROR_CODE;
             $arrResponse['msg'] = "Access key have been expired or invalid. Please login again";
-            return response()->json($arrResponse, 200);
+            return ResponseClass::Prepare_Response('','Access key have been expired or invalid. Please login again.',false,200);
+            // return response()->json($arrResponse, 200);
         }
 
         DeviceSession::set($userDevice);
