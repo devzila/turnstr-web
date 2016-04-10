@@ -2,6 +2,7 @@
 
 use App\Http\Requests\Request;
 use App\Models\Api;
+use App\Helpers\ResponseClass;
 
 class UserLogoutRequest extends Request {
 
@@ -35,12 +36,17 @@ class UserLogoutRequest extends Request {
      */
     public function response(array $errors)
     {
-        return response()->json([
-			'status' => Api::ERROR_CODE,
-            'action' => 'Check for errors in the data sent',
-            'message' => 'There were errors in the input sent. Please check your request and try again',
-            'errors' => $errors
-        ], 422);
+        $finalErrors = array();
+        foreach ($errors as $key => $value) {
+          $finalErrors[$key] = $value[0];
+        }
+    	return ResponseClass::Prepare_Response('There were errors in the input sent. Please check your request and try again',$finalErrors,false,422);
+   //      return response()->json([
+			// 'status' => Api::ERROR_CODE,
+   //          'action' => 'Check for errors in the data sent',
+   //          'message' => 'There were errors in the input sent. Please check your request and try again',
+   //          'errors' => $errors
+   //      ], 422);
     }
 
 }

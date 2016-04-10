@@ -80,7 +80,7 @@ class UserController extends Controller {
     public function logout(UserLogoutRequest $UserLogoutRequest){
 
         UserDevice::remove($this->request->get('access_token'));
-        return ResponseClass::Prepare_Response('','logged out successfully',false,200);
+        return ResponseClass::Prepare_Response('','logged out successfully',true,200);
     }
 
     /*
