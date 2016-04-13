@@ -28,6 +28,12 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
         'middleware' => []
     ]);
 
+    Route::post('updateProfile', [
+        'uses' => 'UserController@updateProfile',
+        'as' => 'EditProfile',
+        'middleware' => []
+    ]);
+
 });
 
 Route::group(['prefix' => 'api'], function () {

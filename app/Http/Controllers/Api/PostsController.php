@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Helpers\ResponseClass;
 use Response;
 use Validator;
+use App\Models\User;
 use App\Models\Posts;
 use App\Models\DeviceSession;
 use Rhumsaa\Uuid\Uuid;
@@ -123,8 +124,14 @@ class PostsController extends Controller
     public function explorer()
     {
         $searchData = Input::get('searchData');
+        $access_token = Input::get('access_token');
+        $userId = '';
+        $userDevice = User::userDetails($access_token);
+        if (isset($userDevice->id)) {
+            $userId =  $userDevice->id;
+        }
 
-        $imagesToExplore = Posts::getImages($searchData);
+        $imagesToExplore = Posts::getImages($userId,$searchData);
         return ResponseClass::Prepare_Response($imagesToExplore,'List of images to explore',true,200);
     }
 
