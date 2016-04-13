@@ -28,11 +28,13 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
         'middleware' => []
     ]);
 
+    /* Profile Routes starts*/
     Route::post('updateProfile', [
         'uses' => 'UserController@updateProfile',
         'as' => 'EditProfile',
         'middleware' => []
     ]);
+    /* Profile Routes ends*/
 
 });
 

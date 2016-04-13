@@ -145,6 +145,7 @@ class UserController extends Controller {
         }
 
         User::where('id',$userId)->update($updatedArr);
+    }
         
 
 }
