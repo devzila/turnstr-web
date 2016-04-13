@@ -31,6 +31,7 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
 });
 
 Route::group(['prefix' => 'api'], function () {
+    Route::get('emailtest',['uses' => 'UserController@test']);
     Route::post('login', [
         'uses' => 'UserController@login',
         'as' => 'MobileUserLogin',

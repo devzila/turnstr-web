@@ -29,6 +29,7 @@ class UserController extends Controller {
     }
 
 
+
     /*
     *   Function to reset password
     */

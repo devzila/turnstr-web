@@ -33,6 +33,14 @@ class UserController extends Controller {
     }
 
     public function test(){
+        Mail::send('welcome',[], function($message)
+        {
+            $message->from('turnstr@devzila.com', 'Turnstr');
+            $message->to('nilay@devzila.com');
+            $message->subject('Test email from turnstr');
+        });
+
+
         return response()->json(DeviceSession::get()->user);
     }
 
