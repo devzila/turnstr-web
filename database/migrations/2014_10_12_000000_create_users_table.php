@@ -19,6 +19,9 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password', 60);
             $table->string('fb_token', 60);
+            $table->text('website');
+            $table->text('bio');
+            $table->enum('gender', ['','Male','Female']);
             $table->rememberToken();
             $table->timestamps();
         });

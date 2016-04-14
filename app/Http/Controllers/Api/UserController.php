@@ -7,9 +7,11 @@ use App\Http\Requests\Api\UserLoginRequest;
 use App\Http\Requests\Api\UserRegistrationRequest;
 use App\Http\Requests\Api\UserLogoutRequest;
 use App\Http\Requests\Api\UserForgotpasswordRequest ;
+use App\Http\Requests\Api\UserUpdateRequest ;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Posts;
 use App\Models\Passwordreset;
 use App\Models\Api;
 use App\Helpers\ResponseClass;
@@ -18,6 +20,7 @@ use Response;
 use App\Models\UserDevice;
 use Mail;
 use URL;
+use Input;
 class UserController extends Controller {
     /**
      * The Http Request Object
@@ -120,5 +123,56 @@ class UserController extends Controller {
 
         return ResponseClass::Prepare_Response($link,'Email sent successfully',true,200);
     }
+
+    /*
+    *   Function to return user profile data
+    */
+    public function myProfile(){
+
+        $userId = DeviceSession::get()->user->id;
+
+        if (!$userId) {
+            return ResponseClass::Prepare_Response('','Unauthorized user access',false,200);
+        }
+
+        $postCount = Posts::where('user_id',$userId)->count();
+        $usersData = User::where('id',$userId)->first();
+        return ResponseClass::Prepare_Response(['postCount'=>$postCount, 'userData'=>$usersData],'Users detail',true,200);
+    }
+
+    /*
+    *   Function to to update user profile
+    */
+    public function updateProfile(UserUpdateRequest $UserUpdateRequest){
+
+        $userData = Input::all();
+        $updatedArr = array(
+            'name'=>$userData['name'],
+            'email'=>$userData['email'],
+            'username'=>$userData['username'],
+            'phone_number'=>$userData['phone_number'],
+            'gender'=>$userData['gender'],
+            'bio'=>$userData['bio'],
+            'website'=>$userData['website']
+        );
+
+        $userId = DeviceSession::get()->user->id;
+
+        if (!$userId) {
+            return ResponseClass::Prepare_Response('','Unauthorized user access',false,200);
+        }
+
+        $isDataExist = User::where(function ($query)  use ($updatedArr) {
+            return $query->where('email',$updatedArr['email'])->orWhere('username',$updatedArr['username']);
+        })->where('id','!=',$userId)->get();
+
+        if (count($isDataExist)) {
+            return ResponseClass::Prepare_Response('','Username/Email already exist',false,200);
+        }
+
+        User::where('id',$userId)->update($updatedArr);
+        return ResponseClass::Prepare_Response('','Profile updated successfully',true,200);
+    }
+        
 
 }
