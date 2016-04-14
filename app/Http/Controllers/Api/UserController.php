@@ -146,6 +146,9 @@ class UserController extends Controller {
     public function updateProfile(UserUpdateRequest $UserUpdateRequest){
 
         $userData = Input::all();
+        foreach ($userData as $key => $value) {
+            $userData[$key] = ($userData[$key]) ? $value  : '' ;
+        }
         $updatedArr = array(
             'name'=>$userData['name'],
             'email'=>$userData['email'],
