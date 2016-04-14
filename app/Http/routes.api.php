@@ -34,6 +34,16 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
         'as' => 'EditProfile',
         'middleware' => []
     ]);
+    Route::post('userProfile', [
+        'uses' => 'UserController@userProfile',
+        'as' => 'EditProfile',
+        'middleware' => []
+    ]);
+    Route::get('myProfile', [
+        'uses' => 'UserController@myProfile',
+        'as' => 'EditProfile',
+        'middleware' => []
+    ]);
     /* Profile Routes ends*/
 
 });

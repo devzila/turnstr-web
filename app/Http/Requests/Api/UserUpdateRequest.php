@@ -1,3 +1,4 @@
+
 <?php namespace App\Http\Requests\Api;
 
 use App\Http\Requests\Request;
@@ -24,7 +25,7 @@ class UserUpdateRequest extends Request {
 	public function rules()
 	{
 		return [
-			     'name'     		=> 'required',
+			     'name'     => 'sometimes',
             'email'         => 'required|email',
             'username'      => 'required|min:4',
             'phone_number'  => 'sometimes|regex:/^\d{10,11}$/'         
