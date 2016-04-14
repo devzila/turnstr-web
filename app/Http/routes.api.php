@@ -28,9 +28,28 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
         'middleware' => []
     ]);
 
+    /* Profile Routes starts*/
+    Route::post('updateProfile', [
+        'uses' => 'UserController@updateProfile',
+        'as' => 'EditProfile',
+        'middleware' => []
+    ]);
+    Route::post('userProfile', [
+        'uses' => 'UserController@userProfile',
+        'as' => 'EditProfile',
+        'middleware' => []
+    ]);
+    Route::get('myProfile', [
+        'uses' => 'UserController@myProfile',
+        'as' => 'EditProfile',
+        'middleware' => []
+    ]);
+    /* Profile Routes ends*/
+
 });
 
 Route::group(['prefix' => 'api'], function () {
+    Route::get('emailtest',['uses' => 'UserController@test']);
     Route::post('login', [
         'uses' => 'UserController@login',
         'as' => 'MobileUserLogin',

@@ -28,4 +28,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\UserDevice');
     }
+    /*
+    * token based on access_token
+    */
+    public function scopeUserDetails($query, $access_token='')
+    {
+        return UserDevice::where('access_token',$access_token)
+                            ->join('users','user_id','=','users.id')->first();
+    }
 }
