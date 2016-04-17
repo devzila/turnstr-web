@@ -15,12 +15,16 @@ use App\Models\Posts;
 use App\Models\Passwordreset;
 use App\Models\Api;
 use App\Helpers\ResponseClass;
+use Rhumsaa\Uuid\Uuid;
 use Hash;
 use Response;
 use App\Models\UserDevice;
 use Mail;
 use URL;
 use Input;
+use Validator;
+use File;
+use Image;
 class UserController extends Controller {
     /**
      * The Http Request Object
@@ -33,6 +37,8 @@ class UserController extends Controller {
     public function __construct(Request $request)
     {
         $this->request = $request;
+        ini_set("gd.jpeg_ignore_warning", 1);
+        error_reporting(E_ALL & ~E_NOTICE);
     }
 
     public function test(){
@@ -137,7 +143,8 @@ class UserController extends Controller {
 
         $postCount = Posts::where('user_id',$userId)->count();
         $usersData = User::where('id',$userId)->first();
-        return ResponseClass::Prepare_Response(['postCount'=>$postCount, 'userData'=>$usersData],'Users detail',true,200);
+        $usersData->postCount = $postCount;
+        return ResponseClass::Prepare_Response(['userData'=>$usersData],'Users detail',true,200);
     }
 
     /*
@@ -177,5 +184,39 @@ class UserController extends Controller {
         return ResponseClass::Prepare_Response('','Profile updated successfully',true,200);
     }
         
+
+    public function profileImageUpload(Request $request)
+    {
+        $files = ['profile_image' => $request->file('profile_image')];
+        $rules = ['profile_image' => 'required'];
+
+        $validator = Validator::make($files, $rules);
+        if ($validator->fails()) {
+            return ResponseClass::Prepare_Response('','validation fails',false, 200);
+        }
+
+        $userId = DeviceSession::get()->user->id;
+        $path = public_path() . '/profile/';
+        if(!File::exists($path)) {
+            File::makeDirectory($path, $mode = 0777, true, true);
+        }
+        $destinationPath = $path.$userId; // upload path
+        if(!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, $mode = 0777, true, true);
+        }
+        if(!File::exists($destinationPath.'/thumb')) {
+            File::makeDirectory($destinationPath.'/thumb', $mode = 0777, true, true);
+        }
+
+            $extension = $request->file("profile_image")->getClientOriginalExtension();
+            $fileName = Uuid::uuid1()->toString() . '.' . $extension;
+            $request->file("profile_image")->move($destinationPath, $fileName);
+
+            Image::make($destinationPath.'/'.$fileName)->resize(200, 200)->rotate(90)->save($destinationPath.'/thumb/thumb_'.$fileName);
+
+           User::where('id',$userId)->update(['profile_image'=>$fileName]);
+
+        return ResponseClass::Prepare_Response('','uploaded successfuly',true,200);
+    }
 
 }

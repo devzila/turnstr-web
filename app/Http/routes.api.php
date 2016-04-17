@@ -44,7 +44,25 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
         'as' => 'EditProfile',
         'middleware' => []
     ]);
+    Route::post('profileImageUpload', [
+        'uses' => 'UserController@profileImageUpload',
+        'as' => 'profileUpload',
+        'middleware' => []
+    ]);
     /* Profile Routes ends*/
+
+    /* Activity Routes Starts*/
+        Route::post('follow', [
+            'uses' => 'ActivityController@followUser',
+            'as' => 'followUser',
+            'middleware' => []
+        ]);
+        Route::post('likePost', [
+            'uses' => 'ActivityController@likePost',
+            'as' => 'likePost',
+            'middleware' => []
+        ]);
+    /* Activity Routes ends*/
 
 });
 
