@@ -10,7 +10,9 @@
         "rhumsaa/uuid": "~2.8",
         "moontoast/math": "*",
         "doctrine/dbal": "2.5.*",
-        "guzzlehttp/guzzle": "~4.0"
+        "guzzlehttp/guzzle": "~4.0",
+        "illuminate/html": "5.*",
+        "intervention/image": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
