@@ -52,6 +52,15 @@ class ActivityController extends Controller {
                     'status'=>$following_status
                 );
             Useractivity::where('user_id',$following_id)->where('follower_id',$followerId)->where('activity','follow')->update($updateArr);
+
+            if ($following_status) {
+                User::where('id',$followerId)->increment('following');
+                User::where('id',$following_id)->increment('followers');
+            } else {
+
+                User::where('id',$followerId)->decrement('following');
+                User::where('id',$following_id)->decrement('followers');
+            }
             
         } else {
             $insArr = array(
@@ -63,6 +72,8 @@ class ActivityController extends Controller {
                     'updated_at'=>date('Y-m-d H:i:s')
                 );
             Useractivity::insert($insArr);
+            User::where('id',$followerId)->increment('following');
+            User::where('id',$following_id)->increment('followers');
         }
         return ResponseClass::Prepare_Response('','Action performed successfully',true,200);
         
