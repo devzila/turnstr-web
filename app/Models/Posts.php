@@ -40,7 +40,7 @@ class Posts extends Model
     */
 	public function scopeFollowPosts($query, $user_id='')
     {
-    	return $query->leftjoin('user_activity','posts.id','=','user_activity.post_id')
+    	return $query->leftjoin('user_activity','posts.user_id','=','user_activity.user_id')
                     ->where('follower_id',$user_id)
                     ->where('activity','follow')
                     ->where('status',1)
