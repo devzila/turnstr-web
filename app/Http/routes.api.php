@@ -15,6 +15,7 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
     Route::get('test',['uses' => 'UserController@test']);
     Route::resource('posts', 'PostsController');
     Route::resource('posts.comments', 'CommentsController');
+    Route::post('getComments', 'CommentsController@commentsByPostId');
 
     Route::post('posts/upload', [
         'uses' => 'PostsController@upload',
@@ -47,6 +48,11 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
     Route::post('profileImageUpload', [
         'uses' => 'UserController@profileImageUpload',
         'as' => 'profileUpload',
+        'middleware' => []
+    ]);
+    Route::post('profilePosts', [
+        'uses' => 'PostsController@profilePosts',
+        'as' => 'profilePosts',
         'middleware' => []
     ]);
     /* Profile Routes ends*/

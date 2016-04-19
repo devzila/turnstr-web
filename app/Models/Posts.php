@@ -28,11 +28,22 @@ class Posts extends Model
     /*
     * Function to return posts by user id
     */
-	public function scopeGetPostsByUserId($query, $user_id='')
+    public function scopeGetPostsByUserId($query, $user_id='')
     {
-    	return $query->leftjoin('users','posts.user_id','=','users.id')->where('user_id',$user_id)
+        return $query->leftjoin('users','posts.user_id','=','users.id')->where('user_id',$user_id)
                     ->select('users.username','posts.user_id','users.name','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.updated_at','posts.created_at','posts.caption')
                     ->orderBy('posts.updated_at','desc')
+                    ->get();
+    }
+    /*
+    * Function to return posts follow by user
+    */
+	public function scopeFollowPosts($query, $user_id='')
+    {
+    	return $query->leftjoin('user_activity','posts.id','=','user_activity.post_id')
+                    ->where('follower_id',$user_id)
+                    ->where('activity','follow')
+                    ->where('status',1)
                     ->get();
     }
 
