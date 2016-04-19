@@ -135,6 +135,19 @@ class PostsController extends Controller
         return ResponseClass::Prepare_Response($imagesToExplore,'List of images to explore',true,200);
     }
 
+    /**
+     * myprofile posts
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function profilePosts()
+    {
+        $userId = DeviceSession::get()->user->id;
+        $posts = Posts::followPosts($userId);
+        return ResponseClass::Prepare_Response($posts,'List of posts',true,200);
+    }
+
 
     public function upload(Request $request)
     {

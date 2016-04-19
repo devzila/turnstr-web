@@ -9,6 +9,7 @@ use App\Helpers\ResponseClass;
 use Response;
 use App\Models\Comments;
 use App\Models\DeviceSession;
+use Input;
 
 class CommentsController extends Controller
 {
@@ -60,7 +61,6 @@ class CommentsController extends Controller
      */
     public function show($id)
     {
-        //
 		$comments = Comments::find($id);
 		return $comments->toJson();
     }
@@ -101,8 +101,20 @@ class CommentsController extends Controller
     public function destroy($id)
     {
         //
-		$comments = Comments::find($id);
-		$comments->delete();
+        $comments = Comments::find($id);
+        $comments->delete();
         return ResponseClass::Prepare_Response('','',true,200);
+    }
+    /**
+     * Return list of comments on particular post
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function commentsByPostId()
+    {
+        $postId = Input::get('post_id');
+		$comments = Comments::commentsByPost($postId);
+        return ResponseClass::Prepare_Response($comments,'List of comments',true,200);
     }
 }
