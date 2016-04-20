@@ -100,4 +100,29 @@ class ActivityController extends Controller {
         return ResponseClass::Prepare_Response('','Action performed successfully',true,200);
         
     }
+    /*
+    *   Function to get last 10 activities
+    */
+    public function getTenActivity() {
+
+        $user_id = DeviceSession::get()->user->id; // who liked post
+        $activityList = array();
+
+        $alreadyLiked = Useractivity::getLastTenActivity($user_id);
+        foreach ($alreadyLiked as $key => $value) {
+            if ($value->activity == 'follow') {
+
+                if ($value->user_id == $user_id) {
+
+                } else  if ($value->user_id == $user_id) {
+
+                }
+
+            } else if ($value->activity == 'likeed') {
+
+            }
+        }
+        return ResponseClass::Prepare_Response($alreadyLiked,'Activiy list',true,200);
+        
+    }
 }
