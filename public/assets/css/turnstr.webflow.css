@@ -1,0 +1,160 @@
+.navbar {
+  height: 64px;
+  background-image: -webkit-linear-gradient(270deg, #ffb62e, #f76b1c);
+  background-image: linear-gradient(180deg, #ffb62e, #f76b1c);
+}
+
+.brand {
+  padding-top: 21px;
+  padding-bottom: 21px;
+}
+
+.navlink {
+  margin-top: 15px;
+  margin-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  font-family: Lato, sans-serif;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.body {
+  height: 64px;
+  background-color: #f2f2f2;
+}
+
+.content {
+  padding-top: 40px;
+  text-align: center;
+}
+
+.postblock {
+  display: block;
+  width: 440px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-bottom: 30px;
+  border: 1px solid #d9d9d9;
+  background-color: #fff;
+  text-align: left;
+}
+
+.postimage {
+  display: block;
+  width: 420px;
+  height: 420px;
+  margin-top: 10px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.photocaption {
+  display: inline-block;
+  margin-top: 10px;
+  padding-left: 10px;
+  float: left;
+  font-family: Lato, sans-serif;
+  color: #4a4a4a;
+  font-weight: 400;
+  text-align: left;
+}
+
+.tag {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-family: Lato, sans-serif;
+  color: #4891de;
+}
+
+.options {
+  display: inline-block;
+  margin-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  float: right;
+}
+
+.userinfo {
+  margin-top: 15px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.userthumb {
+  width: 40px;
+  height: 40px;
+  float: left;
+}
+
+.username {
+  margin-top: 10px;
+  font-family: Lato, sans-serif;
+  color: #666;
+  font-size: 16px;
+}
+
+.followbtn {
+  margin-top: 3px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  float: right;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  font-family: Lato, sans-serif;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.usercommentsblock {
+  padding-left: 10px;
+  float: left;
+}
+
+.usercomment {
+  font-family: Lato, sans-serif;
+  font-size: 14px;
+}
+
+.postedtime {
+  margin-top: 10px;
+  float: right;
+  font-family: Lato, sans-serif;
+  color: #666;
+}
+
+.footer {
+  margin-top: 50px;
+  padding-bottom: 0px;
+  background-color: #4a4a4a;
+}
+
+.listitem {
+  display: inline;
+  margin-right: 40px;
+  float: left;
+  font-family: Lato, sans-serif;
+  color: #fff;
+}
+
+.footerlist {
+  display: inline-block;
+  margin-bottom: 0px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  float: left;
+}
+
+.copyright {
+  display: inline-block;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  float: right;
+  font-family: Lato, sans-serif;
+  color: #fff;
+}

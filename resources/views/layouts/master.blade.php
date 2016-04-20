@@ -1,61 +1,58 @@
-<html>
-    <head>
-        <title>Turnstr</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
-        <script src="https://cdn.rawgit.com/vinayakjadhav/jR3DCarousel/v0.0.8/dist/jR3DCarousel.min.js"></script>
-
-        <style>
-            body{
-            background-color: rgb(254,127,23);   
-            }
-            header {
-                margin: 0 10%;
-                padding-top: 2%;
-            }
-
-            footer {
-                margin: 0 10%;
-                padding-top: 2%;
-            }
-
-            .headerClass, .footerClass {
-                height: 100px;
-            }
-
-            .sectionClass {
-                background-color: rgb(250, 250, 250);
-                padding: 50px;
-            }
-            .footerMenu span {
-                padding-left: 25px;
-            }
-        </style>
-
-    </head>
-    <body>
-        <header class='headerClass'>
-            <span class='pull-left'><img src='assets/images/logo.png' style='height:55px;width:190px;' /></span>
-            <div  class='pull-right'>
-                <button> Get the app</button>
-                <span>LogIn</span>
-            </div>
-        </header>
-        <section class='sectionClass'>
+<!DOCTYPE html>
+<!-- This site was created in Webflow. http://www.webflow.com-->
+<!-- Last Published: Mon Apr 04 2016 18:47:20 GMT+0000 (UTC) -->
+<html data-wf-site="5702ae184536faf83a83cb9a" data-wf-page="5702ae184536faf83a83cb9b">
+<head>
+  <meta charset="utf-8">
+  <title>turnstr</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="Webflow">
+  <link rel="stylesheet" type="text/css" href="assets/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/webflow.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/turnstr.webflow.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ["Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic"]
+      }
+    });
+  </script>
+  <script type="text/javascript" src="assets/js/modernizr.js"></script>
+  <link rel="shortcut icon" type="assets/image/x-icon" href="https://daks2k3a4ib2z.cloudfront.net/img/favicon.ico">
+  <link rel="apple-touch-icon" href="https://daks2k3a4ib2z.cloudfront.net/img/webclip.png">
+</head>
+<body class="body">
+  <div data-collapse="medium" data-animation="default" data-duration="400" data-contain="1" class="w-nav navbar">
+    <div class="w-container">
+      <a href="#" class="w-nav-brand brand"><img src="assets/images/logo_title.png">
+      </a>
+      <nav role="navigation" class="w-nav-menu"><a href="#" class="w-nav-link navlink">Get the App</a><a href="#" class="w-nav-link navlink">Login</a>
+      </nav>
+      <div class="w-nav-button">
+        <div class="w-icon-nav-menu"></div>
+      </div>
+    </div>
+  </div>
+  <div class="w-container content">
             @yield('content')
-        </section>
-        <footer class='footerClass'>
-            <div class='pull-left footerMenu'>
-                <span>About us</span>
-                <span>Support</span>
-                <span>Blog</span>
-                <span>Press</span>
-                <span>API</span>
-            </div>
-            <div class='pull-right footerCopy'>
-                <span> &copy 2016 Turnstr</span>
-            </div>
-        </footer>
+        </div>
+
+  <div class="w-section footer">
+    <div class="w-container">
+      <ul class="w-list-unstyled w-clearfix footerlist">
+        <li class="listitem">About us</li>
+        <li class="listitem">Support</li>
+        <li class="listitem">Blog</li>
+        <li class="listitem">Press</li>
+        <li class="listitem">API</li>
+      </ul>
+      <div class="copyright">© 2016 turnstr</div>
+    </div>
+  </div>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/js/webflow.js"></script>
+        <script src="https://cdn.rawgit.com/vinayakjadhav/jR3DCarousel/v0.0.8/dist/jR3DCarousel.min.js"></script>
 
         <script>
             var slides = [
@@ -75,6 +72,7 @@
                 "animationInterval": 1000,
                 "autoplay": false,
                 "navigation": null,
+                // "slideClass": 'slide',
                 "slides": slides,
             });
         </script>
