@@ -42,14 +42,15 @@ class CommentsController extends Controller
      *
      * api/posts/<post_id>/comments
      */
-    public function store(Request $request, $post_id)
+    public function store(Request $request)
     {
-      $result = Comments::create([
-        'user_id' => DeviceSession::get()->user->id,
-         'post_id' => $post_id,
-		 'comments' => $request->input('comments'),
-	 ]);
-      return ResponseClass::Prepare_Response($result,'',true,200);
+        $post_id = $request->input('post_id');
+         $result = Comments::create([
+            'user_id' => DeviceSession::get()->user->id,
+             'post_id' => $post_id,
+    		 'comments' => $request->input('comments'),
+    	 ]);
+          return ResponseClass::Prepare_Response($result,'',true,200);
         // return Response::json($result, 200);
     }
 

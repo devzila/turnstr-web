@@ -14,6 +14,7 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
 
     Route::get('test',['uses' => 'UserController@test']);
     Route::resource('posts', 'PostsController');
+    Route::resource('comments', 'CommentsController');
     Route::resource('posts.comments', 'CommentsController');
     Route::post('getComments', 'CommentsController@commentsByPostId');
 
