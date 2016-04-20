@@ -68,6 +68,11 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
             'as' => 'likePost',
             'middleware' => []
         ]);
+        Route::post('activityList', [
+            'uses' => 'ActivityController@getTenActivity',
+            'as' => 'activityList',
+            'middleware' => []
+        ]);
     /* Activity Routes ends*/
 
 });
