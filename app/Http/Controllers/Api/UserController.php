@@ -45,7 +45,7 @@ class UserController extends Controller {
         Mail::send('welcome',[], function($message)
         {
             $message->from('turnstr@devzila.com', 'Turnstr');
-            $message->to('nilay@devzila.com');
+            $message->to('vikisingla1992@gmail.com');
             $message->subject('Test email from turnstr');
         });
 

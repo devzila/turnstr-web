@@ -13,6 +13,7 @@ use App\Models\Posts;
 use App\Models\DeviceSession;
 use Rhumsaa\Uuid\Uuid;
 use URL;
+use File;
 
 class PostsController extends Controller
 {
@@ -162,7 +163,7 @@ class PostsController extends Controller
             'image1' => 'required',
             'image2' => 'required',
             'image3' => 'required',
-            'image4' => 'required',
+            'image4' => 'required'
         ];
 
 
@@ -175,6 +176,10 @@ class PostsController extends Controller
 
 
         $destinationPath = public_path() . '/media'; // upload path
+
+        if(!File::exists($destinationPath)) {
+            File::makeDirectory($destinationPath, $mode = 0777, true, true);
+        }
 
         $fileNames =[];
         $thumbNames = [];
