@@ -160,6 +160,15 @@ class PostsController extends Controller
     {
         $userId = DeviceSession::get()->user->id;
         $posts = Posts::followPosts($userId);
+
+        foreach ($posts as $key => $value) {
+            dd($posts[$key]->media1_type);
+            $posts[$key]->media1_type = end(explode('.',$value->media1_url));
+            $posts[$key]->media2_type = end(explode('.',$value->media2_url));
+            $posts[$key]->media3_type = end(explode('.',$value->media3_url));
+            $posts[$key]->media4_type = end(explode('.',$value->media4_url));
+        }
+
         return ResponseClass::Prepare_Response($posts,'List of posts',true,200);
     }
 

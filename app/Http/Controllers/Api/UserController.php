@@ -214,7 +214,8 @@ class UserController extends Controller {
 
             Image::make($destinationPath.'/'.$fileName)->resize(200, 200)->rotate(90)->save($destinationPath.'/thumb/thumb_'.$fileName);
 
-           User::where('id',$userId)->update(['profile_image'=>$fileName]);
+            $pathToImage = URL::to('/') . '/profile/'.$userId.'/'. $fileName;
+           User::where('id',$userId)->update(['profile_image'=>$pathToImage]);
 
         return ResponseClass::Prepare_Response('','uploaded successfuly',true,200);
     }
