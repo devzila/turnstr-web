@@ -117,6 +117,20 @@ class PostsController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deletePost()
+    {
+        $userId = Input::get('userIds');
+        $idArr = explode(',', $userId);
+        $post = Posts::whereIn('id',$idArr)->delete();
+        return ResponseClass::Prepare_Response('','Deleted successfuly',true,200);
+    }
+
+    /**
      * Search and return objects thumbnails.
      *
      * @param  int $id
