@@ -147,6 +147,18 @@ class PostsController extends Controller
         }
 
         $imagesToExplore = Posts::getImages($userId,$searchData);
+
+        foreach ($imagesToExplore as $key => $value) {
+            $arr1 = explode('.',$value->media1_url);
+            $arr2 = explode('.',$value->media2_url);
+            $arr3 = explode('.',$value->media3_url);
+            $arr4 = explode('.',$value->media4_url);
+            $imagesToExplore[$key]->media1_type = end($arr1);
+            $imagesToExplore[$key]->media2_type = end($arr2);
+            $imagesToExplore[$key]->media3_type = end($arr3);
+            $imagesToExplore[$key]->media4_type = end($arr4);
+        }
+
         return ResponseClass::Prepare_Response($imagesToExplore,'List of images to explore',true,200);
     }
 
@@ -161,13 +173,16 @@ class PostsController extends Controller
         $userId = DeviceSession::get()->user->id;
         $posts = Posts::followPosts($userId);
 
-        // foreach ($posts as $key => $value) {
-        //     dd($posts[0]->media1_type);
-        //     $posts[$key]->media1_type = end(explode('.',$value->media1_url));
-        //     $posts[$key]->media2_type = end(explode('.',$value->media2_url));
-        //     $posts[$key]->media3_type = end(explode('.',$value->media3_url));
-        //     $posts[$key]->media4_type = end(explode('.',$value->media4_url));
-        // }
+        foreach ($posts as $key => $value) {
+            $arr1 = explode('.',$value->media1_url);
+            $arr2 = explode('.',$value->media2_url);
+            $arr3 = explode('.',$value->media3_url);
+            $arr4 = explode('.',$value->media4_url);
+            $posts[$key]->media1_type = end($arr1);
+            $posts[$key]->media2_type = end($arr2);
+            $posts[$key]->media3_type = end($arr3);
+            $posts[$key]->media4_type = end($arr4);
+        }
 
         return ResponseClass::Prepare_Response($posts,'List of posts',true,200);
     }
