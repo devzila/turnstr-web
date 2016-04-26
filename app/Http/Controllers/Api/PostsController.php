@@ -152,28 +152,25 @@ class PostsController extends Controller
 
     public function upload(Request $request)
     {
-        $files = [
-            'image1' => $request->file('image1'),
-            'image2' => $request->file('image2'),
-            'image3' => $request->file('image3'),
-            'image4' => $request->file('image4')
-        ];
+        // $files = [
+        //     'image1' => $request->file('image1'),
+        //     'image2' => $request->file('image2'),
+        //     'image3' => $request->file('image3'),
+        //     'image4' => $request->file('image4')
+        // ];
 
-        $rules = [
-            'image1' => 'required',
-            'image2' => 'required',
-            'image3' => 'required',
-            'image4' => 'required'
-        ];
-
-
-        $validator = Validator::make($files, $rules);
-        if ($validator->fails()) {
-            return ResponseClass::Prepare_Response('','validation fails',false, 200);
-        }
+        // $rules = [
+        //     'image1' => 'required',
+        //     'image2' => 'required',
+        //     'image3' => 'required',
+        //     'image4' => 'required'
+        // ];
 
 
-
+        // $validator = Validator::make($files, $rules);
+        // if ($validator->fails()) {
+        //     return ResponseClass::Prepare_Response('','validation fails',false, 200);
+        // }
 
         $destinationPath = public_path() . '/media'; // upload path
 
