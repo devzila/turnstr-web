@@ -24,7 +24,7 @@ use URL;
 use Input;
 use Validator;
 use File;
-use Img;
+use Image;
 class UserController extends Controller {
     /**
      * The Http Request Object
@@ -212,7 +212,7 @@ class UserController extends Controller {
             $fileName = Uuid::uuid1()->toString() . '.' . $extension;
             $request->file("profile_image")->move($destinationPath, $fileName);
 
-            Img::make($destinationPath.'/'.$fileName)->resize(200, 200)->rotate(90)->save($destinationPath.'/thumb/thumb_'.$fileName);
+            Image::make($destinationPath.'/'.$fileName)->resize(200, 200)->rotate(90)->save($destinationPath.'/thumb/thumb_'.$fileName);
 
            User::where('id',$userId)->update(['profile_image'=>$fileName]);
 
