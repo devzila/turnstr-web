@@ -166,25 +166,25 @@ class PostsController extends Controller
 
     public function upload(Request $request)
     {
-        // $files = [
-        //     'image1' => $request->file('image1'),
-        //     'image2' => $request->file('image2'),
-        //     'image3' => $request->file('image3'),
-        //     'image4' => $request->file('image4')
-        // ];
+        $files = [
+            'image1' => $request->file('image1'),
+            'image2' => $request->file('image2'),
+            'image3' => $request->file('image3'),
+            'image4' => $request->file('image4')
+        ];
 
-        // $rules = [
-        //     'image1' => 'required',
-        //     'image2' => 'required',
-        //     'image3' => 'required',
-        //     'image4' => 'required'
-        // ];
+        $rules = [
+            'image1' => 'required',
+            'image2' => 'required',
+            'image3' => 'required',
+            'image4' => 'required'
+        ];
 
 
-        // $validator = Validator::make($files, $rules);
-        // if ($validator->fails()) {
-        //     return ResponseClass::Prepare_Response('','validation fails',false, 200);
-        // }
+        $validator = Validator::make($files, $rules);
+        if ($validator->fails()) {
+            return ResponseClass::Prepare_Response('','validation fails',false, 200);
+        }
 
         $destinationPath = public_path() . '/media'; // upload path
 
@@ -194,8 +194,10 @@ class PostsController extends Controller
 
         $fileNames =[];
         $thumbNames = [];
+        $extensionArr = array();
         for($i = 1; $i<=4; $i++){
             $extension = $request->file("image$i")->getClientOriginalExtension();
+            $extensionArr["media".$i."_type"] = $extension;
             $fileNames[$i] = Uuid::uuid1()->toString() . '.' . $extension;
             $request->file("image$i")->move($destinationPath, $fileNames[$i]);
 
@@ -221,6 +223,14 @@ class PostsController extends Controller
             'media3_thumb_url' => $thumbNames[3] ? URL::to('/') . '/media/' . $thumbNames[3] : '',
             'media4_thumb_url' => $thumbNames[4] ? URL::to('/') . '/media/' . $thumbNames[4] : ''
         ]);
+
+
+        for($i = 1; $i<=4; $i++){
+            $newProp = "media".$i."_type";
+            if (isset($extensionArr[$newProp])) {
+                $result->$newProp = $extensionArr[$newProp];
+            }
+        }
 
         return ResponseClass::Prepare_Response($result,'uploaded successfuly',true,200);
 
