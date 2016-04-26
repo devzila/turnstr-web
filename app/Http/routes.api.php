@@ -30,6 +30,12 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
         'middleware' => []
     ]);
 
+    Route::post('posts/deletePost', [
+        'uses' => 'PostsController@deletePost',
+        'as' => 'DeletePost',
+        'middleware' => []
+    ]);
+
     /* Profile Routes starts*/
     Route::post('updateProfile', [
         'uses' => 'UserController@updateProfile',
