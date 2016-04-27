@@ -256,6 +256,9 @@ class PostsController extends Controller
             }
         }
 
+        $result->liked = null;
+        $result->follow = null;
+
         return ResponseClass::Prepare_Response($result,'uploaded successfuly',true,200);
 
 
