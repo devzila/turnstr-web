@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Posts extends Model
 {
@@ -21,7 +22,15 @@ class Posts extends Model
             $returnData->where('users.id','!=',$userId);
         }
 
-            return  $returnData->select('users.username','posts.user_id','users.name','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.updated_at','posts.created_at','posts.caption')
+            return  $returnData->select('users.username','posts.user_id','users.name','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.updated_at','posts.created_at','posts.caption','postData.status as liked','followData.status as follow')
+                    ->leftjoin('user_activity as postData',function($join) {
+                        $join->where('postData.activity','=','liked');
+                        $join->on('postData.post_id','=','posts.id');
+                    })
+                    ->leftjoin('user_activity as followData',function($join) {
+                        $join->where('followData.activity','=','follow');
+                        $join->on('followData.user_id','=','users.id');
+                    })
                     ->orderBy('posts.updated_at','desc')
                     ->get();
     }
