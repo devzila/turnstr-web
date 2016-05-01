@@ -104,6 +104,7 @@ class Posts extends Model
     {
         return $query->where('user_id',$user_id)
                     ->join('users','posts.user_id','=','users.id')
+                    // ->select('posts.*','users.following','users.followers')
                     ->select('posts.*')
                      ->get();
     	// return $query->leftjoin('user_activity','posts.user_id','=','user_activity.user_id')
