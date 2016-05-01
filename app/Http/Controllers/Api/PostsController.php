@@ -11,6 +11,7 @@ use Validator;
 use App\Models\User;
 use App\Models\Posts;
 use App\Models\DeviceSession;
+use App\Helpers\UniversalClass;
 use Rhumsaa\Uuid\Uuid;
 use URL;
 use File;
@@ -187,6 +188,22 @@ class PostsController extends Controller
         return ResponseClass::Prepare_Response($posts,'List of posts',true,200);
     }
 
+    /**
+     * posts
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function shareUrl()
+    {
+        $postId = Input::get('id');
+            
+        $postId = UniversalClass::encrypt($postId);
+     //   
+        $postUrl = URL::to('/').'/posts/'.$postId;
+      //  $postUrl = $postId;
+        return ResponseClass::Prepare_Response($postUrl,'share url',true,200);
+    }
 
     public function upload(Request $request)
     {

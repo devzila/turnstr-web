@@ -72,7 +72,7 @@ class Posts extends Model
     * Function to return posts for home page
     * Posts current user is following
     */
-    public function scopeGetPostsUserFollowing($query, $user_id='')
+    public function scopeGetPostsUserFollowing($query, $userId='')
     {
         $returnData = $query->join('users','posts.user_id','=','users.id');
 
@@ -109,5 +109,15 @@ class Posts extends Model
                     ->get();
     }
 
+    /*
+    * Function to return posts by id
+    */
+    public function scopeGetPostsById($query, $post_id='')
+    {
+        return $query->select('posts.user_id','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url')
+                    ->where('posts.id','=',$post_id)
+                    ->orderBy('posts.updated_at','desc')
+                    ->get();
+    }
 
 }
