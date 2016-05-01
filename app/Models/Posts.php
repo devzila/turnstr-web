@@ -98,15 +98,19 @@ class Posts extends Model
                     ->get();
     }
     /*
-    * Function to return posts follow by user
+    * Function to return posts by a user
     */
 	public function scopeFollowPosts($query, $user_id='')
     {
-    	return $query->leftjoin('user_activity','posts.user_id','=','user_activity.user_id')
-                    ->where('follower_id',$user_id)
-                    ->where('activity','follow')
-                    ->where('status',1)
-                    ->get();
+        return $query->where('user_id',$user_id)
+                    ->join('users','posts.user_id','=','users.id')
+                    ->select('posts.*','users.following','users.followers')
+                     ->get();
+    	// return $query->leftjoin('user_activity','posts.user_id','=','user_activity.user_id')
+     //                ->where('follower_id',$user_id)
+     //                ->where('activity','follow')
+     //                ->where('status',1)
+     //                ->get();
     }
 
     /*

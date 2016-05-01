@@ -172,6 +172,7 @@ class PostsController extends Controller
     public function profilePosts()
     {
         $userId = DeviceSession::get()->user->id;
+        $postCount = Posts::where('user_id',$userId)->count();
         $posts = Posts::followPosts($userId);
 
         foreach ($posts as $key => $value) {
@@ -184,8 +185,7 @@ class PostsController extends Controller
             $posts[$key]->media3_type = end($arr3);
             $posts[$key]->media4_type = end($arr4);
         }
-
-        return ResponseClass::Prepare_Response($posts,'List of posts',true,200);
+        return ResponseClass::Prepare_Response(['postDetails'=>$posts,'post_count'=>$postCount],'List of posts',true,200);
     }
 
     /**
