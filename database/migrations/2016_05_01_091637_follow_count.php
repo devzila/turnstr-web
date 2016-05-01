@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UserProfileImage1 extends Migration
+class FollowCount extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,8 @@ class UserProfileImage1 extends Migration
     public function up()
     {
         Schema::table('users', function($table) {
-            $table->string('profile_image',250)->after('password');
+            $table->integer('following')->after('phone_number');
+            $table->integer('followers')->after('following');
         });
     }
 
