@@ -113,5 +113,11 @@ Route::group(['prefix' => 'api'], function () {
         'as' => 'ExploreImages',
         'middleware' => []
     ]);
+    //shareURL
+    Route::post('posts/shareUrl', [
+        'uses' => 'PostsController@shareUrl',
+        'as' => 'shareUrlPost',
+        'middleware' => []
+    ]);
 });
 ?>

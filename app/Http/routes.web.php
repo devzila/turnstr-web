@@ -30,3 +30,8 @@ Route::post('updatePasword', [
 
 Route::resource('/','HomeController');
 
+// APi for shared web url
+Route::get('posts/{id}', [
+    'uses' => 'PostsController@index',
+    'middleware' => []
+]);
