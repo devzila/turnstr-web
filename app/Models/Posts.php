@@ -119,7 +119,7 @@ class Posts extends Model
     */
     public function scopeGetPostsById($query, $post_id='')
     {
-        return $query->select('posts.user_id','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url')
+        return $query->select('posts.user_id','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.created_at','posts.updated_at')
                     ->where('posts.id','=',$post_id)
                     ->orderBy('posts.updated_at','desc')
                     ->get();

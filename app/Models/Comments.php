@@ -12,7 +12,7 @@ class Comments extends Model
 
     public function scopeCommentsByPost($query, $post_id) {
     	return $query->where('post_id',$post_id)->join('users','comments.user_id','=','users.id')
-    					->select('comments.*','users.username','users.profile_image')->get();
+    					->select('comments.*','users.username','users.profile_image')->orderBy('comments.created_at')->get();
     }
 
 }
