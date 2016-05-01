@@ -24,7 +24,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Posts::getPostsByUserId(DeviceSession::get()->user->id);
+        $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
 
         return ResponseClass::Prepare_Response($posts,'Post Listing',true,200);
     }
