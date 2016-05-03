@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Helpers\ResponseClass;
 use Response;
+use App\Models\Useractivity;
 use App\Models\Comments;
 use App\Models\DeviceSession;
 use Input;
@@ -114,8 +115,11 @@ class CommentsController extends Controller
      */
     public function commentsByPostId()
     {
+        $user_id = DeviceSession::get()->user->id;
         $postId = Input::get('post_id');
 		$comments = Comments::commentsByPost($postId);
-        return ResponseClass::Prepare_Response($comments,'List of comments',true,200);
+        $likeData = Useractivity::getActivityById($user_id,$postId);
+        $like = (isset($likeData->status)) ? $likeData->status : 0 ;
+        return ResponseClass::Prepare_Response(['comments'=>$comments,'like'=>$like],'List of comments',true,200);
     }
 }

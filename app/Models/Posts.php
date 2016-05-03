@@ -107,11 +107,6 @@ class Posts extends Model
                     // ->select('posts.*','users.following','users.followers')
                     ->select('posts.*')
                      ->get();
-    	// return $query->leftjoin('user_activity','posts.user_id','=','user_activity.user_id')
-     //                ->where('follower_id',$user_id)
-     //                ->where('activity','follow')
-     //                ->where('status',1)
-     //                ->get();
     }
 
     /*
