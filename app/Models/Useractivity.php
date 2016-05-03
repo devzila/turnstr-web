@@ -40,4 +40,11 @@ class Useractivity extends Model
 
     }
 
+    /*
+    * Get user like/unlike details by post and user id
+    */
+    public function scopeGetActivityById($query,$userId,$postId) {
+        return $query->where('post_id',$postId)->where('liked_id',$userId)->where('activity','liked')->select('status');
+    }
+
 }
