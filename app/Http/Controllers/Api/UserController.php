@@ -121,11 +121,11 @@ class UserController extends Controller {
 
         $link = URL::to('forgotpassword').'/'.$randomString;
 
-        // Mail::send('emails.forgotpassword', ['user' => $user,'link'=>$link], function ($m) use ($user) {
-        //     $m->from('admin@turnstr.com', 'Turnstr');
+        Mail::send('emails.forgotpassword', ['user' => $user,'link'=>$link], function ($m) use ($user) {
+            $m->from('admin@turnstr.com', 'Turnstr');
 
-        //     $m->to($user->email, $user->username)->subject('Forgot Password');
-        // });
+            $m->to($user->email, $user->username)->subject('Forgot Password');
+        });
 
         return ResponseClass::Prepare_Response($link,'Email sent successfully',true,200);
     }
