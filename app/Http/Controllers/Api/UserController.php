@@ -143,7 +143,15 @@ class UserController extends Controller {
 
         $postCount = Posts::where('user_id',$userId)->count();
         $usersData = User::where('id',$userId)->first();
-        $usersData->postCount = $postCount;
+
+        $usersData->postCount = (string)$postCount;
+        if (isset($usersData->following)) {
+            $usersData->following = (string)($usersData->following);
+        }
+        if (isset($usersData->followers)) {
+            $usersData->followers = (string)($usersData->followers);
+        }
+
         return ResponseClass::Prepare_Response(['userData'=>$usersData],'Users detail',true,200);
     }
 
