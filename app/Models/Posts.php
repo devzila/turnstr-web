@@ -58,12 +58,12 @@ class Posts extends Model
                         $join->where('followData.activity','=','follow');
                         $join->where('followData.follower_id','=',$userId);
                         $join->on('followData.user_id','=','users.id');
-                    })->distinct('posts.id');
+                    });
         } else {
-            $returnData->select('users.username','posts.user_id','users.name','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.updated_at','posts.created_at','posts.caption');
+            $returnData->select('users.username','posts.user_id','users.profile_image','users.name','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.updated_at','posts.created_at','posts.caption');
         }
 
-            return  $returnData
+            return  $returnData->distinct('posts.id')
                     ->orderBy('posts.updated_at','desc')
                     ->get();
     }
@@ -100,7 +100,7 @@ class Posts extends Model
     /*
     * Function to return posts by a user
     */
-	public function scopeFollowPosts($query, $user_id='')
+	public function scopeSelfPosts($query, $user_id='')
     {
         return $query->where('user_id',$user_id)
                     ->join('users','posts.user_id','=','users.id')
