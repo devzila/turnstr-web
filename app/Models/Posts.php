@@ -54,7 +54,7 @@ class Posts extends Model
                         $join->where('postData.liked_id','=',$userId);
                         $join->on('postData.post_id','=','posts.id');
                     })
-                    ->leftjoin('user_activity as followData',function($join) use ($userId)  {
+                    ->join('user_activity as followData',function($join) use ($userId)  {
                         $join->where('followData.activity','=','follow');
                         $join->where('followData.follower_id','=',$userId);
                         $join->on('followData.user_id','=','users.id');
