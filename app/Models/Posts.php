@@ -58,7 +58,7 @@ class Posts extends Model
                         $join->where('followData.activity','=','follow');
                         $join->where('followData.follower_id','=',$userId);
                         $join->on('followData.user_id','=','users.id');
-                    })->where('follow',1)->distinct('posts.id');
+                    })->distinct('posts.id');
         } else {
             $returnData->select('users.username','posts.user_id','users.name','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.updated_at','posts.created_at','posts.caption');
         }
@@ -84,7 +84,7 @@ class Posts extends Model
                         $join->where('postData.liked_id','=',$userId);
                         $join->on('postData.post_id','=','posts.id');
                     })
-                    ->leftjoin('user_activity as followData',function($join) use ($userId)  {
+                    ->join('user_activity as followData',function($join) use ($userId)  {
                         $join->where('followData.activity','=','follow');
                         $join->where('followData.follower_id','=',$userId);
                         $join->on('followData.user_id','=','users.id');
