@@ -91,14 +91,12 @@ class ActivityController extends Controller {
         $alreadyLiked = Useractivity::where('user_id',$likedOf)->where('liked_id',$likedBy)->where('activity','liked')->first();
 
         if (count($alreadyLiked)) {
-            $temp= $like_status;
             $updateArr = array(
                     'status'=>$like_status
                 );
             Useractivity::where('user_id',$likedOf)->where('liked_id',$likedBy)->where('activity','liked')->update($updateArr);
             
         } else {
-            $temp= 'new';
             $insArr = array(
                     'user_id'=>$likedOf,
                     'liked_id'=>$likedBy,
@@ -110,7 +108,7 @@ class ActivityController extends Controller {
                 );
             Useractivity::insert($insArr);
         }
-        return ResponseClass::Prepare_Response(compact('temp'),'Action performed successfully',true,200);
+        return ResponseClass::Prepare_Response('','Action performed successfully',true,200);
         
     }
     /*
