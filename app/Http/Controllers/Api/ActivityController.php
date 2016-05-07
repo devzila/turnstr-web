@@ -95,7 +95,7 @@ class ActivityController extends Controller {
             $updateArr = array(
                     'status'=>$like_status
                 );
-            Useractivity::where('user_id',$likedOf)->where('liked_id',$likedBy)->where('activity','liked')->update($updateArr);
+            $temp = Useractivity::where('user_id',$likedOf)->where('liked_id',$likedBy)->where('activity','liked')->toSql();
             
         } else {
             $temp= 'new';
