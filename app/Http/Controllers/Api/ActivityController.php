@@ -110,7 +110,7 @@ class ActivityController extends Controller {
                 );
             Useractivity::insert($insArr);
         }
-        return ResponseClass::Prepare_Response('','Action performed successfully',true,200);
+        return ResponseClass::Prepare_Response(compact('temp'),'Action performed successfully',true,200);
         
     }
     /*
