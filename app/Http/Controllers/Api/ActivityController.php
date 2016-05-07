@@ -91,12 +91,14 @@ class ActivityController extends Controller {
         $alreadyLiked = Useractivity::where('user_id',$likedOf)->where('liked_id',$likedBy)->where('activity','liked')->first();
 
         if (count($alreadyLiked)) {
+            $temp= 'already';
             $updateArr = array(
                     'status'=>$like_status
                 );
             Useractivity::where('user_id',$likedOf)->where('liked_id',$likedBy)->where('activity','liked')->update($updateArr);
             
         } else {
+            $temp= 'new';
             $insArr = array(
                     'user_id'=>$likedOf,
                     'liked_id'=>$likedBy,
