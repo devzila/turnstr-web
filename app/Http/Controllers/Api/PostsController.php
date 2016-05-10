@@ -143,6 +143,7 @@ class PostsController extends Controller
         $access_token = Input::get('access_token');
         $userId = '';
         $userDevice = User::userDetails($access_token);
+
         if (isset($userDevice->id)) {
             $userId =  $userDevice->id;
         }
@@ -173,7 +174,7 @@ class PostsController extends Controller
     {
         $userId = DeviceSession::get()->user->id;
         $postCount = Posts::where('user_id',$userId)->count();
-        $posts = Posts::followPosts($userId);
+        $posts = Posts::selfPosts($userId);
 
         foreach ($posts as $key => $value) {
             $arr1 = explode('.',$value->media1_url);
