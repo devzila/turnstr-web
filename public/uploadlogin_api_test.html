@@ -1,0 +1,24 @@
+<html>
+<head>
+    <title>Api Test</title>
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</head>
+
+<body>
+<form id="sample" action="/api/posts/upload">
+   X-TOKEN<input name="X-TOKEN" value="6229702c-f5b4-11e5-af15-0a8627f3e57d"/>
+   X-DEVICE<input name="X-DEVICE" value="1098765"/>
+
+    <button type="submit">Submit data using Ajax call</button>
+</form>
+
+<script>
+    $("#sample").submit(function(e) {
+        e.preventDefault();
+        $.post('/api/posts/upload', $('#sample').serialize())
+
+    });
+</script>
+</body>
+</html>
