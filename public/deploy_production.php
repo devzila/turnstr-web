@@ -9,7 +9,7 @@
 	// The commands
 	$commands = array(
 		'echo $PWD',
-		'cd ..',
+		'cd /var/www/turnstr-web',
 		'echo $PWD',
 		'whoami',
 		'git pull origin master',
