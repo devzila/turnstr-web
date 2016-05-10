@@ -7,9 +7,9 @@
   <title>turnstr</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="generator" content="Webflow">
-  <link rel="stylesheet" type="text/css" href="../assets/css/normalize.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/webflow.css">
-  <link rel="stylesheet" type="text/css" href="../assets/css/turnstr.webflow.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/webflow.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/turnstr.webflow.css">
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
   <script>
     WebFont.load({
@@ -25,7 +25,7 @@
 <body class="body">
   <div data-collapse="medium" data-animation="default" data-duration="400" data-contain="1" class="w-nav navbar">
     <div class="w-container">
-      <a href="#" class="w-nav-brand brand"><img src="../assets/images/logo_title.png">
+      <a href="#" class="w-nav-brand brand"><img src="assets/images/logo_title.png">
       </a>
       <nav role="navigation" class="w-nav-menu"><a href="#" class="w-nav-link navlink">Get the App</a><a href="#" class="w-nav-link navlink">Login</a>
       </nav>

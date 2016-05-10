@@ -54,6 +54,7 @@ class PostsController extends Controller
             'media3_url' => $request->input('media3_url'),
             'media4_url' => $request->input('media4_url')
         ]);
+        $result['shareUrl'] = UniversalClass::shareUrl($result['id']);
         return ResponseClass::Prepare_Response($result,'Posts created successfuly',true,200);
     }
 
@@ -188,7 +189,6 @@ class PostsController extends Controller
         }
         return ResponseClass::Prepare_Response(['postDetails'=>$posts,'post_count'=>$postCount],'List of posts',true,200);
     }
-
     /**
      * posts
      *
@@ -198,11 +198,9 @@ class PostsController extends Controller
     public function shareUrl()
     {
         $postId = Input::get('id');
-            
-        $postId = UniversalClass::encrypt($postId);
-     //   
-        $postUrl = URL::to('/').'/posts/'.$postId;
-      //  $postUrl = $postId;
+        
+        $postUrl = UniversalClass::shareUrl($postId);
+        
         return ResponseClass::Prepare_Response($postUrl,'share url',true,200);
     }
 
