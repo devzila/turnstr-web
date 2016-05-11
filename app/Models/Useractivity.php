@@ -40,7 +40,7 @@ class Useractivity extends Model
                     'followerUser.profile_image as follower_image','followingUser.name as following_name',
                     'likeUser.name as likedby_name','likeUser.id as likedby_id',
                     'likeUser.profile_image as likedby_image','likeofUser.name as likedof_name',
-                    'user_activity.status','postData.media1_url','followData.*')
+                    'user_activity.status','postData.media1_url')
                         ->get();
 
     }
