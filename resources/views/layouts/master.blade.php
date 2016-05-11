@@ -8,11 +8,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="generator" content="Webflow">
   
-  <link rel="stylesheet" type="text/css" href="assets/css/normalize.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/webflow.css">
-  <link rel="stylesheet" type="text/css" href="assets/css/turnstr.webflow.css">
-  <link href="assets/css/vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" type="text/css" href="../assets/css/normalize.css">
+  <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+  <link rel="stylesheet" type="text/css" href="../assets/css/webflow.css">
+  <link rel="stylesheet" type="text/css" href="../assets/css/turnstr.webflow.css">
+  <link href="../assets/css/vendor/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css"/>
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
   <script>
     WebFont.load({
@@ -21,14 +21,14 @@
       }
     });
   </script>
-  <script type="text/javascript" src="assets/js/modernizr.js"></script>
-  <link rel="shortcut icon" type="assets/image/x-icon" href="https://daks2k3a4ib2z.cloudfront.net/img/favicon.ico">
+  <script type="text/javascript" src="../assets/js/modernizr.js"></script>
+  <link rel="shortcut icon" type="../assets/image/x-icon" href="https://daks2k3a4ib2z.cloudfront.net/img/favicon.ico">
   <link rel="apple-touch-icon" href="https://daks2k3a4ib2z.cloudfront.net/img/webclip.png">
 </head>
 <body class="body">
   <div data-collapse="medium" data-animation="default" data-duration="400" data-contain="1" class="w-nav navbar">
     <div class="w-container">
-      <a href="#" class="w-nav-brand brand"><img src="assets/images/logo_title.png">
+      <a href="#" class="w-nav-brand brand"><img src="../assets/images/logo_title.png">
       </a>
       <nav role="navigation" class="w-nav-menu"><a href="#" class="w-nav-link navlink">Get the App</a><a href="#" class="w-nav-link navlink">Login</a>
       </nav>
@@ -54,8 +54,8 @@
     </div>
   </div>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-  <script src="assets/js/vendor/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
-  <script type="text/javascript" src="assets/js/webflow.js"></script>
+  <script src="../assets/js/vendor/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="../assets/js/webflow.js"></script>
         <script src="https://cdn.rawgit.com/vinayakjadhav/jR3DCarousel/v0.0.8/dist/jR3DCarousel.min.js"></script>
 
         <script>
