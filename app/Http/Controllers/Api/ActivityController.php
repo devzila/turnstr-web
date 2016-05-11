@@ -123,7 +123,7 @@ class ActivityController extends Controller {
         
         foreach ($alreadyLiked as $key => $value) {
             $data[$key]['activity_id'] = $alreadyLiked[$key]->activity_id;
-            $data[$key]['activity_status'] = $alreadyLiked[$key]->activitywwwhn;
+            $data[$key]['activity_status'] = $alreadyLiked[$key]->activity_status;
             $data[$key]['post']['media1_thumb_url'] = $alreadyLiked[$key]->media1_thumb_url;
             $data[$key]['post']['media2_thumb_url'] = $alreadyLiked[$key]->media2_thumb_url;
             $data[$key]['post']['media3_thumb_url'] = $alreadyLiked[$key]->media3_thumb_url;
