@@ -34,7 +34,7 @@
 
 .postblock {
   display: block;
-  width: 440px;
+  
   margin-right: auto;
   margin-left: auto;
   padding-bottom: 30px;
@@ -45,8 +45,7 @@
 
 .postimage {
   display: block;
-  width: 400px;
-  height: 420px;
+  
   margin-top: 20px;
   margin-right: auto;
   margin-left: auto;

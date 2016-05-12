@@ -120,7 +120,35 @@ class ActivityController extends Controller {
         $activityList = array();
 
         $alreadyLiked = Useractivity::getLastTenActivity($user_id);
+        
         foreach ($alreadyLiked as $key => $value) {
+            $data[$key]['activity_id'] = $alreadyLiked[$key]->activity_id;
+            $data[$key]['activity_status'] = $alreadyLiked[$key]->activitywwwhn;
+            $data[$key]['post']['media1_thumb_url'] = $alreadyLiked[$key]->media1_thumb_url;
+            $data[$key]['post']['media2_thumb_url'] = $alreadyLiked[$key]->media2_thumb_url;
+            $data[$key]['post']['media3_thumb_url'] = $alreadyLiked[$key]->media3_thumb_url;
+            $data[$key]['post']['media4_thumb_url'] = $alreadyLiked[$key]->media4_thumb_url;
+            $data[$key]['post']['media1_url'] = $alreadyLiked[$key]->media1_url;
+            $data[$key]['post']['media2_url'] = $alreadyLiked[$key]->media2_url;
+            $data[$key]['post']['media3_url'] = $alreadyLiked[$key]->media3_url;
+            $data[$key]['post']['media4_url'] = $alreadyLiked[$key]->media4_url;
+            $data[$key]['post']['turn_id'] = $alreadyLiked[$key]->turn_id;
+            
+            $data[$key]['liked_user']['follower_id'] = $alreadyLiked[$key]->media4_url;
+            $data[$key]['liked_user']['follower_image'] = $alreadyLiked[$key]->media4_url;
+            $data[$key]['liked_user']['follower_name'] = $alreadyLiked[$key]->media4_url;
+
+            $data[$key]['follow_details']['likedby_id'] = $alreadyLiked[$key]->media4_url;
+            $data[$key]['follow_details']['likedby_image'] = $alreadyLiked[$key]->media4_url;
+            $data[$key]['follow_details']['likedby_name'] = $alreadyLiked[$key]->media4_url;
+            
+            $data[$key]['user']['name'] = $alreadyLiked[$key]->name;
+            $data[$key]['user']['profile_image'] = $alreadyLiked[$key]->profile_image;
+            $data[$key]['user']['phone_number'] = $alreadyLiked[$key]->phone_number;
+            $data[$key]['user']['gender'] = $alreadyLiked[$key]->gender;
+            $data[$key]['user']['website'] = $alreadyLiked[$key]->website;
+            
+            
             if ($value->activity == 'follow') {
 
                 if ($value->user_id == $user_id) {
@@ -133,7 +161,7 @@ class ActivityController extends Controller {
 
             }
         }
-        return ResponseClass::Prepare_Response($alreadyLiked,'Activiy list',true,200);
+        return ResponseClass::Prepare_Response($data,'Activiy list',true,200);
         
     }
 }

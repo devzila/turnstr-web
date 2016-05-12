@@ -26,12 +26,17 @@ class PostsController extends Controller {
 
     public function index($post_id = null){
         //decrypted id
-        $postId = UniversalClass::decrypt($post_id);
-
-        $postsData = Posts::getPostsById($postId);
-        $data['comments'] = Comments::commentsByPost($postId);
-
+       // echo $post_id;die;
+        $status = true;
+        $postsData = Posts::getPostsById($post_id);
         if(!isset($postsData[0])){
+            $status = false;
+            $post_id = UniversalClass::decrypt($post_id);
+            $postsData = Posts::getPostsById($post_id);
+            $status =(!isset($postsData[0]))? false: true;
+        }
+        $data['comments'] = Comments::commentsByPost($post_id);
+        if(!$status){
             echo "wrong id";die;
         } 
         $data['post'] = $postsData[0];
