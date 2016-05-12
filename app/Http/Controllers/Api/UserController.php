@@ -220,10 +220,12 @@ class UserController extends Controller {
             $fileName = Uuid::uuid1()->toString() . '.' . $extension;
             $request->file("profile_image")->move($destinationPath, $fileName);
 
-            Image::make($destinationPath.'/'.$fileName)->resize(200, 200)->rotate(90)->save($destinationPath.'/thumb/thumb_'.$fileName);
+            Image::make($destinationPath.'/'.$fileName)->resize(400, 400)->save($destinationPath.'/thumb/thumb_'.$fileName);
+            // Image::make($destinationPath.'/'.$fileName)->resize(400, 400)->rotate(90)->save($destinationPath.'/thumb/thumb_'.$fileName);
 
-            $pathToImage = URL::to('/') . '/profile/'.$userId.'/'. $fileName;
-           User::where('id',$userId)->update(['profile_image'=>$pathToImage]);
+            $pathToImage = URL::to('/') . '/profile/'.$userId.'/thumb/'. $fileName;
+            $pathToThumbImage = URL::to('/') . '/profile/'.$userId.'/thumb/thumb_'. $fileName;
+           User::where('id',$userId)->update(['profile_image'=>$pathToThumbImage,'profile_thumb_image'=>$pathToThumbImage]);
 
         return ResponseClass::Prepare_Response('','uploaded successfuly',true,200);
     }

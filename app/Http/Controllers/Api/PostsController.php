@@ -14,6 +14,7 @@ use App\Models\DeviceSession;
 use App\Helpers\UniversalClass;
 use Rhumsaa\Uuid\Uuid;
 use URL;
+use Image;
 use File;
 
 class PostsController extends Controller
@@ -242,11 +243,14 @@ class PostsController extends Controller
             $request->file("image$i")->move($destinationPath, $fileNames[$i]);
 
             $thumbNames[$i] = '';
-            if($request->file("thumb$i")){
-                $extension = $request->file("thumb$i")->getClientOriginalExtension();
+            $thumbImgNames[$i] = '';
+            if($request->file("videoimage$i")){
+                $extension = $request->file("videoimage$i")->getClientOriginalExtension();
                 $thumbNames[$i] = Uuid::uuid1()->toString() . '.' . $extension;
-                $request->file("thumb$i")->move($destinationPath, $thumbNames[$i]);
-
+                $request->file("videoimage$i")->move($destinationPath, $thumbNames[$i]);
+            } else {
+                Image::make($destinationPath.'/'.$fileNames[$i])->resize(400, 400)->save($destinationPath.'/thumb_'.$fileNames[$i]);
+                $thumbImgNames[$i] = URL::to('/') .'/media/thumb_'.$fileNames[$i];
             }
         }
 
@@ -258,10 +262,10 @@ class PostsController extends Controller
             'media2_url' => URL::to('/') . '/media/' . $fileNames[2],
             'media3_url' => URL::to('/') . '/media/' . $fileNames[3],
             'media4_url' => URL::to('/') . '/media/' . $fileNames[4],
-            'media1_thumb_url' => $thumbNames[1] ? URL::to('/') . '/media/' . $thumbNames[1] : '',
-            'media2_thumb_url' => $thumbNames[2] ? URL::to('/') . '/media/' . $thumbNames[2] : '',
-            'media3_thumb_url' => $thumbNames[3] ? URL::to('/') . '/media/' . $thumbNames[3] : '',
-            'media4_thumb_url' => $thumbNames[4] ? URL::to('/') . '/media/' . $thumbNames[4] : ''
+            'media1_thumb_url' => $thumbNames[1] ? URL::to('/') . '/media/' . $thumbNames[1] : $thumbImgNames[1],
+            'media2_thumb_url' => $thumbNames[2] ? URL::to('/') . '/media/' . $thumbNames[2] : $thumbImgNames[2],
+            'media3_thumb_url' => $thumbNames[3] ? URL::to('/') . '/media/' . $thumbNames[3] : $thumbImgNames[3],
+            'media4_thumb_url' => $thumbNames[4] ? URL::to('/') . '/media/' . $thumbNames[4] : $thumbImgNames[4]
         ]);
 
         for($i = 1; $i<=4; $i++){
