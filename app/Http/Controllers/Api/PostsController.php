@@ -279,4 +279,19 @@ class PostsController extends Controller
 
     }
 
+    /**
+     * 
+     * @param  int $user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function otheruser($userId='')
+    {
+        if ($userId=='') {
+            return ResponseClass::Prepare_Response('','Invalid user-id',false,200);
+        }
+        $data = array(); 
+        $data['user'] = User::find($userId); 
+        $data['post'] = Posts::getAllPostsByUserId($userId);
+        return ResponseClass::Prepare_Response($data,'Other user data',true,200);
+    }
 }

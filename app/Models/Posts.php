@@ -120,4 +120,12 @@ class Posts extends Model
                     ->get();
     }
 
+    /*
+    * Function to return all posts of a user by user id
+    */
+    public function scopeGetAllPostsByUserId($query, $user_id='')
+    {
+        return $query->where('user_id',$user_id)->get();
+    }
+
 }
