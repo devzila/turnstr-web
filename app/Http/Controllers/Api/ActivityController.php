@@ -88,13 +88,13 @@ class ActivityController extends Controller {
         $post_id = Input::get('post_id'); // post id
         $like_status = Input::get('like_status'); // like/unlike
 
-        $alreadyLiked = Useractivity::where('user_id',$likedOf)->where('liked_id',$likedBy)->where('activity','liked')->first();
-
+        $alreadyLiked = Useractivity::where('post_id',$post)->where('liked_id',$likedBy)->where('activity','liked')->first();
+        
         if (count($alreadyLiked)) {
             $updateArr = array(
                     'status'=>$like_status
                 );
-            Useractivity::where('user_id',$likedOf)->where('liked_id',$likedBy)->where('activity','liked')->update($updateArr);
+        Useractivity::where('post_id',$post)->where('liked_id',$likedBy)->where('activity','liked')->update($updateArr);
             
         } else {
             $insArr = array(
