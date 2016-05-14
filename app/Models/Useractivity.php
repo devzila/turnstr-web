@@ -35,12 +35,12 @@ class Useractivity extends Model
             ->leftjoin('users as likeUser','user_activity.liked_id','=','likeUser.id') // who liked the post
             ->leftjoin('users as likeofUser','user_activity.user_id','=','likeofUser.id') // whom post is liked
             ->orderBy('user_activity.updated_at','DESC')
-            ->select('postData.*','post_id as turn_id','user_activity.id as activity_id','user_activity.activity',
+            ->select('post_id as turn_id','user_activity.id as activity_id','user_activity.activity',
                     'followerUser.name as follower_name','followerUser.id as follower_id',
                     'followerUser.profile_image as follower_image','followingUser.name as following_name',
                     'likeUser.name as likedby_name','likeUser.id as likedby_id',
                     'likeUser.profile_image as likedby_image','likeofUser.name as likedof_name',
-                    'user_activity.status','postData.media1_url')
+                    'user_activity.status as activity_status')
                         ->get();
 
     }
