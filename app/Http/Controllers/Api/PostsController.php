@@ -288,8 +288,9 @@ class PostsController extends Controller
      * @param  int $user_id
      * @return \Illuminate\Http\Response
      */
-    public function otheruser($userId='')
+    public function otheruser()
     {
+        $userId = Input::get('user_id');
         if ($userId=='') {
             return ResponseClass::Prepare_Response('','Invalid user-id',false,200);
         }
