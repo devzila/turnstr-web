@@ -20,6 +20,7 @@ class TagsController extends Controller
      */
     public function show($id)
     {
+
         $posts = DB::table('posts')
             ->join('post_tags', 'posts.id', '=', 'post_tags.post_id')
             ->join('users', 'posts.user_id', '=', 'users.id')
