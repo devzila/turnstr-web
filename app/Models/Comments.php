@@ -14,5 +14,12 @@ class Comments extends Model
     	return $query->where('post_id',$post_id)->join('users','comments.user_id','=','users.id')
     					->select('comments.*','users.username','users.profile_image')->orderBy('comments.created_at','DESC')->get();
     }
+    /*
+	* Get comments count by post id
+    */
+    public function scopeCommentsCountByPostId($query, $post_id) {
+    	$res = $query->where('post_id',$post_id)->count();
+    	return ($res>0) ? $res : -1 ;
+    }
 
 }

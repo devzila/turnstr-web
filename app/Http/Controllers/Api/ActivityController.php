@@ -4,6 +4,7 @@ use Config;
 
 use App\Models\DeviceSession;
 use App\Http\Requests\Api\UserLoginRequest;
+use App\Http\Requests\Api\LikeRequest;
 use App\Http\Requests\Api\UserRegistrationRequest;
 use App\Http\Requests\Api\UserLogoutRequest;
 use App\Http\Requests\Api\UserForgotpasswordRequest ;
@@ -19,6 +20,7 @@ use Hash;
 use Response;
 use App\Models\UserDevice;
 use App\Models\Useractivity;
+use App\Models\Comments;
 use Mail;
 use URL;
 use Input;
@@ -81,20 +83,25 @@ class ActivityController extends Controller {
     /*
     *   Function to like a post.
     */
-    public function likePost() {
+    public function likePost(LikeRequest $LikeRequest) {
 
         $likedBy = DeviceSession::get()->user->id; // who liked post
         $likedOf = Input::get('post_user'); // who's post is liked
         $post_id = Input::get('post_id'); // post id
         $like_status = Input::get('like_status'); // like/unlike
 
-        $alreadyLiked = Useractivity::where('post_id',$post)->where('liked_id',$likedBy)->where('activity','liked')->first();
+        $alreadyLiked = Useractivity::where('post_id',$post_id)->where('liked_id',$likedBy)->where('activity','liked')->first();
         
-        if (count($alreadyLiked)) {
+        if (count($alreadyLiked) && $alreadyLiked->status != $like_status) {
             $updateArr = array(
                     'status'=>$like_status
                 );
-        Useractivity::where('post_id',$post)->where('liked_id',$likedBy)->where('activity','liked')->update($updateArr);
+            Useractivity::where('post_id',$post_id)->where('liked_id',$likedBy)->where('activity','liked')->update($updateArr);
+            if ($like_status==1) {
+                Posts::where('id',$post_id)->increment('total_likes');
+            } else if ($like_status==0) {
+                Posts::where('id',$post_id)->decrement('total_likes');
+            }
             
         } else {
             $insArr = array(
@@ -124,12 +131,26 @@ class ActivityController extends Controller {
         foreach ($alreadyLiked as $key => $value) {
             if ($alreadyLiked[$key]->activity=='liked') {
 
-                $userInfo = User::find($alreadyLiked[$key]->likedby_id);
-                $value->user_info = (count($userInfo)) ? $userInfo : '' ;
-                $postInfo = Posts::find($alreadyLiked[$key]->turn_id);
-                $value->post_info = (count($postInfo)) ? $postInfo : '' ;
+                // Removing following details 
+                unset($alreadyLiked[$key]->following_name);
+                unset($alreadyLiked[$key]->follower_name);
+                unset($alreadyLiked[$key]->follower_id);
+                unset($alreadyLiked[$key]->follower_image);
 
+                // fetching user and posts data
+                $userInfo = User::find($alreadyLiked[$key]->likedby_id);
+                $postInfo = Posts::find($alreadyLiked[$key]->turn_id);
+                $commentsCount = comments::commentsCountByPostId($alreadyLiked[$key]->turn_id);
+
+                // Inserting user and post data
+                $value->user_info = (count($userInfo)) ? $userInfo : '' ;
+                $value->post_info = (count($postInfo)) ? $postInfo : '' ;
+                $value->post_comments_count = ($commentsCount>0) ? $commentsCount : 0 ;
             } else {
+                // Removing like details
+                unset($alreadyLiked[$key]->likeby_name);
+                unset($alreadyLiked[$key]->likeby_id);
+                unset($alreadyLiked[$key]->likeby_image);
 
                 $userInfo = User::find($alreadyLiked[$key]->follower_id);
                 $value->user_info = (count($userInfo)) ? $userInfo : '' ;
