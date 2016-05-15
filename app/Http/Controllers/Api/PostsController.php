@@ -13,6 +13,7 @@ use App\Models\Posts;
 use App\Models\PostTags;
 use App\Models\DeviceSession;
 use App\Models\Useractivity;
+use App\Models\Comments;
 use App\Helpers\UniversalClass;
 use App\Models\Api;
 use Rhumsaa\Uuid\Uuid;
@@ -30,7 +31,15 @@ class PostsController extends Controller
     public function index()
     {
         $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
+        if (count($posts)) {
+            foreach ($posts as $key => $value) {
+                $commentsCount = Comments::commentsCountByPostId($value->id);
+                $value->total_likes = (string)($value->total_likes);
+                $value->total_comments = (string)($commentsCount);
 
+            }
+        }
+        
         return ResponseClass::Prepare_Response($posts,'Post Listing',true,200);
     }
 

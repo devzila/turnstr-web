@@ -142,7 +142,7 @@ class ActivityController extends Controller {
                 $postInfo = Posts::find($alreadyLiked[$key]->turn_id);
                 if (count($userInfo)) {
                     $postCount = Posts::where('user_id',$userInfo->id)->count();
-                    $userInfo->post_count = ($postCount>0) ? $postCount : 0 ;
+                    $userInfo->post_count = ($postCount>0) ? (string)$postCount : 0 ;
                     $followingDetails = Useractivity::getFollowDetailByUserId($userInfo->id,$user_id);
                     $userInfo->is_following = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
                     $userInfoFinal =  $userInfo;
