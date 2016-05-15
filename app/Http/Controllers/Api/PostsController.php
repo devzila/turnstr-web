@@ -10,6 +10,7 @@ use Response;
 use Validator;
 use App\Models\User;
 use App\Models\Posts;
+use App\Models\PostTags;
 use App\Models\DeviceSession;
 use App\Models\Useractivity;
 use App\Models\comments;
@@ -288,6 +289,9 @@ class PostsController extends Controller
             'media3_thumb_url' => $thumbNames[3] ? URL::to('/') . '/media/' . $thumbNames[3] : $thumbImgNames[3],
             'media4_thumb_url' => $thumbNames[4] ? URL::to('/') . '/media/' . $thumbNames[4] : $thumbImgNames[4]
         ]);
+
+        // tag post if #tag present in caption
+        PostTags::tag($result->id, $result->caption);
 
 
         Posts::addExtraAttributes($result);
