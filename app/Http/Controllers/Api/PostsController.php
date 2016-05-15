@@ -305,12 +305,18 @@ class PostsController extends Controller
         $isFollowing = Useractivity::getFollowDetailByUserId($userId,$currentUserId);
 
         $data['user'] = User::find($userId); 
+        $data['post'] = Posts::getAllPostsByUserId($userId);
         if (!count($data['user'])) {
             return ResponseClass::Prepare_Response('','Invalid user details',false,200);
         }
-        $data['post'] = Posts::getAllPostsByUserId($userId);
-        $data['user']->post_count = $postCount;
-        $data['user']->is_following = (count($isFollowing) && isset($isFollowing->status)) ? $isFollowing->status : 0 ;
+        if (count($data['post'])) {
+            foreach ($data['post'] as $key => $value) {
+                $value->id = (string)($value->id);
+            }
+        }
+        $data['user']->id = (string)($data['user']->id);
+        $data['user']->post_count = (string)$postCount;
+        $data['user']->is_following = (count($isFollowing) && isset($isFollowing->status)) ? (string)($isFollowing->status) : 0 ;
 
         return ResponseClass::Prepare_Response($data,'Other user data',true,200);
     }
