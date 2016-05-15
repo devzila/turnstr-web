@@ -11,6 +11,7 @@ use App\Models\Useractivity;
 use App\Models\Comments;
 use App\Models\DeviceSession;
 use Input;
+use App\Models\PostTags;
 
 class CommentsController extends Controller
 {
@@ -43,16 +44,21 @@ class CommentsController extends Controller
      *
      * api/posts/<post_id>/comments
      */
-    public function store(Request $request)
+    public function store(Request $request, $post_id)
     {
-        $post_id = $request->input('post_id');
+         //$post_id = $request->input('post_id');
          $result = Comments::create([
             'user_id' => DeviceSession::get()->user->id,
-             'post_id' => $post_id,
-    		 'comments' => $request->input('comments'),
+            'post_id' => $post_id,
+    		'comments' => $request->input('comments')
     	 ]);
-          return ResponseClass::Prepare_Response($result,'',true,200);
-        // return Response::json($result, 200);
+
+        // tag post if #tag present in comment
+        PostTags::tag($post_id, $result->comments);
+
+
+        return ResponseClass::Prepare_Response($result,'Comment create successfully',true,200);
+
     }
 
     /**
