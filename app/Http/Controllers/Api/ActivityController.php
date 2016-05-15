@@ -140,11 +140,24 @@ class ActivityController extends Controller {
                 // fetching user and posts data
                 $userInfo = User::find($alreadyLiked[$key]->likedby_id);
                 $postInfo = Posts::find($alreadyLiked[$key]->turn_id);
-                $commentsCount = comments::commentsCountByPostId($alreadyLiked[$key]->turn_id);
+                if (count($userInfo)) {
+                    $postCount = Posts::where('user_id',$userInfo->id)->count();
+                    $userInfo->post_count = ($postCount>0) ? $postCount : 0 ;
+                    $userInfoFinal =  $userInfo;
+                } else {
+                    $userInfoFinal =  '';
+                }
+                if (count($postInfo)) {
+                    $commentsCount = comments::commentsCountByPostId($alreadyLiked[$key]->turn_id);
+                    $postInfo->post_comments_count = ($commentsCount>0) ? $commentsCount : 0 ;
+                    $postInfoFinal =  $postInfo;
+                } else {
+                    $postInfoFinal =  '';
+                }
 
                 // Inserting user and post data
-                $value->user_info = (count($userInfo)) ? $userInfo : '' ;
-                $value->post_info = (count($postInfo)) ? $postInfo : '' ;
+                $value->user_info = $userInfoFinal;
+                $value->post_info = $postInfoFinal;
                 $value->post_comments_count = ($commentsCount>0) ? $commentsCount : 0 ;
             } else {
                 // Removing like details
