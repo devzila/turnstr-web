@@ -52,4 +52,11 @@ class Useractivity extends Model
         return $query->where('post_id',$postId)->where('liked_id',$userId)->where('activity','liked')->select('status');
     }
 
+    /*
+    * Get user follwoing status
+    */
+    public function scopeGetFollowDetailByUserId($query,$followingId,$currentuserId) {
+        return $query->where('user_id',$followingId)->where('follower_id',$currentuserId)->where('activity','follow')->first();
+    }
+
 }
