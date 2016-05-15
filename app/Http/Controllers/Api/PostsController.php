@@ -11,6 +11,7 @@ use Validator;
 use App\Models\User;
 use App\Models\Posts;
 use App\Models\DeviceSession;
+use App\Models\Useractivity;
 use App\Helpers\UniversalClass;
 use App\Models\Api;
 use Rhumsaa\Uuid\Uuid;
@@ -294,13 +295,20 @@ class PostsController extends Controller
      */
     public function otheruser()
     {
+        $currentUserId = DeviceSession::get()->user->id;
         $userId = Input::get('user_id');
         if ($userId=='') {
             return ResponseClass::Prepare_Response('','Invalid user-id',false,200);
         }
         $data = array(); 
+        $postCount = Posts::where('user_id',$currentUserId)->count();
+        $isFollowing = Useractivity::getFollowDetailByUserId($userId,$currentUserId);
+
         $data['user'] = User::find($userId); 
         $data['post'] = Posts::getAllPostsByUserId($userId);
+        $data['user']->post_count = $postCount;
+        $data['user']->is_following = (count($isFollowing)) ? $isFollowing->status : 0 ;
+
         return ResponseClass::Prepare_Response($data,'Other user data',true,200);
     }
 
