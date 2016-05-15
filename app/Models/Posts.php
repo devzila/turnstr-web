@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use App\Helpers\UniversalClass;
 
 class Posts extends Model
 {
@@ -127,5 +128,39 @@ class Posts extends Model
     {
         return $query->where('user_id',$user_id)->get();
     }
+
+
+    static function addExtraFields($post)
+    {
+        for($i = 1; $i<=4; $i++){
+            $newProp = "media".$i."_type";
+            $mediaProp = "media" . $i . "_url";
+            $post->$newProp = pathinfo($post->$mediaProp, PATHINFO_EXTENSION);
+        }
+
+        $post->shareUrl = UniversalClass::shareUrl($post->id);
+
+        // TODO: figure out actual value for following attributes
+        $post->liked = null;
+        $post->follow = null;
+
+        return $post;
+    }
+
+    static function addExtraAttributes($posts){
+        if(is_array($posts)){
+            $touchedPosts = [];
+            foreach($posts as $post){
+                $touchedPosts[] = self::addExtraFields($post);
+            }
+
+            return $touchedPosts;
+
+        }
+        else{
+            return self::addExtraFields($posts);
+        }
+    }
+
 
 }

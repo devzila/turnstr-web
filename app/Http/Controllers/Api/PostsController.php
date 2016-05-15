@@ -73,7 +73,7 @@ class PostsController extends Controller
 
         if($post)
         {
-            $this->addExtraAttributes($post);
+            Posts::addExtraAttributes($post);
             return ResponseClass::Prepare_Response($post,'List of posts',true,200);
         }
         else
@@ -280,7 +280,7 @@ class PostsController extends Controller
         ]);
 
 
-        $this->addExtraAttributes($result);
+        Posts::addExtraAttributes($result);
 
         return ResponseClass::Prepare_Response($result,'uploaded successfuly',true,200);
 
@@ -304,19 +304,4 @@ class PostsController extends Controller
         return ResponseClass::Prepare_Response($data,'Other user data',true,200);
     }
 
-    private function addExtraAttributes(&$post)
-    {
-        for($i = 1; $i<=4; $i++){
-            $newProp = "media".$i."_type";
-            $mediaProp = "media" . $i . "_url";
-            $post->$newProp = pathinfo($post->$mediaProp, PATHINFO_EXTENSION);
-        }
-
-        $post->shareUrl = UniversalClass::shareUrl($post->id);
-
-        // TODO: figure out actual value for following attributes
-        $post->liked = null;
-        $post->follow = null;
-
-    }
 }
