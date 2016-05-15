@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Posts;
 use App\Models\DeviceSession;
 use App\Helpers\UniversalClass;
+use App\Models\Api;
 use Rhumsaa\Uuid\Uuid;
 use URL;
 use Image;
@@ -69,7 +70,17 @@ class PostsController extends Controller
     {
         //
         $post = Posts::find($id);
-        return ResponseClass::Prepare_Response($post,'List of posts',true,200);
+
+        if($post)
+        {
+            $this->addExtraAttributes($post);
+            return ResponseClass::Prepare_Response($post,'List of posts',true,200);
+        }
+        else
+        {
+            return ResponseClass::Prepare_Response([],'Unprocessable Entity',false, Api::STATUS_CODE_CLIENT_ERROR_UNPROCESSABLE_ENTITY);
+        }
+
         // return $post->toJson();
     }
 
@@ -298,5 +309,21 @@ class PostsController extends Controller
         $data['user'] = User::find($userId); 
         $data['post'] = Posts::getAllPostsByUserId($userId);
         return ResponseClass::Prepare_Response($data,'Other user data',true,200);
+    }
+
+    private function addExtraAttributes(&$post)
+    {
+        for($i = 1; $i<=4; $i++){
+            $newProp = "media".$i."_type";
+            $mediaProp = "media" . $i . "_url";
+            $post->$newProp = pathinfo($post->$mediaProp, PATHINFO_EXTENSION);
+        }
+
+        $post->shareUrl = UniversalClass::shareUrl($post->id);
+
+        // TODO: figure out actual value for following attributes
+        $post->liked = null;
+        $post->follow = null;
+
     }
 }

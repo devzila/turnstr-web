@@ -30,7 +30,7 @@ class UniversalClass{
         
         $postId = self::encrypt($id);
         
-        $postUrl = URL::to('/').'/posts/'.$postId;
+        $postUrl = URL::to('/').'/share/'.$postId;
         
         return $postUrl;
     }
