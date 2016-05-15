@@ -114,7 +114,7 @@ Route::group(['prefix' => 'api'], function () {
         'middleware' => []
     ]);
 	
-    Route::get('otheruser/{user_id?}', [
+    Route::post('otheruser', [
         'uses' => 'PostsController@otheruser',
         'as' => 'OtherUser',
         'middleware' => []
