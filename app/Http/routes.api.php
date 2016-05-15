@@ -82,6 +82,11 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
             'as' => 'activityList',
             'middleware' => []
         ]);
+        Route::post('otheruser', [
+            'uses' => 'PostsController@otheruser',
+            'as' => 'OtherUser',
+            'middleware' => []
+        ]);
     /* Activity Routes ends*/
 
 });
@@ -116,11 +121,6 @@ Route::group(['prefix' => 'api'], function () {
         'middleware' => []
     ]);
 	
-    Route::post('otheruser', [
-        'uses' => 'PostsController@otheruser',
-        'as' => 'OtherUser',
-        'middleware' => []
-    ]);
     //shareURL
     Route::post('posts/shareUrl', [
         'uses' => 'PostsController@shareUrl',
