@@ -279,16 +279,9 @@ class PostsController extends Controller
             'media4_thumb_url' => $thumbNames[4] ? URL::to('/') . '/media/' . $thumbNames[4] : $thumbImgNames[4]
         ]);
 
-        for($i = 1; $i<=4; $i++){
-            $newProp = "media".$i."_type";
-            if (isset($extensionArr[$newProp])) {
-                $result->$newProp = $extensionArr[$newProp];
-            }
-        }
 
-        $result->liked = null;
-        $result->follow = null;
-        $result->shareUrl = UniversalClass::shareUrl($result->id);
+        $this->addExtraAttributes($result);
+
         return ResponseClass::Prepare_Response($result,'uploaded successfuly',true,200);
 
 
