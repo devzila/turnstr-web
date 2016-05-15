@@ -49,7 +49,7 @@ class ActivityController extends Controller {
 
         $alreadyFollowing = Useractivity::where('user_id',$following_id)->where('follower_id',$followerId)->where('activity','follow')->first();
 
-        if (count($alreadyFollowing)) {
+        if (count($alreadyFollowing) && $alreadyFollowing->status != $following_status) {
             $updateArr = array(
                     'status'=>$following_status
                 );
@@ -64,7 +64,7 @@ class ActivityController extends Controller {
                 User::where('id',$following_id)->decrement('followers');
             }
             
-        } else {
+        } else if (!count($alreadyFollowing)) {
             $insArr = array(
                     'user_id'=>$following_id,
                     'follower_id'=>$followerId,
@@ -103,7 +103,7 @@ class ActivityController extends Controller {
                 Posts::where('id',$post_id)->decrement('total_likes');
             }
             
-        } else {
+        } else if (!count($alreadyLiked)) {
             $insArr = array(
                     'user_id'=>$likedOf,
                     'liked_id'=>$likedBy,
