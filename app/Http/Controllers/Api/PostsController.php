@@ -316,7 +316,7 @@ class PostsController extends Controller
         }
         $data['user']->id = (string)($data['user']->id);
         $data['user']->post_count = (string)$postCount;
-        $data['user']->is_following = (count($isFollowing) && isset($isFollowing->status)) ? $isFollowing->status : 0 ;
+        $data['user']->is_following = (count($isFollowing) && isset($isFollowing->status)) ? (int)($isFollowing->status) : 0 ;
 
         return ResponseClass::Prepare_Response($data,'Other user data',true,200);
     }

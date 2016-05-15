@@ -143,6 +143,8 @@ class ActivityController extends Controller {
                 if (count($userInfo)) {
                     $postCount = Posts::where('user_id',$userInfo->id)->count();
                     $userInfo->post_count = ($postCount>0) ? $postCount : 0 ;
+                    $followingDetails = Useractivity::getFollowDetailByUserId($userInfo->id,$user_id);
+                    $userInfo->is_following = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
                     $userInfoFinal =  $userInfo;
                 } else {
                     $userInfoFinal =  '';
