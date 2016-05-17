@@ -27,7 +27,25 @@ class UserController extends Controller {
     {
         $this->request = $request;
     }
+    
+        public function login(UserLoginRequest $userLoginRequest){
 
+
+        $field = filter_var($this->request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $user = User::where($field, $this->request->get('email'))->first();
+
+        if(!$user){
+            return ResponseClass::Prepare_Response('','Email/Password did not match',false,200);
+        }
+
+        if (!Hash::check($this->request->get('password'), $user->password))
+        {
+            return ResponseClass::Prepare_Response('','Email/Password did not match',false,200);
+        }
+
+        $device = UserDevice::add($user, $this->request->all());
+        return ResponseClass::Prepare_Response($device,'Login successfully',true,200);
+        }
 
 
     /*

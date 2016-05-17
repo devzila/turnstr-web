@@ -17,6 +17,24 @@
 
 // for shared image
 
+
+Route::group(['middleware' => ['web']], function () { 
+    Route::auth();
+     Route::get('login', [ 'as' => 'user.login', 'uses' => 'AuthController@index']);
+     Route::post('login', 'AuthController@login');
+    //Route::get('register', [ 'as' => 'user.register', 'uses' => 'AuthController@register']);
+   // Route::post('register', [ 'as' => 'user.register', 'uses' => 'AuthController@register']);
+   // Route::get('logout', [ 'as' => 'user.logout', 'uses' => 'AuthController@logout']);
+
+    Route::get('home', 'HomeController@index');
+    Route::get('posts/{id}', [
+      'uses' => 'PostsController@index',
+      'middleware' => ['auth']
+  ]);
+    
+});
+
+
 Route::get('forgotpassword/{shortcode}', [
     'uses' => 'UserController@resetpassword',
     'middleware' => []
@@ -31,7 +49,3 @@ Route::post('updatePasword', [
 Route::resource('/','HomeController');
 
 // APi for shared web url
-Route::get('posts/{id}', [
-    'uses' => 'PostsController@index',
-    'middleware' => []
-]);
