@@ -140,6 +140,7 @@ class ActivityController extends Controller {
                 // fetching user and posts data
                 $userInfo = User::find($alreadyLiked[$key]->likedby_id);
                 $postInfo = Posts::find($alreadyLiked[$key]->turn_id);
+                // adding user info
                 if (count($userInfo)) {
                     $postCount = Posts::where('user_id',$userInfo->id)->count();
                     $userInfo->post_count = ($postCount>0) ? (string)$postCount : 0 ;
@@ -149,6 +150,7 @@ class ActivityController extends Controller {
                 } else {
                     $userInfoFinal =  '';
                 }
+                // adding post info
                 if (count($postInfo)) {
                     $commentsCount = comments::commentsCountByPostId($alreadyLiked[$key]->turn_id);
                     $postInfo->post_comments_count = ($commentsCount>0) ? $commentsCount : 0 ;
@@ -168,6 +170,9 @@ class ActivityController extends Controller {
                 unset($alreadyLiked[$key]->likeby_image);
 
                 $userInfo = User::find($alreadyLiked[$key]->follower_id);
+                // Adding following count
+                $followingDetails = Useractivity::getFollowDetailByUserId($userInfo->id,$user_id);
+                $userInfo->is_following = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
                 $value->user_info = (count($userInfo)) ? $userInfo : '' ;
             }
         }
