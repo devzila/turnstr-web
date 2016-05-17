@@ -35,3 +35,7 @@ Route::get('posts/{id}', [
     'uses' => 'PostsController@index',
     'middleware' => []
 ]);
+
+Route::get('admin', function () {
+    return view('admin/index');
+});
