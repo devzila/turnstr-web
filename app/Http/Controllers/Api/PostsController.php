@@ -325,6 +325,8 @@ class PostsController extends Controller
         if (count($data['post'])) {
             foreach ($data['post'] as $key => $value) {
                 $value->id = (string)($value->id);
+                $commentsCount = comments::commentsCountByPostId($value->id);
+                $value->comments_count = (string)($commentsCount);
             }
         }
         $data['user']->id = (string)($data['user']->id);
