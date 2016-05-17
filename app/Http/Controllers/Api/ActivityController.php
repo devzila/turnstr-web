@@ -143,9 +143,10 @@ class ActivityController extends Controller {
                 // adding user info
                 if (count($userInfo)) {
                     $postCount = Posts::where('user_id',$userInfo->id)->count();
-                    $userInfo->post_count = ($postCount>0) ? (string)$postCount : 0 ;
+                    $userInfo->post_count = ($postCount>0) ? (string)$postCount : "0" ;
                     $followingDetails = Useractivity::getFollowDetailByUserId($userInfo->id,$user_id);
                     $userInfo->is_following = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
+                    $userInfo->id = (string)($userInfo->id);
                     $userInfoFinal =  $userInfo;
                 } else {
                     $userInfoFinal =  '';
@@ -153,8 +154,9 @@ class ActivityController extends Controller {
                 // adding post info
                 if (count($postInfo)) {
                     $commentsCount = comments::commentsCountByPostId($alreadyLiked[$key]->turn_id);
-                    $postInfo->post_comments_count = ($commentsCount>0) ? $commentsCount : 0 ;
+                    $postInfo->post_comments_count = ($commentsCount>0) ? (string)$commentsCount : "0" ;
                     $postInfoFinal =  $postInfo;
+                    $postInfo->id =  (string)($postInfo->id);
                 } else {
                     $postInfoFinal =  '';
                 }
@@ -162,7 +164,7 @@ class ActivityController extends Controller {
                 // Inserting user and post data
                 $value->user_info = $userInfoFinal;
                 $value->post_info = $postInfoFinal;
-                $value->post_comments_count = ($commentsCount>0) ? $commentsCount : 0 ;
+                // $value->post_comments_count = ($commentsCount>0) ? $commentsCount : 0 ;
             } else {
                 // Removing like details
                 unset($alreadyLiked[$key]->likeby_name);
