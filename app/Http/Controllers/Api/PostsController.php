@@ -314,7 +314,7 @@ class PostsController extends Controller
             return ResponseClass::Prepare_Response('','Invalid user-id',false,200);
         }
         $data = array(); 
-        $postCount = Posts::where('user_id',$currentUserId)->count();
+        $postCount = Posts::where('user_id',$userId)->count();
         $isFollowing = Useractivity::getFollowDetailByUserId($userId,$currentUserId);
 
         $data['user'] = User::find($userId); 
