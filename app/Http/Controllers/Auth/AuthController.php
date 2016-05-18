@@ -100,7 +100,7 @@ class AuthController extends Controller
 
             // attempt to do the login
             if (Auth::attempt($userdata)) {
-                return Auth::user()->isAdmin() ? Redirect::to('admin') : Redirect::to('home');
+                return Auth::user()->isAdmin() ? Redirect::to('admin') : Redirect::to('/account/home');
 
             }
             else {

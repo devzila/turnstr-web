@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Hash;
 use Response;
 
-class HomeController extends Controller {
+class AccountController extends Controller {
     /**
      * The Http Request Object
      *
@@ -22,9 +22,7 @@ class HomeController extends Controller {
     }
 
     public function index(){
-
-        return view('home');
-
+        return view('accounts/index');
     }
 
 }

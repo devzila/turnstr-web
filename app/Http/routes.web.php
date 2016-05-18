@@ -34,7 +34,15 @@ Route::get('posts/{id}', [
     'middleware' => []
 ]);
 
-Route::group(['middleware' => [], 'prefix' => 'admin'], function () {
+Route::group(['middleware' => ['auth'], 'prefix' => 'account'], function () {
+
+    Route::get('/home', [
+        'uses' => 'AccountController@index',
+        'as' => 'user_home'
+    ]);
+});
+
+Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
 
     Route::get('/', [
         'uses' => 'admin\HomeController@index',
