@@ -15,6 +15,16 @@
 //     return view('welcome');
 // });
 
+Route::get('/login',function(){
+    return view('login');
+});
+
+Route::post('login', [
+    'uses' => 'Auth\AuthController@doLogin',
+    'as' => 'doLogin',
+    'middleware' => []
+]);
+
 // for shared image
 
 Route::get('forgotpassword/{shortcode}', [
@@ -36,6 +46,9 @@ Route::get('posts/{id}', [
     'middleware' => []
 ]);
 
-Route::get('admin', function () {
-    return view('admin/index');
+Route::group(['middleware' => [], 'prefix' => 'admin'], function () {
+
+    Route::get('/', function () {
+        return view('admin/index');
+    });
 });
