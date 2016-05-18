@@ -73,12 +73,12 @@ class AuthController extends Controller
         ]);
     }
 
-    public function doLogin()
+    public function authenticate()
     {
         // validate the info, create rules for the inputs
         $rules = array(
-            'email'    => 'required|email', // make sure the email is an actual email
-            'password' => 'required|alphaNum|min:3' // password can only be alphanumeric and has to be greater than 3 characters
+            'email'    => 'required|email',         // make sure the email is an actual email
+            'password' => 'required|min:3'          // password can only be alphanumeric and has to be greater than 3 characters
         );
 
         // run the validation rules on the inputs from the form
@@ -87,8 +87,8 @@ class AuthController extends Controller
         // if the validator fails, redirect back to the form
         if ($validator->fails()) {
             return Redirect::to('login')
-                ->withErrors($validator) // send back all errors to the login form
-                ->withInput(Input::except('password')); // send back the input (not the password) so that we can repopulate the form
+                ->withErrors($validator)                    // send back all errors to the login form
+                ->withInput(Input::except('password'));     // send back the input (not the password) so that we can repopulate the form
         }
         else {
 
@@ -111,5 +111,11 @@ class AuthController extends Controller
             }
 
         }
+    }
+
+    public function logout()
+    {
+        Auth::logout();                     // log the user out of our application
+        return Redirect::to('login');       // redirect the user to the login screen
     }
 }

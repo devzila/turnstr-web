@@ -18,10 +18,12 @@
 Route::get('/login',function(){
     return view('login');
 });
+Route::get('logout', array('uses' => 'Auth\AuthController@logout'));
+
 
 Route::post('login', [
-    'uses' => 'Auth\AuthController@doLogin',
-    'as' => 'doLogin',
+    'uses' => 'Auth\AuthController@authenticate',
+    'as' => 'authenticate',
     'middleware' => []
 ]);
 
