@@ -30,9 +30,12 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
-        if (count($posts)) {
-            foreach ($posts as $key => $value) {
+        // $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
+        // $selfposts = Posts::selfPosts(DeviceSession::get()->user->id);
+        $res = Posts::homePagePosts(DeviceSession::get()->user->id);
+
+        if (count($res)) {
+            foreach ($res as $key => $value) {
                 $commentsCount = Comments::commentsCountByPostId($value->id);
                 $value->total_likes = (string)($value->total_likes);
                 $value->total_comments = (string)($commentsCount);
@@ -40,7 +43,7 @@ class PostsController extends Controller
             }
         }
         
-        return ResponseClass::Prepare_Response($posts,'Post Listing',true,200);
+        return ResponseClass::Prepare_Response($res,'Post Listing',true,200);
     }
 
     /**
@@ -155,6 +158,27 @@ class PostsController extends Controller
         return ResponseClass::Prepare_Response('','Deleted successfuly',true,200);
     }
 
+    /**
+    *   Home page api
+    *
+    */
+    public function homePage($page=0)
+    {
+        // $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
+        // $selfposts = Posts::selfPosts(DeviceSession::get()->user->id);
+        $res = Posts::homePagePosts(DeviceSession::get()->user->id,$page);
+
+        if (count($res)) {
+            foreach ($res as $key => $value) {
+                $commentsCount = Comments::commentsCountByPostId($value->id);
+                $value->total_likes = (string)($value->total_likes);
+                $value->total_comments = (string)($commentsCount);
+
+            }
+        }
+        
+        return ResponseClass::Prepare_Response($res,'Post Listing',true,200);
+    }
     /**
      * Search and return objects thumbnails.
      *
