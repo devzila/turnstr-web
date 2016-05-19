@@ -195,9 +195,10 @@ class PostsController extends Controller
         if (isset($userDevice->id)) {
             $userId =  $userDevice->id;
         }
-
+        
+        
         $imagesToExplore = Posts::getImages($userId,$searchData);
-
+        
         foreach ($imagesToExplore as $key => $value) {
             $arr1 = explode('.',$value->media1_url);
             $arr2 = explode('.',$value->media2_url);
@@ -207,6 +208,8 @@ class PostsController extends Controller
             $imagesToExplore[$key]->media2_type = end($arr2);
             $imagesToExplore[$key]->media3_type = end($arr3);
             $imagesToExplore[$key]->media4_type = end($arr4);
+            $followStatus = Useractivity::GetFollowingStatusByPostId($value->id)->toArray();
+            $imagesToExplore[$key]->followStatus = (isset($followStatus[0]['status'])) ? $followStatus[0]['status'] : 0 ;
         }
 
         return ResponseClass::Prepare_Response($imagesToExplore,'List of images to explore',true,200);

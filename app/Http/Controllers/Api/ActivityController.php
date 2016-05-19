@@ -127,7 +127,7 @@ class ActivityController extends Controller {
         $activityList = array();
 
         $alreadyLiked = Useractivity::getLastTenActivity($user_id);
-       
+//        print_r($alreadyLiked);die;
         foreach ($alreadyLiked as $key => $value) {
             if ($alreadyLiked[$key]->activity=='liked') {
 
@@ -162,20 +162,26 @@ class ActivityController extends Controller {
                 }
 
                 // Inserting user and post data
-                $value->user_info = $userInfoFinal;
-                $value->post_info = $postInfoFinal;
+                //$value->user_info = $userInfoFinal;
+                $value->info = $postInfoFinal;
                 // $value->post_comments_count = ($commentsCount>0) ? $commentsCount : 0 ;
             } else {
                 // Removing like details
-                unset($alreadyLiked[$key]->likeby_name);
-                unset($alreadyLiked[$key]->likeby_id);
-                unset($alreadyLiked[$key]->likeby_image);
-
+                unset($alreadyLiked[$key]->likedby_name);
+                unset($alreadyLiked[$key]->likedby_id);
+                unset($alreadyLiked[$key]->likedby_image);
+                unset($alreadyLiked[$key]->likedof_name);
+               
                 $userInfo = User::find($alreadyLiked[$key]->follower_id);
+                unset($alreadyLiked[$key]->follower_name);
+                 //unset($alreadyLiked[$key]->following_name);
+                unset($alreadyLiked[$key]->follower_id);
+                unset($alreadyLiked[$key]->follower_image);
                 // Adding following count
-                $followingDetails = Useractivity::getFollowDetailByUserId($userInfo->id,$user_id);
-                $userInfo->is_following = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
-                $value->user_info = (count($userInfo)) ? $userInfo : '' ;
+                //$followingDetails = Useractivity::getFollowDetailByUserId($userInfo->id,$user_id);
+              //  echo $alreadyLiked[$key]->status;die;
+                $value->info = $userInfo ;
+                $value->followStatus = $alreadyLiked[$key]->status;
             }
         }
         return ResponseClass::Prepare_Response($alreadyLiked,'Activiy list',true,200);
