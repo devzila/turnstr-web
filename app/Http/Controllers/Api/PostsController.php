@@ -171,9 +171,10 @@ class PostsController extends Controller
         if (isset($userDevice->id)) {
             $userId =  $userDevice->id;
         }
-
+        
+        
         $imagesToExplore = Posts::getImages($userId,$searchData);
-
+        
         foreach ($imagesToExplore as $key => $value) {
             $arr1 = explode('.',$value->media1_url);
             $arr2 = explode('.',$value->media2_url);
@@ -183,6 +184,8 @@ class PostsController extends Controller
             $imagesToExplore[$key]->media2_type = end($arr2);
             $imagesToExplore[$key]->media3_type = end($arr3);
             $imagesToExplore[$key]->media4_type = end($arr4);
+            $followStatus = Useractivity::GetFollowingStatusByPostId($value->id)->toArray();
+            $imagesToExplore[$key]->followStatus = (isset($followStatus[0]['status'])) ? $followStatus[0]['status'] : 0 ;
         }
 
         return ResponseClass::Prepare_Response($imagesToExplore,'List of images to explore',true,200);
@@ -314,7 +317,7 @@ class PostsController extends Controller
             return ResponseClass::Prepare_Response('','Invalid user-id',false,200);
         }
         $data = array(); 
-        $postCount = Posts::where('user_id',$currentUserId)->count();
+        $postCount = Posts::where('user_id',$userId)->count();
         $isFollowing = Useractivity::getFollowDetailByUserId($userId,$currentUserId);
 
         $data['user'] = User::find($userId); 
@@ -325,6 +328,8 @@ class PostsController extends Controller
         if (count($data['post'])) {
             foreach ($data['post'] as $key => $value) {
                 $value->id = (string)($value->id);
+                $commentsCount = comments::commentsCountByPostId($value->id);
+                $value->comments_count = (string)($commentsCount);
             }
         }
         $data['user']->id = (string)($data['user']->id);

@@ -36,4 +36,8 @@ class User extends Authenticatable
         return UserDevice::where('access_token',$access_token)
                             ->join('users','user_id','=','users.id')->first();
     }
+
+    public function isAdmin(){
+        return $this->role == 'admin';
+    }
 }
