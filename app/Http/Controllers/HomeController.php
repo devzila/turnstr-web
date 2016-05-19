@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
  use Illuminate\View\Middleware\ErrorBinder;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Hash;
+use Response;
 
 class HomeController extends Controller
 {
