@@ -39,7 +39,6 @@ class PostsController extends Controller
 
             }
         }
-        
         return ResponseClass::Prepare_Response($posts,'Post Listing',true,200);
     }
 
@@ -79,9 +78,16 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
-        $post = Posts::find($id);
-
+        $userId = DeviceSession::get()->user->id;
+        //$post = Posts::find($id);
+        $post = Posts::getPostDetails($id);
+        $commentsCount = Comments::commentsCountByPostId($id);
+        $total_likes = UserActivity::likeCountByPostId($id);
+        $total_likes = ($total_likes==-1)?0:$total_likes;
+        $commentsCount = ($commentsCount==-1)?0:$commentsCount;
+        $post->total_likes = (string)($total_likes);
+        $post->total_comments = (string)(Comments::commentsCountByPostId($id));
+         
         if($post)
         {
             Posts::addExtraAttributes($post);

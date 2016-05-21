@@ -123,7 +123,7 @@ class CommentsController extends Controller
     {
         $user_id = DeviceSession::get()->user->id;
         $postId = Input::get('post_id');
-		$comments = Comments::commentsByPost($postId);
+        $comments = Comments::commentsByPost($postId);
         $likeData = Useractivity::getActivityById($user_id,$postId);
         $like = (isset($likeData->status)) ? $likeData->status : 0 ;
         return ResponseClass::Prepare_Response(['comments'=>$comments,'like'=>$like],'List of comments',true,200);
