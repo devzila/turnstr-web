@@ -164,7 +164,18 @@ class Posts extends Model
                     ->orderBy('posts.updated_at','desc')
                     ->get();
     }
-
+    public function scopeGetPostDetails($query,$post_id){
+//        echo $post_id;die;
+        return $query
+                 ->leftjoin('user_activity',function($join) {
+                        $join->where('user_activity.activity','=','follow');
+                        $join->where('user_activity.follower_id','=',DeviceSession::get()->user->id);
+                        $join->on('posts.user_id','=','user_activity.user_id');
+                    })
+                  ->where('posts.id','=',$post_id)
+                 ->select('posts.*','user_activity.status as is_following')->first();
+                    
+    }
     /*
     * Function to return all posts of a user by user id
     */

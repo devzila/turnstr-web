@@ -14,7 +14,7 @@ class Useractivity extends Model
     protected $fillable = [
         'user_id', 'follower_id', 'post_id', 'liked_id', 'activity', 'status'
     ];
-
+    
     public function scopeGetLastTenActivity($query,$user_id) {
 
         return $query->where(function ($query) use ($user_id) {
@@ -44,10 +44,21 @@ class Useractivity extends Model
                         ->get();
 
     }
-
+//
+//    /*
+//    * Get user like/unlike details by post and user id
+//    */
+//    public function scopeGetActivityById($query,$userId,$postId) {
+//        return $query->where('post_id',$postId)->where('liked_id',$userId)
+//                ->where('activity','liked')->select('status')->first();
+//    }
     /*
     * Get user like/unlike details by post and user id
     */
+    public function scopeIsUserFollowing($query,$post_owner_id,$user_id) {
+        return $query->where('user_id',$post_owner_id)->where('follower_id',$user_id)
+                ->where('activity','follow')->select('status')->first();
+    }
     public function scopeGetActivityById($query,$userId,$postId) {
         return $query->where('post_id',$postId)->where('liked_id',$userId)->where('activity','liked')
                 ->select('status')->first();
@@ -65,5 +76,11 @@ class Useractivity extends Model
     public function scopeGetFollowDetailByUserId($query,$followingId,$currentuserId) {
         return $query->where('user_id',$followingId)->where('follower_id',$currentuserId)->where('activity','follow')->first();
     }
-
+    /*
+	* Get comments count by post id
+    */
+    public function scopeLikeCountByPostId($query, $post_id) {
+    	$res = $query->where('activity','liked')->where('post_id',$post_id)->count();
+    	return ($res>0) ? $res : -1 ;
+    }
 }
