@@ -103,6 +103,7 @@ class Posts extends Model
     */
 	public function scopeSelfPosts($query, $user_id='')
     {
+    {
         return $query->where('user_id',$user_id)
                     ->join('users','posts.user_id','=','users.id')
                     // ->select('posts.*','users.following','users.followers')
