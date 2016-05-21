@@ -162,8 +162,8 @@ class ActivityController extends Controller {
                 }
 
                 // Inserting user and post data
-                //$value->user_info = $userInfoFinal;
-                $value->info = $postInfoFinal;
+                $value->user_info = $userInfoFinal;
+                $value->post_info = $postInfoFinal;
                 // $value->post_comments_count = ($commentsCount>0) ? $commentsCount : 0 ;
             } else {
                 // Removing like details
@@ -173,15 +173,15 @@ class ActivityController extends Controller {
                 unset($alreadyLiked[$key]->likedof_name);
                
                 $userInfo = User::find($alreadyLiked[$key]->follower_id);
-                unset($alreadyLiked[$key]->follower_name);
-                 //unset($alreadyLiked[$key]->following_name);
-                unset($alreadyLiked[$key]->follower_id);
-                unset($alreadyLiked[$key]->follower_image);
+                // unset($alreadyLiked[$key]->follower_name);
+                //  //unset($alreadyLiked[$key]->following_name);
+                // unset($alreadyLiked[$key]->follower_id);
+                // unset($alreadyLiked[$key]->follower_image);
                 // Adding following count
                 //$followingDetails = Useractivity::getFollowDetailByUserId($userInfo->id,$user_id);
               //  echo $alreadyLiked[$key]->status;die;
-                $value->info = $userInfo ;
-                $value->followStatus = $alreadyLiked[$key]->status;
+                $value->user_info = (count($userInfo)) ? $userInfo : '' ;
+                $value->is_following = $alreadyLiked[$key]->status;
             }
         }
         return ResponseClass::Prepare_Response($alreadyLiked,'Activiy list',true,200);
