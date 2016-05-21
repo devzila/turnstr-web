@@ -84,15 +84,20 @@ class PostsController extends Controller
         $userId = DeviceSession::get()->user->id;
         //$post = Posts::find($id);
         $post = Posts::getPostDetails($id);
-        $commentsCount = Comments::commentsCountByPostId($id);
-        $total_likes = UserActivity::likeCountByPostId($id);
-        $total_likes = ($total_likes==-1)?0:$total_likes;
-        $commentsCount = ($commentsCount==-1)?0:$commentsCount;
-        $post->total_likes = (string)($total_likes);
-        $post->total_comments = (string)(Comments::commentsCountByPostId($id));
-         
-        if($post)
-        {
+        if (count($post) && isset($post->id)) {
+
+            // Adding comments count
+            $commentsCount = Comments::commentsCountByPostId($id);
+            $commentsCount = ($commentsCount==-1)?0:$commentsCount;
+            $post->comments_count = (string)($commentsCount);
+            // adding total likes
+            $total_likes = UserActivity::likeCountByPostId($id);
+            $total_likes = ($total_likes==-1)?0:$total_likes;
+            $post->total_likes = (string)($total_likes);
+            // geting following status
+            $followStatus = Useractivity::GetFollowingStatusByPostId($post->id)->toArray();
+            $post->is_following = (isset($followStatus[0]['status'])) ? $followStatus[0]['status'] : 0 ;
+       
             Posts::addExtraAttributes($post);
             return ResponseClass::Prepare_Response($post,'List of posts',true,200);
         }
@@ -204,7 +209,7 @@ class PostsController extends Controller
         
         
         $imagesToExplore = Posts::getImages($userId,$searchData);
-        
+
         foreach ($imagesToExplore as $key => $value) {
             $arr1 = explode('.',$value->media1_url);
             $arr2 = explode('.',$value->media2_url);
@@ -220,6 +225,8 @@ class PostsController extends Controller
             // getting comments count
             $commentsCount = comments::commentsCountByPostId($value->id);
             $imagesToExplore[$key]->comments_count = (string)($commentsCount);
+            // total likes converting to string
+            $imagesToExplore[$key]->total_likes = (string)($value->total_likes);
         }
 
         return ResponseClass::Prepare_Response($imagesToExplore,'List of images to explore',true,200);
