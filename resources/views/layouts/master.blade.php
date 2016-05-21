@@ -30,8 +30,26 @@
     <div class="w-container">
       <a href="#" class="w-nav-brand brand"><img src="{{URL::asset('assets/images/logo_title.png')}}">
       </a>
-      <nav role="navigation" class="w-nav-menu"><a href="#" class="w-nav-link navlink">Get the App</a><a href="#" class="w-nav-link navlink">Login</a>
+        <!-- Right Side Of Navbar -->
+      <nav role="navigation" class="w-nav-menu">
+          @if (Auth::guest())
+                        <a  class="w-nav-link navlink" href="{{ url('/login') }}">Get the App</a>
+                        <a  class="w-nav-link navlink" href="{{ url('/login') }}">Login</a>
+                        <a  class="w-nav-link navlink" href="{{ url('/register') }}">Register</a>
+                    @else
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                {{ Auth::user()->name }} <span class="caret"></span>
+                            </a>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    @endif
       </nav>
+        <!-- Right Side Of Navbar -->
+              
       <div class="w-nav-button">
         <div class="w-icon-nav-menu"></div>
       </div>
@@ -39,7 +57,7 @@
   </div>
   <div class="w-container content">
             @yield('content')
-        </div>
+   </div>
 
   <div class="w-section footer">
     <div class="w-container">

@@ -30,16 +30,19 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
-        if (count($posts)) {
-            foreach ($posts as $key => $value) {
+        // $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
+        // $selfposts = Posts::selfPosts(DeviceSession::get()->user->id);
+        $res = Posts::homePagePosts(DeviceSession::get()->user->id);
+
+        if (count($res)) {
+            foreach ($res as $key => $value) {
                 $commentsCount = Comments::commentsCountByPostId($value->id);
                 $value->total_likes = (string)($value->total_likes);
                 $value->total_comments = (string)($commentsCount);
 
             }
         }
-        return ResponseClass::Prepare_Response($posts,'Post Listing',true,200);
+        return ResponseClass::Prepare_Response($res,'Post Listing',true,200);
     }
 
     /**
@@ -162,6 +165,27 @@ class PostsController extends Controller
     }
 
     /**
+    *   Home page api
+    *
+    */
+    public function homePage($page=0)
+    {
+        // $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
+        // $selfposts = Posts::selfPosts(DeviceSession::get()->user->id);
+        $res = Posts::homePagePosts(DeviceSession::get()->user->id,$page);
+
+        if (count($res)) {
+            foreach ($res as $key => $value) {
+                $commentsCount = Comments::commentsCountByPostId($value->id);
+                $value->total_likes = (string)($value->total_likes);
+                $value->total_comments = (string)($commentsCount);
+
+            }
+        }
+        
+        return ResponseClass::Prepare_Response($res,'Post Listing',true,200);
+    }
+    /**
      * Search and return objects thumbnails.
      *
      * @param  int $id
@@ -177,9 +201,10 @@ class PostsController extends Controller
         if (isset($userDevice->id)) {
             $userId =  $userDevice->id;
         }
-
+        
+        
         $imagesToExplore = Posts::getImages($userId,$searchData);
-
+        
         foreach ($imagesToExplore as $key => $value) {
             $arr1 = explode('.',$value->media1_url);
             $arr2 = explode('.',$value->media2_url);
@@ -189,6 +214,8 @@ class PostsController extends Controller
             $imagesToExplore[$key]->media2_type = end($arr2);
             $imagesToExplore[$key]->media3_type = end($arr3);
             $imagesToExplore[$key]->media4_type = end($arr4);
+            $followStatus = Useractivity::GetFollowingStatusByPostId($value->id)->toArray();
+            $imagesToExplore[$key]->followStatus = (isset($followStatus[0]['status'])) ? $followStatus[0]['status'] : 0 ;
         }
 
         return ResponseClass::Prepare_Response($imagesToExplore,'List of images to explore',true,200);

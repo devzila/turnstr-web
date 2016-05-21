@@ -35,7 +35,7 @@ class Useractivity extends Model
             ->leftjoin('users as likeUser','user_activity.liked_id','=','likeUser.id') // who liked the post
             ->leftjoin('users as likeofUser','user_activity.user_id','=','likeofUser.id') // whom post is liked
             ->orderBy('user_activity.updated_at','DESC')
-            ->select('post_id as turn_id','user_activity.id as activity_id','user_activity.activity',
+            ->select('post_id as turn_id','user_activity.id as activity_id','user_activity.activity','user_activity.status',
                     'followerUser.name as follower_name','followerUser.id as follower_id',
                     'followerUser.profile_image as follower_image','followingUser.name as following_name',
                     'likeUser.name as likedby_name','likeUser.id as likedby_id',
@@ -59,7 +59,17 @@ class Useractivity extends Model
         return $query->where('user_id',$post_owner_id)->where('follower_id',$user_id)
                 ->where('activity','follow')->select('status')->first();
     }
-
+    public function scopeGetActivityById($query,$userId,$postId) {
+        return $query->where('post_id',$postId)->where('liked_id',$userId)->where('activity','liked')
+                ->select('status')->first();
+    }
+    /*
+    * Get user follow/unfollow details by post id
+    */
+    public function scopeGetFollowingStatusByPostId($query,$postId) {
+        return $query->where('post_id',$postId)->where('activity','follow')
+                ->select('status')->get();
+    }
     /*
     * Get user follwoing status
     */

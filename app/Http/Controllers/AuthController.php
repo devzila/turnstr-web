@@ -12,9 +12,12 @@ use Hash;
 use Response;
 use App\Models\UserDevice;
 use Mail;
-use URL;
+use URL,Redirect;
 use Input;
-class UserController extends Controller {
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Auth;
+class AuthController extends Controller {
     /**
      * The Http Request Object
      *
@@ -28,23 +31,44 @@ class UserController extends Controller {
         $this->request = $request;
     }
     
-        public function login(UserLoginRequest $userLoginRequest){
-
-
+    public function index(){
+    
+            return view('auth.login')->withSuccess( 'Successfully logged in.' );
+        
+    }
+    public function login(){
+        
+            
         $field = filter_var($this->request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         $user = User::where($field, $this->request->get('email'))->first();
-
+        
         if(!$user){
-            return ResponseClass::Prepare_Response('','Email/Password did not match',false,200);
+            $errors['email'] = "Email/Password did not match";
+            $errors['password'] = "Email/Password did not match";
+//            return ResponseClass::Prepare_Response('','Email/Password did not match',false,200);
+            return Redirect::back()->withInput()->withErrors($errors);
         }
 
         if (!Hash::check($this->request->get('password'), $user->password))
         {
-            return ResponseClass::Prepare_Response('','Email/Password did not match',false,200);
+            $errors['email'] = "Email/Password did not match";
+            $errors['password'] = "Email/Password did not match";
+//            return ResponseClass::Prepare_Response('','Email/Password did not match',false,200);
+            return Redirect::back()->withInput()->withErrors($errors);
         }
-
-        $device = UserDevice::add($user, $this->request->all());
-        return ResponseClass::Prepare_Response($device,'Login successfully',true,200);
+        Auth::loginUsingId($user->id, true);
+        return view('WELCOME')->withSuccess( 'Successfully logged in.' );
+//        $this->request['device_id']='122';
+//        $this->request['os_type']='122';
+//        $this->request['os_version']='122';
+//        $this->request['hardware']='122';
+//        $this->request['app_version']='122';
+//        $device = UserDevice::add($user, $this->request->all());
+//        $data = "";
+//        //print_r($device);die;
+//         return view('WELCOME')->withSuccess( 'Successfully logged in.' );
+//         
+//        return Redirect::intended('posts')->withSuccess( 'Successfully logged in.' );
         }
 
 
