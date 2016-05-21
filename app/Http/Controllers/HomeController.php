@@ -1,30 +1,31 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use Config;
-
+namespace App\Http\Controllers;
+ use Illuminate\View\Middleware\ErrorBinder;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Hash;
 use Response;
 
-class HomeController extends Controller {
+class HomeController extends Controller
+{
     /**
-     * The Http Request Object
+     * Create a new controller instance.
      *
-     * @var Object
+     * @return void
      */
-    protected $request;
-
-
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->request = $request;
+        $this->middleware('auth');
     }
 
-    public function index(){
-
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         return view('home');
-
     }
-
 }
