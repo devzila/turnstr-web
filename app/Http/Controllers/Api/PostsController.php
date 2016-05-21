@@ -214,8 +214,12 @@ class PostsController extends Controller
             $imagesToExplore[$key]->media2_type = end($arr2);
             $imagesToExplore[$key]->media3_type = end($arr3);
             $imagesToExplore[$key]->media4_type = end($arr4);
+            // geting following status
             $followStatus = Useractivity::GetFollowingStatusByPostId($value->id)->toArray();
-            $imagesToExplore[$key]->followStatus = (isset($followStatus[0]['status'])) ? $followStatus[0]['status'] : 0 ;
+            $imagesToExplore[$key]->is_following = (isset($followStatus[0]['status'])) ? $followStatus[0]['status'] : 0 ;
+            // getting comments count
+            $commentsCount = comments::commentsCountByPostId($value->id);
+            $imagesToExplore[$key]->comments_count = (string)($commentsCount);
         }
 
         return ResponseClass::Prepare_Response($imagesToExplore,'List of images to explore',true,200);

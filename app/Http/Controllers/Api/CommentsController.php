@@ -130,6 +130,6 @@ class CommentsController extends Controller
         
         $like = (isset($likeData->status)) ? $likeData->status : 0 ;
         
-        return ResponseClass::Prepare_Response(['comments'=>$comments,'likeStatus'=>$like],'List of comments',true,200);
+        return ResponseClass::Prepare_Response(['comments'=>$comments,'is_liked'=>$like],'List of comments',true,200);
     }
 }
