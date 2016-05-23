@@ -189,7 +189,7 @@ class UserController extends Controller {
         }
 
         User::where('id',$userId)->update($updatedArr);
-        return ResponseClass::Prepare_Response('','Profile updated successfully',true,200);
+        return ResponseClass::Prepare_Response('Profile updated successfully','Profile updated successfully',true,200);
     }
         
 
