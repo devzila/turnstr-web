@@ -39,6 +39,7 @@ class PostsController extends Controller
                 $commentsCount = Comments::commentsCountByPostId($value->id);
                 $value->total_likes = (string)($value->total_likes);
                 $value->total_comments = (string)($commentsCount);
+                $value->shareUrl = UniversalClass::shareUrl($value->id);
 
             }
         }
@@ -227,6 +228,7 @@ class PostsController extends Controller
             $imagesToExplore[$key]->comments_count = (string)($commentsCount);
             // total likes converting to string
             $imagesToExplore[$key]->total_likes = (string)($value->total_likes);
+            $imagesToExplore[$key]->shareUrl = UniversalClass::shareUrl($value->id);
         }
 
         return ResponseClass::Prepare_Response($imagesToExplore,'List of images to explore',true,200);
@@ -253,6 +255,7 @@ class PostsController extends Controller
             $posts[$key]->media2_type = end($arr2);
             $posts[$key]->media3_type = end($arr3);
             $posts[$key]->media4_type = end($arr4);
+            $posts[$key]->shareUrl = UniversalClass::shareUrl($value->id);
         }
         return ResponseClass::Prepare_Response(['postDetails'=>$posts,'post_count'=>$postCount],'List of posts',true,200);
     }

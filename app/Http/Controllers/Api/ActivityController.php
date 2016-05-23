@@ -3,6 +3,7 @@
 use Config;
 
 use App\Models\DeviceSession;
+use App\Helpers\UniversalClass;
 use App\Http\Requests\Api\UserLoginRequest;
 use App\Http\Requests\Api\LikeRequest;
 use App\Http\Requests\Api\UserRegistrationRequest;
@@ -140,6 +141,7 @@ class ActivityController extends Controller {
                 // fetching user and posts data
                 $userInfo = User::find($alreadyLiked[$key]->likedby_id);
                 $postInfo = Posts::find($alreadyLiked[$key]->turn_id);
+
                 // adding user info
                 if (count($userInfo)) {
                     $postCount = Posts::where('user_id',$userInfo->id)->count();
@@ -157,6 +159,8 @@ class ActivityController extends Controller {
                     $postInfo->post_comments_count = ($commentsCount>0) ? (string)$commentsCount : "0" ;
                     $postInfoFinal =  $postInfo;
                     $postInfo->id =  (string)($postInfo->id);
+                    // adding share url
+                    $postInfo->shareUrl = UniversalClass::shareUrl($alreadyLiked[$key]->turn_id);
                 } else {
                     $postInfoFinal =  '';
                 }
