@@ -20,10 +20,33 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'account'], function () {
     ]);
 });
 
-Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+// Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin'], function () {
 
     Route::get('/', [
         'uses' => 'admin\HomeController@index',
         'as' => 'admin_home'
+    ]);
+    // Post routes
+    Route::get('posts', [
+        'uses' => 'admin\PostController@index',
+        'as' => 'posts_listing'
+    ]);
+    Route::get('deletepost/{post_id}', [
+        'uses' => 'admin\PostController@deletepost',
+        'as' => 'posts_listing'
+    ]);
+    Route::get('postcomment/{post_id}', [
+        'uses' => 'admin\PostController@postcomment',
+        'as' => 'posts_comment'
+    ]);
+    Route::get('editpost/{post_id}', [
+        'uses' => 'admin\PostController@editpost',
+        'as' => 'edit_post'
+    ]);
+    // User Routes
+    Route::get('users', [
+        'uses' => 'admin\UserController@index',
+        'as' => 'posts_listing'
     ]);
 });
