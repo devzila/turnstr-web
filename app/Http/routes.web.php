@@ -31,22 +31,10 @@ Route::group(['prefix' => 'admin'], function () {
         'as' => 'admin_home'
     ]);
     // Post routes
-    Route::get('posts', [
-        'uses' => 'admin\PostController@index',
-        'as' => 'posts_listing'
-    ]);
-    Route::get('deletepost/{post_id}', [
-        'uses' => 'admin\PostController@deletepost',
-        'as' => 'posts_listing'
-    ]);
-    Route::get('postcomment/{post_id}', [
-        'uses' => 'admin\PostController@postcomment',
-        'as' => 'posts_comment'
-    ]);
-    Route::get('editpost/{post_id}', [
-        'uses' => 'admin\PostController@editpost',
-        'as' => 'edit_post'
-    ]);
+    Route::resource('/posts', 'admin\PostController');
+    Route::resource('/comments', 'admin\CommentsController');
+    Route::resource('/users', 'admin\UserController');
+
     // User Routes
     Route::get('users', [
         'uses' => 'admin\UserController@index',

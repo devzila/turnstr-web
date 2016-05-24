@@ -31,11 +31,16 @@
                                             <td>{{$row->name}}</td>
                                             <td>{{date('M d, Y',strtotime($row->created_at))}}</td>
                                             <td>
-                                                <a href='{{url("admin/postcomment/".$row->id)}}'>View Comments</a>
+                                                <a href='{{url("admin/comments/".$row->id)}}'>View Comments</a>
                                                 <span> | </span>
-                                                <a href='{{url("admin/editpost/".$row->id)}}'>Edit</a>
+                                                <a href="{{url('/admin/posts/'.$row->id.'/edit')}}">Edit</a>
                                                 <span> | </span>
-                                                <a href='javascript:void(0)' onClick='deletePost({{$row->id}})'>Delete</a>
+
+                                                <form action="{{ url('/admin/posts/'.$row->id) }}" class='deleteForm{{$row->id}}' method="POST">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <a href='javascript:void(0)' onClick='deletePost({{$row->id}})'>Delete</a>
+                                                </form> 
                                             </td>
                                         </tr>
                                         @endforeach
@@ -50,15 +55,16 @@
         </div>
     </div>
     <script type="text/javascript">
-    function deletePost(postId) {
+    function deletePost(formClass) {
         var title = "Confirmation Alert !!!";
-        var content = "Do you want to delete your post ?";
+        var content = "Do you want to delete this post ?";
 
         $.confirm({
             title: title,
             content: content,
             confirm: function(){
-                window.location.href = '<?php echo url("/"); ?>/admin/deletepost/'+postId;
+                $(".deleteForm"+formClass).submit();
+                return true;
             },
             cancel: function(){
                  return true;

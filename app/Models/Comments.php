@@ -15,11 +15,20 @@ class Comments extends Model
     					->select('comments.*','users.username','users.profile_image')->orderBy('comments.created_at','DESC')->get();
     }
     /*
-	* Get comments count by post id
+    * Get comments count by post id
     */
     public function scopeCommentsCountByPostId($query, $post_id) {
-    	$res = $query->where('post_id',$post_id)->count();
-    	return ($res>0) ? $res : -1 ;
+        $res = $query->where('post_id',$post_id)->count();
+        return ($res>0) ? $res : -1 ;
+    }
+    /*
+	* Get all comments 
+    */
+    public function scopeAllComments($query) {
+    	return $query->leftjoin('posts','comments.post_id','=','posts.id')
+                    ->leftjoin('users','comments.user_id','=','users.id')
+                    ->select('comments.comments','comments.created_at','posts.caption','users.name as user_name')
+                    ->get();
     }
 
 }
