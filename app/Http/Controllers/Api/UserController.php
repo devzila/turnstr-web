@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Posts;
 use App\Models\Passwordreset;
+use App\Models\Useractivity;
 use App\Models\Api;
 use App\Helpers\ResponseClass;
 use Rhumsaa\Uuid\Uuid;
@@ -65,6 +66,18 @@ class UserController extends Controller {
 
         if($user){
             $device = UserDevice::add($user, $this->request->all());
+
+            // Auto follow turnstr
+            $autofollow = array(
+                'user_id'=>1,
+                'follower_id'=>$user->id,
+                'activity'=>'follow',
+                'status'=>1,
+                'created_at'=>date('Y-m-d H:i:s'),
+                'updated_at'=>date('Y-m-d H:i:s')
+            );
+            //Useractivity::insert($autofollow);
+
             return ResponseClass::Prepare_Response($device,true,200);
         }
 
