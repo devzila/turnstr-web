@@ -33,8 +33,8 @@
                                             <td>
                                                 <a href='{{url("admin/comments/".$row->id)}}'>View Comments</a>
                                                 <span> | </span>
-                                                <a href="{{url('/admin/posts/'.$row->id.'/edit')}}">Edit</a>
-                                                <span> | </span>
+                                                {{--<a href="{{url('/admin/posts/'.$row->id.'/edit')}}">Edit</a>
+                                                <span> | </span>--}}
 
                                                 <form action="{{ url('/admin/posts/'.$row->id) }}" class='deleteForm{{$row->id}}' method="POST">
                                                     {{ csrf_field() }}

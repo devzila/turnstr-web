@@ -33,9 +33,13 @@
                                             <td>{{($row->comments!='') ? $row->comments : "--" }}</td>
                                             <td>{{($row->created_at!='') ? date('M d, Y',strtotime(($row->created_at))) : "--" }}</td>
                                             <td>
-                                                <a href='javascript:void(0)'>Edit</a>
-                                                <span> | </span>
-                                                <a href='javascript:void(0)' >Delete</a>
+                                                {{--<a href='javascript:void(0)'>Edit</a>
+                                                <span> | </span>--}}
+                                                <form action="{{ url('/admin/posts/'.$row->id) }}" class='deleteForm{{$row->id}}' method="POST">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                    <a href='javascript:void(0)' >Delete</a>
+                                                </form>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -52,7 +56,7 @@
     <script type="text/javascript">
     function deletePost(userId) {
         var title = "Confirmation Alert !!!";
-        var content = "Do you want to delete this user ?";
+        var content = "Do you want to delete this Comment ?";
 
         $.confirm({
             title: title,

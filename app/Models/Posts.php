@@ -13,6 +13,47 @@ class Posts extends Model
     /*
     * Function to search and returns images data
     */
+
+    static function addExtraAttributes($posts){
+        if(is_array($posts)){
+            $touchedPosts = [];
+            foreach($posts as $post){
+                $touchedPosts[] = self::addExtraFields($post);
+            }
+
+            return $touchedPosts;
+
+        }
+        else{
+            return self::addExtraFields($posts);
+        }
+    }
+    /*
+    * Function to return posts by user id
+    */
+
+    static function addExtraFields($post)
+    {
+        for($i = 1; $i<=4; $i++){
+            $newProp = "media".$i."_type";
+            $mediaProp = "media" . $i . "_url";
+            $post->$newProp = pathinfo($post->$mediaProp, PATHINFO_EXTENSION);
+        }
+
+        $post->shareUrl = UniversalClass::shareUrl($post->id);
+
+        // TODO: figure out actual value for following attributes
+        $post->liked = null;
+        $post->follow = null;
+
+        return $post;
+    }
+
+    /*
+    * Function to return posts for home page
+    * Posts current user is following
+    */ 
+
     public function scopeGetImages($query,$userId='', $searchData='')
     {
         $returnData = $query->join('users','posts.user_id','=','users.id');
@@ -42,8 +83,9 @@ class Posts extends Model
                     ->get();
     }
     /*
-    * Function to return posts by user id
+    * Function to return posts by a user
     */
+
     public function scopeGetPostsByUserId($query, $user_id='')
     {
         $returnData = $query->join('users','posts.user_id','=','users.id');
@@ -69,11 +111,10 @@ class Posts extends Model
                     ->orderBy('posts.updated_at','desc')
                     ->get();
     }
-
     /*
-    * Function to return posts for home page
-    * Posts current user is following
-    */ 
+    * Function to return posts by a user
+    */
+
     public function scopeGetPostsUserFollowing($query, $userId='')
     {
         $returnData = $query->join('users','posts.user_id','=','users.id');
@@ -99,9 +140,11 @@ class Posts extends Model
                     ->orderBy('posts.updated_at','desc')
                     ->get();
     }
+
     /*
-    * Function to return posts by a user
+    * Function to return posts by id
     */
+
     public function scopeSelfPosts($query, $userId='')
     {
         return $query->join('users','posts.user_id','=','users.id')
@@ -119,9 +162,7 @@ class Posts extends Model
                     })->distinct('posts.id')->orderBy('posts.updated_at','desc')
                     ->get();
     }
-    /*
-    * Function to return posts by a user
-    */
+
 	public function scopeHomePagePosts($query, $userId='',$page=0)
     {
         $first = DB::table('posts')->join('users','posts.user_id','=','users.id')->where('users.id','!=',$userId)
@@ -153,10 +194,10 @@ class Posts extends Model
                         ->get();
                     return  $finalContainer;
     }
-
     /*
-    * Function to return posts by id
+    * Function to return all posts of a user by user id
     */
+
     public function scopeGetPostsById($query, $post_id='')
     {
         return $query->select('posts.user_id','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.created_at','posts.updated_at')
@@ -164,6 +205,7 @@ class Posts extends Model
                     ->orderBy('posts.updated_at','desc')
                     ->get();
     }
+
     public function scopeGetPostDetails($query,$post_id){
 //        echo $post_id;die;
         return $query
@@ -176,45 +218,10 @@ class Posts extends Model
                  ->select('posts.*','user_activity.status as is_following')->first();
                     
     }
-    /*
-    * Function to return all posts of a user by user id
-    */
+
     public function scopeGetAllPostsByUserId($query, $user_id='')
     {
         return $query->where('user_id',$user_id)->get();
-    }
-
-
-    static function addExtraFields($post)
-    {
-        for($i = 1; $i<=4; $i++){
-            $newProp = "media".$i."_type";
-            $mediaProp = "media" . $i . "_url";
-            $post->$newProp = pathinfo($post->$mediaProp, PATHINFO_EXTENSION);
-        }
-
-        $post->shareUrl = UniversalClass::shareUrl($post->id);
-
-        // TODO: figure out actual value for following attributes
-        $post->liked = null;
-        $post->follow = null;
-
-        return $post;
-    }
-
-    static function addExtraAttributes($posts){
-        if(is_array($posts)){
-            $touchedPosts = [];
-            foreach($posts as $post){
-                $touchedPosts[] = self::addExtraFields($post);
-            }
-
-            return $touchedPosts;
-
-        }
-        else{
-            return self::addExtraFields($posts);
-        }
     }
 
     // Web app functions
@@ -222,6 +229,7 @@ class Posts extends Model
     /*
     * Function to fetch all posts
     */
+
     public function scopeGetAllPosts($query)
     {
         return $query

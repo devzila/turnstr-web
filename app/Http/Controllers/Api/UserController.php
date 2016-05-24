@@ -78,7 +78,7 @@ class UserController extends Controller {
             );
             //Useractivity::insert($autofollow);
 
-            return ResponseClass::Prepare_Response($device,true,200);
+            return ResponseClass::Prepare_Response($device,'User Registered Succeessfully',true,200);
         }
 
         return ResponseClass::Prepare_Response('','Unable to create user',false,200);
