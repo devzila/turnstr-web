@@ -7,6 +7,8 @@
     <meta name="generator" content="Webflow">
 
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/css/normalize.css') }}">
+
     <link rel="stylesheet" type="text/css" href="{{URL::asset('assets/css/webflow.css')}}">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('assets/css/turnstr.webflow.css')}}">
     <link href="{{URL::asset('assets/css/vendor/bootstrap/dist/css/bootstrap.css')}}" rel="stylesheet" type="text/css"/>
