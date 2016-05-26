@@ -3,12 +3,12 @@
 @section('content')
     <div class='row'>
         <div class='col-md-12'>
-            <h1>Users</h1>
+            <h1>Comments</h1>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Users List
+                            Comments List
                         </div>
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -16,24 +16,22 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Name</th>
-                                            <th>Gender</th>
-                                            <th>Email</th>
-                                            <th>Following</th>
-                                            <th>Followers</th>
+                                            <th>User</th>
+                                            <th>Post Caption</th>
+                                            <th>Comment</th>
+                                            <th>Comment Date</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if (count($all_users))
-                                        @foreach ($all_users as $k=>$row)
+                                        @if (count($all_comments))
+                                        @foreach ($all_comments as $k=>$row)
                                         <tr>
                                             <td>{{$k+1}}</td>
-                                            <td>{{($row->name!='') ? $row->name : "--" }}</td>
-                                            <td>{{($row->gender!='') ? $row->gender : "--" }}</td>
-                                            <td>{{($row->email!='') ? $row->email : "--" }}</td>
-                                            <td>{{($row->following!='') ? $row->following : "--" }}</td>
-                                            <td>{{($row->followers!='') ? $row->followers : "--" }}</td>
+                                            <td>{{($row->user_name!='') ? $row->user_name : "--" }}</td>
+                                            <td>{{($row->caption!='') ? $row->caption : "--" }}</td>
+                                            <td>{{($row->comments!='') ? $row->comments : "--" }}</td>
+                                            <td>{{($row->created_at!='') ? date('M d, Y',strtotime(($row->created_at))) : "--" }}</td>
                                             <td>
                                                 <a href='javascript:void(0)'>Edit</a>
                                                 <span> | </span>

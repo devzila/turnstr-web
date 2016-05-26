@@ -7,7 +7,7 @@ use Redirect;
 use Session;
 
 
-class PostController extends Controller {
+class CommentsController extends Controller {
     /**
      * The Http Request Object
      *
@@ -24,34 +24,27 @@ class PostController extends Controller {
     public function index(){
 
         $data = array();
-        $data['all_posts'] = Posts::getAllPosts();
-        return view('admin/posts',$data);
+        $data['all_comments'] = Comments::allComments();
+        return view("admin/listcomments",$data);
 
     }
 
     public function edit($post_id){
 
-        $data = array();
-        $data['post_details'] = Posts::find($post_id);
-        return view("admin/editposts");
 
     }
 
-    public function destroy($post_id){
-
-        $post = Posts::find($post_id);
-        $post->delete();
-        Session::flash('success','Post Deleted Successfully');
-        return redirect("admin/posts");
-
-    }
-
-    public function postcomment($post_id){
+    public function show($post_id){
 
         $data = array();
         $data['post_details'] = Posts::find($post_id);
         $data['all_comments'] = Comments::commentsByPost($post_id);
         return view("admin/postcomments",$data);
+
+    }
+
+    public function destroy($post_id){
+
 
     }
 

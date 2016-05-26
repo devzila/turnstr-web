@@ -13,7 +13,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{url('/admin/users')}}">Users</a></li>
                     <li><a href="{{url('/admin/posts')}}">Posts</a></li>
-                    <li><a href="#">Comments</a></li>
+                    <li><a href="{{url('/admin/comments')}}">Comments</a></li>
                 </ul>
             </li>
         </ul><!-- /.sidebar-menu -->

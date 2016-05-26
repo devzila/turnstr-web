@@ -22,6 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     -->
     <link href="{{ asset("/bower_components/AdminLTE/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset("/assets/css/external/jquery-confirm.css")}}" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -88,6 +89,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- AdminLTE App -->
 <script src="{{ asset ("/bower_components/AdminLTE/dist/js/app.min.js") }}" type="text/javascript"></script>
 <script src="{{ asset("/assets/js/custom/jquery-confirm.js") }}" type="text/javascript"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js" type="text/javascript"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
       Both of these plugins are recommended to enhance the
@@ -107,6 +109,7 @@ function customConfirm(confirmTitle,confirmContent) {
     });
     return res;
 }
+$('table.table').dataTable();
 </script>
 </body>
 </html>
