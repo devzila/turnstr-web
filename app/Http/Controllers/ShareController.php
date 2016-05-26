@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\UniversalClass;
 use App\Models\Posts;
+use App\Models\Comments;
 
 class ShareController extends Controller
 {
@@ -26,12 +27,9 @@ class ShareController extends Controller
     {
         $decryptedPostId = UniversalClass::decrypt($id);
 
-        $post = Posts::find($decryptedPostId);
-
-
-
-        var_dump($post->user);
-        die;
+        $data['post'] = Posts::find($decryptedPostId);
+        $data['comments'] = Comments::commentsByPost($decryptedPostId);
+        return view('share/index', $data);
 
     }
 }
