@@ -21,6 +21,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           apply the skin class to the body tag so the changes take effect.
     -->
     <link href="{{ asset("/bower_components/AdminLTE/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset("/assets/css/external/jquery-confirm.css")}}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -55,6 +56,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Main content -->
         <section class="content">
+            <!-- To show success messages- starts-->
+            @if (Session::has('success')) 
+                <div class="alert alert-success" role="alert">
+                    <strong>Well done!</strong> {{Session::get('success')}}
+                </div>
+            @endif
+            @if (Session::has('error')) 
+                <div class="alert alert-danger" role="alert">
+                  <strong>Oh snap!</strong> {{Session::get('error')}}
+                </div>
+            @endif
+            <!-- To show success messages- ends-->
+
             <!-- Your Page Content Here -->
             @yield('content')
         </section><!-- /.content -->
@@ -73,9 +87,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset ("/bower_components/AdminLTE/bootstrap/js/bootstrap.min.js") }}" type="text/javascript"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset ("/bower_components/AdminLTE/dist/js/app.min.js") }}" type="text/javascript"></script>
+<script src="{{ asset("/assets/js/custom/jquery-confirm.js") }}" type="text/javascript"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
       Both of these plugins are recommended to enhance the
       user experience -->
+<script type='text/javascript'>
+function customConfirm(confirmTitle,confirmContent) {
+
+    var res = $.confirm({
+        title: confirmTitle,
+        content: confirmContent,
+        confirm: function(){
+            return 'success';
+        },
+        cancel: function(){
+             return "cancel";
+        }
+    });
+    return res;
+}
+</script>
 </body>
 </html>
