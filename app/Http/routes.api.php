@@ -20,6 +20,8 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
     Route::resource('posts.comments', 'CommentsController');
     Route::post('getComments', 'CommentsController@commentsByPostId');
     Route::get('homePage/{page?}', 'PostsController@index');
+    Route::get('followersList', 'UserController@followersList');
+    Route::post('markInappropriate', 'PostsController@markInappropriate');
 
     Route::post('posts/upload', [
         'uses' => 'PostsController@upload',
@@ -101,7 +103,7 @@ Route::group(['prefix' => 'api'], function () {
     ]);
 
     Route::post('register', [
-        'uses' => 'UserController@register',
+                'uses' => 'UserController@register',
         'as' => 'MobileUserRegister',
         'middleware' => []
     ]);
