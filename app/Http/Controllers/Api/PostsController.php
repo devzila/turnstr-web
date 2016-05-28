@@ -10,6 +10,7 @@ use Response;
 use Validator;
 use App\Models\User;
 use App\Models\Posts;
+use App\Models\Report;
 use App\Models\PostTags;
 use App\Models\DeviceSession;
 use App\Models\Useractivity;
@@ -381,6 +382,27 @@ class PostsController extends Controller
         $data['user']->is_following = (count($isFollowing) && isset($isFollowing->status)) ? (int)($isFollowing->status) : 0 ;
 
         return ResponseClass::Prepare_Response($data,'Other user data',true,200);
+    }
+
+    public function markInappropriate() {
+        $post_id = Input::get('post_id');
+        $user_id = Input::get('user_id');
+        $report_content = Input::get('report_content');
+
+        $insArr = array(
+            "post_id"=>$post_id,
+            "user_id"=>$user_id,
+            "content"=>$report_content,
+            "created_at"=>date('Y-m-d H:i:s'),
+            "updated_at"=>date('Y-m-d H:i:s')
+        );
+
+        $res = Report::where('post_id',$post_id)->where('user_id',$user_id)->first();
+        if (count($res)) {
+            return ResponseClass::Prepare_Response('','Already Marked as Inappropriate',true,200);
+        }
+        Report::insert($insArr);
+        return ResponseClass::Prepare_Response('','Marked as Inappropriate',true,200);
     }
 
 }

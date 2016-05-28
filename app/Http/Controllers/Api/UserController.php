@@ -243,4 +243,19 @@ class UserController extends Controller {
         return ResponseClass::Prepare_Response('','uploaded successfuly',true,200);
     }
 
+    public function followersList(Request $request)
+    {
+        $data = array();
+        $userId = DeviceSession::get()->user->id;
+        $usersList = Useractivity::getFollowersByUserId($userId);
+
+        foreach ($usersList as $k=>$row) {
+            $postCount = Posts::where('user_id',$row->id)->count();
+            $usersList[$k]->id = (string)($row->id);
+            $usersList[$k]->post_count = (string)$postCount;
+        }
+//        $data['user']->is_following = 1;
+        return ResponseClass::Prepare_Response($usersList,'followers list',true,200);
+    }
+
 }

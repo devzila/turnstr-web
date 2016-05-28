@@ -83,4 +83,16 @@ class Useractivity extends Model
     	$res = $query->where('activity','liked')->where('post_id',$post_id)->count();
     	return ($res>0) ? $res : -1 ;
     }
+    /*
+	* Get Followers Details
+    */
+    public function scopeGetFollowersByUserId($query, $user_id) {
+        $res = $query->where('user_id',$user_id)
+                    ->where('activity','follow')
+                    ->where('status',1)
+                    ->leftjoin('users','user_activity.follower_id','=','users.id')
+                    ->select('users.*')
+                    ->get();
+        return $res;
+    }
 }
