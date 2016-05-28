@@ -150,8 +150,18 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+
         $post = Posts::find($id);
+        if(!$post){
+            return ResponseClass::Prepare_Response('','Unprocessable Entity',true, 422);
+        }
+
+        if(DeviceSession::get()->user->id != $post->user_id){
+            return ResponseClass::Prepare_Response('','Unauthorised Access',true, 403);
+        }
+
+
+
         $post->delete();
         return ResponseClass::Prepare_Response('','Deleted successfuly',true,200);
     }
@@ -166,7 +176,7 @@ class PostsController extends Controller
     {
         $userId = Input::get('userIds');
         $idArr = explode(',', $userId);
-        $post = Posts::whereIn('id',$idArr)->delete();
+        $post = Posts::whereIn('id',$idArr)->where('user_id', '=', DeviceSession::get()->user->id)->delete();
         return ResponseClass::Prepare_Response('','Deleted successfuly',true,200);
     }
 
