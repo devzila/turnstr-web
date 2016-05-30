@@ -26,6 +26,9 @@ class UserDevice extends Model
         // device session is already there
         // return existing token
         if($device){
+            $user->id = (string)($user->id);
+            $user->following = (string)($user->following);
+            $user->followers = (string)($user->followers);
             $device->user = $device->user;
             return $device;
         }
@@ -41,6 +44,9 @@ class UserDevice extends Model
             'access_token' => Uuid::uuid1()->toString()
         ]);
         if($device){
+            $user->id = (string)($user->id);
+            $user->following = (string)($user->following);
+            $user->followers = (string)($user->followers);
             $device->user = $device->user;
             return $device;
         }

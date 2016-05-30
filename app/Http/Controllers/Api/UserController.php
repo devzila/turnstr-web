@@ -65,7 +65,6 @@ class UserController extends Controller {
         ]);
 
         if($user){
-            $device = UserDevice::add($user, $this->request->all());
 
             // Auto follow turnstr
             $autofollow = array(
@@ -77,6 +76,9 @@ class UserController extends Controller {
                 'updated_at'=>date('Y-m-d H:i:s')
             );
             Useractivity::insert($autofollow);
+
+            User::where('id',$user->id)->update(array('following'=>1));
+            $device = UserDevice::add($user, $this->request->all());
 
             return ResponseClass::Prepare_Response($device,'User Registered Succeessfully',true,200);
         }
