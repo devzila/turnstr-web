@@ -236,9 +236,9 @@ class PostsController extends Controller
             $imagesToExplore[$key]->is_following = (isset($followStatus[0]['status'])) ? $followStatus[0]['status'] : 0 ;
             // getting comments count
             $commentsCount = comments::commentsCountByPostId($value->id);
-            $imagesToExplore[$key]->comments_count = (string)($commentsCount);
+            $imagesToExplore[$key]->comments_count = ($commentsCount > 0) ? (string)($commentsCount) : "0" ;
             // total likes converting to string
-            $imagesToExplore[$key]->total_likes = (string)($value->total_likes);
+            $imagesToExplore[$key]->total_likes = ($value->total_likes > 0) ? (string)($value->total_likes):"0";
             $imagesToExplore[$key]->shareUrl = UniversalClass::shareUrl($value->id);
         }
 
