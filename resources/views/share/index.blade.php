@@ -8,10 +8,10 @@
             <div class="postblock">
                 <div class="postimage">
                     <div class="jR3DCarouselGallery" style="margin:auto;">
-                        <div class='slide'><img src="<?php echo $post->media1_url;?>" /></div>
-                        <div class='slide'><img src="<?php echo $post->media2_url;?>" /></div>
-                        <div class='slide'><img src="<?php echo $post->media3_url;?>" /></div>
-                        <div class='slide'><img src="<?php echo $post->media4_url;?>" /></div>
+                        <div class='slide'><img src="<?php echo $post->media1_thumb_url;?>" /></div>
+                        <div class='slide'><img src="<?php echo $post->media2_thumb_url;?>" /></div>
+                        <div class='slide'><img src="<?php echo $post->media3_thumb_url;?>" /></div>
+                        <div class='slide'><img src="<?php echo $post->media4_thumb_url;?>" /></div>
 
                     </div>
                 </div>
