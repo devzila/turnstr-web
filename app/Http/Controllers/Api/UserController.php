@@ -69,14 +69,14 @@ class UserController extends Controller {
 
             // Auto follow turnstr
             $autofollow = array(
-                'user_id'=>1,
+                'user_id'=>50,
                 'follower_id'=>$user->id,
                 'activity'=>'follow',
                 'status'=>1,
                 'created_at'=>date('Y-m-d H:i:s'),
                 'updated_at'=>date('Y-m-d H:i:s')
             );
-            //Useractivity::insert($autofollow);
+            Useractivity::insert($autofollow);
 
             return ResponseClass::Prepare_Response($device,'User Registered Succeessfully',true,200);
         }
