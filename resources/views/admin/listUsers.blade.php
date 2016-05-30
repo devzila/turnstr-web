@@ -35,9 +35,13 @@
                                             <td>{{($row->following!='') ? $row->following : "--" }}</td>
                                             <td>{{($row->followers!='') ? $row->followers : "--" }}</td>
                                             <td>
-                                                <a href='javascript:void(0)'>Edit</a>
+                                                <a href="{{url('/admin/users/'.$row->id.'/edit')}}">Edit</a>
                                                 <span> | </span>
-                                                <a href='javascript:void(0)' >Delete</a>
+                                                <form action="{{ url('/admin/users/'.$row->id) }}" class='deleteForm{{$row->id}}' method="POST">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+                                                         <a href='javascript:void(0)' onClick='deleteUser({{$row->id}})' >Delete</a>
+                                                </form>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -52,7 +56,7 @@
         </div>
     </div>
     <script type="text/javascript">
-    function deletePost(userId) {
+    function deleteUser(formClass) {
         var title = "Confirmation Alert !!!";
         var content = "Do you want to delete this user ?";
 
@@ -60,7 +64,8 @@
             title: title,
             content: content,
             confirm: function(){
-                window.location.href = '<?php echo url("/"); ?>/admin/deleteuser/'+userId;
+                $(".deleteForm"+formClass).submit();
+                return true;
             },
             cancel: function(){
                  return true;
