@@ -1,7 +1,7 @@
 <?php
 
 
-Route::get('/test', 'IndexController@index');
+#   Route::get('/', 'IndexController@index');
 
 Route::group(['middleware' => 'web'], function () {
     Route::auth();

@@ -1,17 +1,45 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+    @foreach($posts as $post)
+    <div class="row" style="margin-bottom: 40px;">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 col-sm-12 col-xs-12">
 
-                <div class="panel-body">
-                    You are logged in!
+
+            <div class="postblock">
+                <div class="postimage">
+                    <div class="jR3DCarouselGallery" style="margin:auto;">
+                        <div class='slide'>
+                            <a href="<?php echo App\Helpers\UniversalClass::shareUrl($post->id) ?>">
+                                <img src="<?php echo $post->media1_url;?>" />
+                            </a>
+                        </div>
+
+                    </div>
                 </div>
+
+                <div class="w-clearfix userinfo">
+                    <div class="userthumb"><img class="img-circle" src="<?php echo $post->profile_image;?>" />
+                    </div>
+                    <div class="usercommentsblock">
+                        <div class="username">{{ $post->name}}</div>
+                        <div class="usercomment">{{ $post->caption }}</div>
+                    </div>
+                </div>
+
+
             </div>
+
         </div>
+        <div class="col-md-3"></div>
     </div>
-</div>
+    @endforeach
+
+    <style>
+        .img-circle {
+            border-radius: 50%;
+        }
+    </style>
+
 @endsection

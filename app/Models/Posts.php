@@ -238,4 +238,29 @@ class Posts extends Model
                     ->get();
     }
 
+
+    public function scopeGetUserRelatedPosts($query, $userId, $page = 0,  $records = 10){
+
+        return $query
+            ->join('users','posts.user_id','=','users.id')
+            ->select('posts.*','users.name', 'users.profile_image')
+            ->whereIn('user_id', function($subQuery) use($userId)
+            {
+                $subQuery->select('user_id')
+                    ->from('user_activity')
+                    ->where('follower_id', $userId);
+            })
+            ->orWhereIn('posts.id', function($subQuery) use($userId)
+            {
+                $subQuery->select('post_id')
+                    ->from('user_activity')
+                    ->where('liked_id', $userId);
+            })
+            ->orderBy('posts.updated_at', 'desc')
+            ->skip($page * $records)
+            ->take($records)
+            ->get();
+
+      }
+
 }

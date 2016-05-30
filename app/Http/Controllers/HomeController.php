@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
- use Illuminate\View\Middleware\ErrorBinder;
+use Illuminate\View\Middleware\ErrorBinder;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Hash;
 use Response;
+use App\Models\Posts;
+use App\Models\DeviceSession;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -26,6 +29,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $posts = Posts::GetUserRelatedPosts(Auth::user()->id);
+        return view('home', ['posts' => $posts]);
     }
 }
