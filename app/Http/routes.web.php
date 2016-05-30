@@ -1,11 +1,11 @@
 <?php
 
 
-Route::get('/', 'IndexController@index');
+Route::get('/test', 'IndexController@index');
 
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
-    Route::get('/home', 'HomeController@index');
+    Route::get('/', 'HomeController@index');
     Route::get('/share/{id}', 'ShareController@index');
 });
 // APi for shared web url
