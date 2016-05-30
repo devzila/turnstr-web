@@ -1,4 +1,3 @@
-user<?php
-namespace App;
+<?php namespace App;
 class User extends Models\User
 {}
