@@ -20,23 +20,65 @@
             <div class="postblock">
                 <div class="postimage">
                     <div class="jR3DCarouselGallery" style="margin:auto;">
-                        <div class='slide'><img src="<?php echo $post->media1_thumb_url;?>" /></div>
-                        <div class='slide'><img src="<?php echo $post->media2_thumb_url;?>" /></div>
-                        <div class='slide'><img src="<?php echo $post->media3_thumb_url;?>" /></div>
                         <div class='slide'>
-                            <div class="js-media-player">
-                                <video poster="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.jpg" controls crossorigin>
-                                    <!-- Video files -->
-                                    <source src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.mp4" type="video/mp4">
-                                    <source src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.webm" type="video/webm">
+                            @if (isset($post->media1_type) && ($post->media1_type=='video'))
+                                <div class="js-media-player">
+                                    <video poster="{{$post->media1_thumb_url}}" controls crossorigin>
+                                        <!-- Video files -->
+                                        <source src="{{$post->media1_url}}" type="video/mp4">
 
-                                    <!-- Text track file -->
-                                    <track kind="captions" label="English" srclang="en" src="https://cdn.selz.com/plyr/1.5/View_From_A_Blue_Moon_Trailer-HD.en.vtt" default>
+                                        <!-- Fallback for browsers that don't support the <video> element -->
+                                        <a href="{{$post->media1_url}}">Download</a>
+                                    </video>
+                                </div>
+                            @else
+                                <img src="<?php echo $post->media1_thumb_url;?>" />
+                            @endif
+                        </div>
+                        <div class='slide'>
+                            @if (isset($post->media2_type) && ($post->media2_type=='video'))
+                                <div class="js-media-player">
+                                    <video poster="{{$post->media2_thumb_url}}" controls crossorigin>
+                                        <!-- Video files -->
+                                        <source src="{{$post->media2_url}}" type="video/mp4">
 
-                                    <!-- Fallback for browsers that don't support the <video> element -->
-                                    <a href="https://cdn.selz.com/plyr/1.0/movie.mp4">Download</a>
-                                </video>
-                            </div>
+                                        <!-- Fallback for browsers that don't support the <video> element -->
+                                        <a href="{{$post->media2_url}}">Download</a>
+                                    </video>
+                                </div>
+                            @else
+                                <img src="<?php echo $post->media2_thumb_url;?>" />
+                            @endif
+                        </div>
+                        <div class='slide'>
+                            @if (isset($post->media3_type) && ($post->media3_type=='video'))
+                                <div class="js-media-player">
+                                    <video poster="{{$post->media3_thumb_url}}" controls crossorigin>
+                                        <!-- Video files -->
+                                        <source src="{{$post->media3_url}}" type="video/mp4">
+
+                                        <!-- Fallback for browsers that don't support the <video> element -->
+                                        <a href="{{$post->media3_url}}">Download</a>
+                                    </video>
+                                </div>
+                            @else
+                                <img src="<?php echo $post->media3_thumb_url;?>" />
+                            @endif
+                        </div>
+                        <div class='slide'>
+                            @if (isset($post->media4_type) && ($post->media4_type=='video'))
+                                <div class="js-media-player">
+                                    <video poster="{{$post->media4_thumb_url}}" controls crossorigin>
+                                        <!-- Video files -->
+                                        <source src="{{$post->media4_url}}" type="video/mp4">
+
+                                        <!-- Fallback for browsers that don't support the <video> element -->
+                                        <a href="{{$post->media4_url}}">Download</a>
+                                    </video>
+                                </div>
+                            @else
+                                <img src="<?php echo $post->media4_thumb_url;?>" />
+                            @endif
                         </div>
 
                     </div>
