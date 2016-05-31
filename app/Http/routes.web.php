@@ -27,17 +27,17 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'account'], function () {
 Route::group(['prefix' => 'admin'], function () {
 
     Route::get('/', [
-        'uses' => 'admin\HomeController@index',
+        'uses' => 'Admin\HomeController@index',
         'as' => 'admin_home'
     ]);
     // Post routes
-    Route::resource('/posts', 'admin\PostController');
-    Route::resource('/comments', 'admin\CommentsController');
-    Route::resource('/users', 'admin\UserController');
+    Route::resource('/posts', 'Admin\PostController');
+    Route::resource('/comments', 'Admin\CommentsController');
+    Route::resource('/users', 'Admin\UserController');
 
     // User Routes
     Route::get('users', [
-        'uses' => 'admin\UserController@index',
+        'uses' => 'Admin\UserController@index',
         'as' => 'posts_listing'
     ]);
 });
