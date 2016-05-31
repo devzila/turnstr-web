@@ -29,6 +29,23 @@ class ShareController extends Controller
 
         $data['post'] = Posts::find($decryptedPostId);
         $data['comments'] = Comments::commentsByPost($decryptedPostId);
+        $extensionArr = array('mov','mp4');
+
+        for ($i=0;$i<=4;$i++) {
+            $mediaurl = "media".$i."_url";
+            $mediatype = "media".$i."_type";
+            if (isset($data['post']->$mediaurl)) {
+                $arr = explode('.',$data['post']->$mediaurl);
+                $arrLength = count($arr);
+
+                if (in_array($arr[$arrLength-1], $extensionArr)) {
+                    $data['post']->$mediatype = 'video';
+                } else {
+                    $data['post']->$mediatype = 'image';
+                }
+            }
+        }
+
         return view('share/index', $data);
 
     }
