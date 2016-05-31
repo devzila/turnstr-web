@@ -29,4 +29,20 @@ class UserController extends Controller {
 
     }
 
+    public function edit($user_id){
+
+        $data = array();
+        $data['user_details'] = User::find($user_id);
+        return view("admin/editusers");
+
+    }
+
+    public function destroy($user_id){
+
+        $user = User::find($user_id);
+        $user->delete();
+        Session::flash('success','User Deleted Successfully');
+        return redirect("admin/users");
+
+    }
 }
