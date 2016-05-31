@@ -6,8 +6,10 @@
 
        <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <li class="active"><a href="#"><span>Turns</span></a></li>
-            <li><a href="#"><span>Users</span></a></li>
+            <li><a href="{{url('/admin/users')}}"><span>Users</span></a></li>
+            <li><a href="{{url('/admin/posts')}}"><span>Turns</span></a></li>
+            <li><a href="{{url('/admin/comments')}}"><span>Comments</span></a></li>
+            <!--
             <li class="treeview">
                 <a href="#"><span>Activity</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
@@ -16,6 +18,7 @@
                     <li><a href="{{url('/admin/comments')}}">Comments</a></li>
                 </ul>
             </li>
+            -->
         </ul><!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
