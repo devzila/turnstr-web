@@ -58,6 +58,22 @@ class User extends Authenticatable
 
     }
 
+    public function scopeFollowings($query, $page = 0,  $records = 10){
+        $userId = $this->id;
+        return $query
+            ->whereIn('id', function($subQuery) use($userId)
+            {
+                $subQuery->select('user_id')
+                    ->from('user_activity')
+                    ->where('follower_id', $userId)
+                    ->where('activity','follow')
+                    ->where('status',1);
+            })
+            ->skip($page * $records)
+            ->take($records)
+            ->get();
+
+    }
 
 
 }
