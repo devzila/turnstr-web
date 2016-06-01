@@ -40,4 +40,8 @@ Route::group(['prefix' => 'admin'], function () {
         'uses' => 'Admin\UserController@index',
         'as' => 'posts_listing'
     ]);
+	Route::post('users/{id}/update', [
+        'uses' => 'Admin\UserController@update',
+        'as' => 'user_update'
+    ]);
 });
