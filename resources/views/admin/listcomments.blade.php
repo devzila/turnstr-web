@@ -38,7 +38,7 @@
                                                 <form action="{{ url('/admin/comments/'.$row->id) }}" class='deleteForm{{$row->id}}' method="POST">
                                                     {{ csrf_field() }}
                                                     {{ method_field('DELETE') }}
-                                                    <a href='javascript:void(0)' >Delete</a>
+                                                    <a href='javascript:void(0)' onClick='deleteComment({{$row->id}})'>Delete</a>
                                                 </form>
                                             </td>
                                         </tr>
