@@ -25,6 +25,7 @@ class CommentsController extends Controller {
 
         $data = array();
         $data['all_comments'] = Comments::allComments();
+        dd($data);
         return view("admin/listcomments",$data);
 
     }

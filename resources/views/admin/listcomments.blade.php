@@ -57,7 +57,7 @@
     function deleteComment(commentId) {
         var title = "Confirmation Alert !!!";
         var content = "Do you want to delete this Comment ?";
-
+debugger;
         $.confirm({
             title: title,
             content: content,

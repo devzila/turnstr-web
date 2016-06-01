@@ -163,6 +163,6 @@
             "slideClass": 'slide',
 
         });
-        debugger;
+
     </script>
 @endsection
