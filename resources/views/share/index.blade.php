@@ -82,11 +82,16 @@
                         </div>
 
                     </div>
+					
                 </div>
 				
-				@if($post->caption)
-					<div class="w-clearfix photosharecaption">{{ $post->caption }}</div>
-				@endif
+				<div class="w-clearfix photosharecaption">
+					
+					<div class="comments-count"><span>Comments {{ $total_comments }}  , </span><span > Likes {{ $total_likes}}</span></div>
+					@if($post->caption)					
+						<div class="w-clearfix">{{ $post->caption }}</div>
+					@endif
+				</div>
 				@if($userdetail->name)
 					<div class="w-clearfix userinfo">	
 						@if($userdetail->profile_thumb_image)
