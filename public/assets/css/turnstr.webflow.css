@@ -45,7 +45,7 @@
 
 .postimage {
   display: block;
-  width: 420px;
+  /*width: 420px;*/
   height: 420px;
   margin-top: 10px;
   margin-right: auto;

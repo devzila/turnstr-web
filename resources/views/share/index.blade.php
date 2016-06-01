@@ -12,7 +12,44 @@
         vertical-align: middle;
         border-radius: inherit;
     }
+    
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    overflow: hidden;
+}
+
+.jR3DCarouselGallery,.jR3DCarouselGallery1 {
+    margin: 0 auto; /* optional - if want to center align */
+}
+
+.container {
+    text-align: center;
+}
+
+.wrapper {
+    padding-right: 10px;
+    padding-left: 10px;
+    width: 48%;
+    height: 299px;
+    float: left;
+    overflow: auto;
+    border-left: 1px solid #999;
+}
+
+.wrapper div {
+    margin: 8px auto;
+}
 </style>
+<div hidden="" id="sprite-plyr"><!--?xml version="1.0" encoding="UTF-8"?-->
+    <svg xmlns="http://www.w3.org/2000/svg">
+        <symbol viewBox="0 0 18 18" id="plyr-play">
+            <path d="M15.562 8.1L3.87.225C3.052-.337 2 .225 2 1.125v15.75c0 .9 1.052 1.462 1.87.9L15.563 9.9c.584-.45.584-1.35 0-1.8z"/>
+        </symbol>
+    </svg>
+</div>
     <div class="row">
 
         <div class="col-md-3"></div>
@@ -163,6 +200,11 @@
             "slideClass": 'slide',
 
         });
+        document.querySelector('.js-media-player').addEventListener('ended', function(event) {
+            player = document.querySelector('.js-media-player').plyr;
+            player.play();
+        });
+           
 
     </script>
 @endsection
