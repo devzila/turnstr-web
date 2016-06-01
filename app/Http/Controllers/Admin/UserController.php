@@ -5,6 +5,7 @@ use App\Models\Comments;
 use Illuminate\Http\Request;
 use Redirect;
 use Session;
+use Input;
 
 
 class UserController extends Controller {
@@ -33,7 +34,7 @@ class UserController extends Controller {
 
         $data = array();
         $data['user_details'] = User::find($user_id);
-        return view("admin/editusers");
+        return view("admin/editusers",$data);
 
     }
 
@@ -45,4 +46,46 @@ class UserController extends Controller {
         return redirect("admin/users");
 
     }
+	
+	public function update($user_id){
+		$user = User::find($user_id);
+		$userData = Input::all();
+		
+		$updatedArr = array(
+            'name'=>$userData['name'],
+            'email'=>$userData['email'],
+            'username'=>$userData['username'],
+            'phone_number'=>$userData['phone_number'],
+            'gender'=>$userData['gender'],
+            'bio'=>$userData['bio'],
+            'website'=>$userData['website']
+        );
+		
+		
+		
+		$isEmailExist = User::where(function ($query)  use ($updatedArr) {
+            return $query->where('email',$updatedArr['email']);
+        })->where('id','!=',$user_id)->get();
+		
+		$isUsernameExist = User::where(function ($query)  use ($updatedArr) {
+            return $query->where('username',$updatedArr['username']);
+        })->where('id','!=',$user_id)->get();
+		
+		if (count($isEmailExist)) {
+            Session::flash('error','The Email already Exits');
+			return redirect("admin/users");
+        }
+		
+		if (count($isUsernameExist)) {
+            Session::flash('error','The Username already Exits');
+			return redirect("admin/users");
+        }
+		
+		User::where('id',$user_id)->update($updatedArr);
+		
+		Session::flash('success','User Updated Successfully');
+		return redirect("admin/users");
+		
+	}
+	
 }
