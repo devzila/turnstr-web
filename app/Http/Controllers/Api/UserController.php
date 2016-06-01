@@ -260,4 +260,21 @@ class UserController extends Controller {
         return ResponseClass::Prepare_Response($usersList,'followers list',true,200);
     }
 
+
+    public function followers($id){
+        $followers = User::find($id)->followers();
+        return ResponseClass::Prepare_Response($followers,'followers list',true,200);
+    }
+
+    public function followings($id){
+        $followings = User::find($id)->followings();
+        return ResponseClass::Prepare_Response($followings,'following list',true,200);
+    }
+
+    public function currentUserFollowings(){
+        $followings = User::find(DeviceSession::get()->user->id)->followings();
+        return ResponseClass::Prepare_Response($followings,'following list',true,200);
+    }
+
+
 }

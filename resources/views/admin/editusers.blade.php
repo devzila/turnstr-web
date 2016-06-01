@@ -18,7 +18,7 @@
 										<label for='name'>Name</label>
 									</div>
 									<div class="col-lg-8">
-										<input class="form-control" id="name" name="name" value="{{$user_details->name}}">
+										<input class="form-control" id="name" name="name" value="{{$user_details->name}}" >
 									</div>
 								</div>                                
                             </div>
@@ -28,7 +28,7 @@
 										<label for='username'>Username</label>
 									</div>
 									<div class="col-lg-8">
-										<input class="form-control" id="username" name="username" value="{{$user_details->username}}">
+										<input class="form-control" id="username" name="username" value="{{$user_details->username}}" required>
 									</div>
 								</div>                                
                             </div>
@@ -38,7 +38,7 @@
 										<label for='email'>Email</label>
 									</div>
 									<div class="col-lg-8">
-										<input class="form-control" id="email" name="email" value="{{$user_details->email}}">
+										<input class="form-control" id="email" name="email" value="{{$user_details->email}}" required>
 									</div>
 								</div>                                
                             </div>
@@ -93,6 +93,7 @@
 									</div>
 								</div>                                
                             </div>
+							{{ csrf_field() }}
 							</form>
 							
                         </div>
