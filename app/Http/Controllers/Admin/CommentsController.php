@@ -43,9 +43,11 @@ class CommentsController extends Controller {
 
     }
 
-    public function destroy($post_id){
-
-
+    public function destroy($comment_id){
+        $comment = Comments::find($comment_id);
+        $comment->delete();
+        Session::flash('success','Comment Deleted Successfully');
+        return redirect("admin/comments");
     }
 
 }
