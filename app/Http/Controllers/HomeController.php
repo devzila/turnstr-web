@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 use Illuminate\View\Middleware\ErrorBinder;
 use App\Http\Requests;
-use Illuminate\Http\Request;
 use Hash;
 use Response;
 use App\Models\Posts;
-use App\Models\DeviceSession;
 use Auth;
 
 class HomeController extends Controller
@@ -20,6 +18,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
     }
 
     /**
