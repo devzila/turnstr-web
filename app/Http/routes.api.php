@@ -23,6 +23,8 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
     Route::get('followersList', 'UserController@followersList');
     Route::post('markInappropriate', 'PostsController@markInappropriate');
 
+    Route::get('user/{id}/followers',['uses' => 'UserController@followers']);
+
     Route::post('posts/upload', [
         'uses' => 'PostsController@upload',
         'as' => 'UploadPhoto',

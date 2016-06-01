@@ -40,4 +40,24 @@ class User extends Authenticatable
     public function isAdmin(){
         return strtolower($this->role) == 'admin';
     }
+
+    public function scopeFollowers($query, $page = 0,  $records = 10){
+        $userId = $this->id;
+        return $query
+            ->whereIn('id', function($subQuery) use($userId)
+            {
+                $subQuery->select('follower_id')
+                    ->from('user_activity')
+                    ->where('user_id', $userId)
+                    ->where('activity','follow')
+                    ->where('status',1);
+            })
+            ->skip($page * $records)
+            ->take($records)
+            ->get();
+
+    }
+
+
+
 }
