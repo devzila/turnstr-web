@@ -83,6 +83,23 @@
 
                     </div>
                 </div>
+				
+				@if($post->caption)
+					<div class="w-clearfix photosharecaption">{{ $post->caption }}</div>
+				@endif
+				@if($userdetail->name)
+					<div class="w-clearfix userinfo">	
+						@if($userdetail->profile_thumb_image)
+							<div class="userthumb">					
+								<img src="{{ $userdetail->profile_thumb_image }}">					
+							</div>
+						@endif
+						<a class="w-button followbtn" href="#">follow</a>
+							<div class="usercommentsblock">
+							<div class="username"> {{ $userdetail->name }} </div>
+						</div>
+					</div>
+				@endif
                 @if($comments->isEmpty())
                     <div class="w-clearfix userinfo">
                         <div class="usercommentsblock">

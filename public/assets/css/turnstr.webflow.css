@@ -289,3 +289,12 @@
 .link {
   color: #de5d12;
 }
+
+.photosharecaption {
+  display: inline-block;  
+  font-family: Lato, sans-serif;
+  color: #4a4a4a;
+  font-weight: 400;
+  text-align: left;
+  padding-left: 15px;
+}
