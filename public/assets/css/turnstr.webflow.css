@@ -298,3 +298,10 @@
   text-align: left;
   padding-left: 15px;
 }
+
+.comments-count{
+	font-size:11px;
+	color: #4a4a4a;
+	font-weight: 350;
+	font-family: Lato, sans-serif;
+}

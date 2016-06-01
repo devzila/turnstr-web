@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\UniversalClass;
 use App\Models\User;
+use App\Models\UserActivity;
 use App\Models\Posts;
 use App\Models\Comments;
 
@@ -34,6 +35,15 @@ class ShareController extends Controller
 		$data['userdetail'] = User::find($user_id);
 		
         $data['comments'] = Comments::commentsByPost($decryptedPostId);
+		// Adding comments count
+		$commentsCount = Comments::commentsCountByPostId($decryptedPostId);
+		$commentsCount = ($commentsCount==-1)?0:$commentsCount;
+		$data['total_comments'] = (string)($commentsCount);
+		// adding total likes
+		$total_likes = UserActivity::likeCountByPostId($decryptedPostId);
+		$total_likes = ($total_likes==-1)?0:$total_likes;
+		$data['total_likes'] = (string)($total_likes);
+				
         $extensionArr = array('mov','mp4');
 
         for ($i=0;$i<=4;$i++) {
