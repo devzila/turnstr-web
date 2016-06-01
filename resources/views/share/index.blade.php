@@ -91,7 +91,7 @@
 					<div class="w-clearfix userinfo">	
 						@if($userdetail->profile_thumb_image)
 							<div class="userthumb">					
-								<img src="{{ $userdetail->profile_thumb_image }}">					
+								<img class="img-circle" src="{{ $userdetail->profile_thumb_image }}">					
 							</div>
 						@endif
 						<a class="w-button followbtn" href="#">follow</a>
