@@ -19,6 +19,7 @@ class PostController extends Controller {
     public function __construct(Request $request)
     {
         $this->request = $request;
+        $this->assertAdmin();
     }
 
     public function index(){
