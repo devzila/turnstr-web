@@ -5,9 +5,9 @@
 	<meta property="og:description" content="{{$post->caption}}" />
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="{{ Request::fullUrl() }}" />
-	<meta property="og:site_name" content="turnstr" />
-	<meta name="author" content="{{$userdetail->name}}">
+	<meta property="og:site_name" content="{{$post->caption}}" />	
 	<meta property="og:image" content="{{$post->media1_thumb_url}}" />
+	<meta name="author" content="{{$userdetail->name}}" />
 	<meta property="twitter:domain" content="http://stage.turnstr.net" />
 	<meta property="twitter:site" content="http://stage.turnstr.net" />
 	<meta property="twitter:title" content="{{$post->caption}}" />
@@ -156,7 +156,12 @@
         <div class="col-md-3"></div>
     </div>
     </div>
-	<div>	<a class="icon-facebook" onclick="return share_social(this.href);" href="https://www.facebook.com/sharer/sharer.php?u={{ Request::fullUrl()}}&title={{$post->caption}}">FTest</a></div>
+	<div>
+	<a class="icon-facebook" onclick="return share_social(this.href);" href="https://www.facebook.com/sharer/sharer.php?u={{ Request::fullUrl()}}&title={{$post->caption}}">FTest</a>
+
+	<a class="icon-twitter" onclick="return share_social(this.href);" href="http://twitter.com/share?url={{ Request::fullUrl()}}&title={{$post->caption}}">Ttest</a>
+	
+	</div>
     <style>
         .img-circle {
             border-radius: 50%;
