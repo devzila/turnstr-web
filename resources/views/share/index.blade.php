@@ -1,5 +1,21 @@
 @extends('layouts.app')
 
+@section('metadata')
+	<meta property="og:title" content="{{$post->caption}}">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="{{ Request::fullUrl() }}">
+	<meta property="og:site_name" content="turnstr">
+	<meta name="author" content="{{$userdetail->name}}">
+	<meta property="og:image" content="{{$post->media1_thumb_url}}">
+	<meta property="twitter:domain" content="http://stage.turnstr.net">
+	<meta property="twitter:site" content="http://stage.turnstr.net">
+	<meta property="twitter:title" content="{{$post->caption}}">
+	<meta property="twitter:description" content="{{$post->caption}}">
+	<meta property="twitter:creator" content="http://stage.turnstr.net">
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:image" content="{{$post->media1_thumb_url}}">
+@endsection
+
 @section('content')
 <style type="text/css">
     .plyr .plyr__play-large{
@@ -87,7 +103,7 @@
 				
 				<div class="w-clearfix photosharecaption">
 					
-					<div class="comments-count"><span>Comments {{ $total_comments }}  , </span><span > Likes {{ $total_likes}}</span></div>
+					<div class="comments-count"><span>Comments {{ $total_comments }}  , </span><span > Likes {{ $total_likes}}</span></div>					
 					@if($post->caption)					
 						<div class="w-clearfix">{{ $post->caption }}</div>
 					@endif
@@ -139,7 +155,7 @@
         <div class="col-md-3"></div>
     </div>
     </div>
-
+	<div>	<a class="icon-facebook" onclick="return share_social(this.href);" href="https://www.facebook.com/sharer/sharer.php?u={{ Request::fullUrl()}}&title={{$post->caption}}">FTest</a></div>
     <style>
         .img-circle {
             border-radius: 50%;
@@ -165,4 +181,13 @@
         });
 
     </script>
+	
+	<script>
+		function share_social(url){
+			window.open(url,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+			return false;	
+		}
+	</script>
+	
+	
 @endsection
