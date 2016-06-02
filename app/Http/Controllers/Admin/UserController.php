@@ -62,7 +62,10 @@ class UserController extends Controller {
             'website'=>$userData['website']
         );
 		
-		
+		if(empty($updatedArr['email']) || empty($updatedArr['username'])){
+			Session::flash('error','The Email/Username Field is Required');
+			return redirect("admin/users");
+		}
 		
 		$isEmailExist = User::where(function ($query)  use ($updatedArr) {
             return $query->where('email',$updatedArr['email']);
