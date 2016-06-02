@@ -1,19 +1,20 @@
 @extends('layouts.app')
 
 @section('metadata')
-	<meta property="og:title" content="{{$post->caption}}">
+	<meta property="og:title" content="{{$post->caption}}" />
+	<meta property="og:description" content="{{$post->caption}}" />
 	<meta property="og:type" content="website">
-	<meta property="og:url" content="{{ Request::fullUrl() }}">
-	<meta property="og:site_name" content="turnstr">
+	<meta property="og:url" content="{{ Request::fullUrl() }}" />
+	<meta property="og:site_name" content="turnstr" />
 	<meta name="author" content="{{$userdetail->name}}">
-	<meta property="og:image" content="{{$post->media1_thumb_url}}">
-	<meta property="twitter:domain" content="http://stage.turnstr.net">
-	<meta property="twitter:site" content="http://stage.turnstr.net">
-	<meta property="twitter:title" content="{{$post->caption}}">
-	<meta property="twitter:description" content="{{$post->caption}}">
-	<meta property="twitter:creator" content="http://stage.turnstr.net">
-	<meta property="twitter:card" content="summary_large_image">
-	<meta property="twitter:image" content="{{$post->media1_thumb_url}}">
+	<meta property="og:image" content="{{$post->media1_thumb_url}}" />
+	<meta property="twitter:domain" content="http://stage.turnstr.net" />
+	<meta property="twitter:site" content="http://stage.turnstr.net" />
+	<meta property="twitter:title" content="{{$post->caption}}" />
+	<meta property="twitter:description" content="{{$post->caption}}" />
+	<meta property="twitter:creator" content="http://stage.turnstr.net" />
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:image" content="{{$post->media1_thumb_url}}" />
 @endsection
 
 @section('content')
