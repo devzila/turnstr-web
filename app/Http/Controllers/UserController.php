@@ -116,4 +116,12 @@ class UserController extends Controller {
 		return view('profile.userprofile',$data);
 		
 	}
+	
+	public function edit(){
+		$userId = Auth::user()->id;
+		$data['user'] =  User::find($userId);
+		return view('profile.editprofile',$data);
+		
+	}
+	
 }

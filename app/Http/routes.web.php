@@ -8,6 +8,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/', 'HomeController@index');
     Route::get('/share/{id}', 'ShareController@index');
     Route::get('/userprofile/{id?}', 'UserController@userProfile');
+    Route::get('/users/edit/', 'UserController@edit');
 });
 
 Route::group(['middleware' => ['web','auth'], 'prefix' => 'admin'], function () {
