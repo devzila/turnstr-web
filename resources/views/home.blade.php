@@ -8,7 +8,7 @@
 
 
             <div class="postblock">
-                <div class="postimage">
+                <div class="postimage homepostimg">
                     <div class="jR3DCarouselGallery" style="margin:auto;">
                         <div class='slide'>
                             <a href="<?php echo App\Helpers\UniversalClass::shareUrl($post->id) ?>">
@@ -20,8 +20,11 @@
                 </div>
 
                 <div class="w-clearfix userinfo">
-                    <div class="userthumb"><img class="img-circle" src="<?php echo $post->profile_image;?>" />
-                    </div>
+					@if($post->profile_thumb_image)
+						<div class="userthumb">
+							<img class="img-circle" src="<?php echo $post->profile_thumb_image;?>" />
+						</div>
+					@endif					
                     <div class="usercommentsblock">
                         <div class="username">{{ $post->name}}</div>
                         <div class="usercomment">{{ $post->caption }}</div>

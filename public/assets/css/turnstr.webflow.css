@@ -785,3 +785,7 @@
 	font-weight: 350;
 	font-family: Lato, sans-serif;
 }
+
+.postimage.homepostimg {
+	height:100%;
+}
