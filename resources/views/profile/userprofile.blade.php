@@ -17,7 +17,7 @@
 					<div class="profile_intro">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</div>
                 @else
 					<div class="profile-subheading">@JimBaker</div>
-					<a href="#" class="w-button edit-profile">Edit Profile</a>
+					<a href="/users/edit" class="w-button edit-profile">Edit Profile</a>
 				@endif
 				
                 <div class="profile-stats">
