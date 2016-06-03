@@ -262,5 +262,15 @@ class Posts extends Model
             ->get();
 
       }
+	  
+	  public function scopeUserProfilePosts($query, $userId){
+
+        return $query
+            ->join('users','posts.user_id','=','users.id')
+            ->select('posts.*','users.name', 'users.profile_image','users.profile_thumb_image')
+            ->whereIn('user_id', $userId)
+            ->get();
+
+      }
 
 }

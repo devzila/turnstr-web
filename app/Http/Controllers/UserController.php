@@ -6,6 +6,7 @@ use App\Models\DeviceSession;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Posts;
 use App\Models\Passwordreset;
 use App\Helpers\ResponseClass;
 use Hash;
@@ -14,6 +15,7 @@ use App\Models\UserDevice;
 use Mail;
 use URL;
 use Input;
+use Auth;
 class UserController extends Controller {
     /**
      * The Http Request Object
@@ -98,5 +100,20 @@ class UserController extends Controller {
         User::where('email',$userEmail->email)->update(array('password'=>$hashedPassword));
         return view('successView');
     }
-
+	
+	public function userProfile($userId = ""){
+		$data = array();
+		$data['AuthUser'] =0;
+		
+		if(empty($userId) || $userId == Auth::user()->id){
+			$userId = Auth::user()->id;
+			$data['AuthUser'] = 1;
+		}
+		
+		$data['userdetail'] =  User::find($userId);
+		$data['posts'] = Posts::GetAllPostsByUserId($userId);
+		
+		return view('profile.userprofile',$data);
+		
+	}
 }
