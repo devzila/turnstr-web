@@ -367,7 +367,17 @@ class PostsController extends Controller
     public function otheruser()
     {
         $currentUserId = DeviceSession::get()->user->id;
-        $userId = Input::get('user_id');
+        $userIdName = Input::get('user_id');
+		if($userIdName[0] == '@'){
+			$fieldName = 'username';
+			$userIdName = substr($userIdName, 1); 
+			$userdt = User::where('username',$userIdName)->first();
+			
+			$userId = $userdt->id;
+		}else{
+			$userId = $userIdName;		
+		}
+		
         if ($userId=='') {
             return ResponseClass::Prepare_Response('','Invalid user-id',false,200);
         }
