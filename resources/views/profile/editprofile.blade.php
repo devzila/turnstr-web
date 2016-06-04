@@ -42,10 +42,10 @@
                   <input class="w-input edit-profile-field" data-name="Name" id="name" maxlength="256" name="name" placeholder="Enter your name" type="text" value="{{$user->name}}">
 				  
                   <label class="edit-profile-label" for="username">Username</label>
-                  <input class="w-input edit-profile-field" data-name="Username" id="username" maxlength="256" name="username" placeholder="Enter your username address"  value="{{$user->username}}">
+                  <input class="w-input edit-profile-field" data-name="Username" id="username" maxlength="256" name="username" placeholder="Enter your username address" required="required"  value="{{$user->username}}">
 				  
                   <label class="edit-profile-label" for="website">Website</label>
-                  <input class="w-input edit-profile-field" data-name="Website" id="website" maxlength="256" name="website" placeholder="Enter Website" required="required" value="{{$user->website}}">
+                  <input class="w-input edit-profile-field" data-name="Website" id="website" maxlength="256" name="website" placeholder="Enter Website" value="{{$user->website}}">
 				  
                   <label class="edit-profile-label" for="bio">Bio</label>
                   <textarea class="w-input edit-profile-field" id="bio" maxlength="5000" name="bio" placeholder="">{{$user->bio}}</textarea>
@@ -53,10 +53,10 @@
 				  <div class="edit-profile-heading-3">Private Information</div>
                   
 				  <label class="edit-profile-label" for="email">Email</label>
-                  <input class="w-input edit-profile-field" data-name="Email" id="email" maxlength="256" name="email" placeholder="Enter your email address" required="required"  value="{{$user->email}}">
+                  <input class="w-input edit-profile-field" data-name="Email" id="email" maxlength="256" name="email" placeholder="Enter your email address" required="required"  type="email" value="{{$user->email}}">
 				  
                   <label class="edit-profile-label" for="phone_number">Phone Number</label>
-                  <input class="w-input edit-profile-field" data-name="Email 4" id="phone_number" maxlength="256" name="phone_number" placeholder="Enter your Phone Number" required="required" type="number" value="{{$user->phone_number}}">
+                  <input class="w-input edit-profile-field" data-name="Email 4" id="phone_number" maxlength="256" name="phone_number" placeholder="Enter your Phone Number" type="number" value="{{$user->phone_number}}">
                   <label class="edit-profile-label" for="gender">Gender</label>
                   <select class="w-select edit-profile-select" id="gender" name="gender">
                     <option value="">Select</option>
