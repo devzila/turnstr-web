@@ -16,21 +16,33 @@
             <div class="edit-profile-info">
               <div class="w-row">
                 <div class="w-col w-col-4 edit-profile-image">
-                  <div class="profile-pic edit"></div>
+                  <div class="profile-pic edit"><img src="{{$user->profile_image}}"></div>
                 </div>
                 <div class="w-col w-col-8">
-                  <h3 class="user-name edit">Jim Baker</h3>
+                  <h3 class="user-name edit">{{$user->name}}</h3>
                 </div>
               </div>
             </div>
-            <div class="edit-profile-form">
+            
+			  @if (Session::has('success'))
+				  <div class="w-form-done" style="display:block;">
+					<p>{{Session::get('success')}}</p>
+				  </div>
+			  @endif
+			  @if (Session::has('error'))
+				  <div class="w-form-fail">
+					<p>{{Session::get('error')}}</p>
+				  </div>
+			  @endif
+			  <div class="edit-profile-form">
               <div class="w-form">
-                <form data-name="Email Form" id="email-form" name="email-form">
+                <form data-name="Email Form" id="email-form" name="email-form" method="post" action="/users/update">
+				  {!! csrf_field() !!}
                   <label class="edit-profile-label" for="name">Name</label>
                   <input class="w-input edit-profile-field" data-name="Name" id="name" maxlength="256" name="name" placeholder="Enter your name" type="text" value="{{$user->name}}">
 				  
                   <label class="edit-profile-label" for="username">Username</label>
-                  <input class="w-input edit-profile-field" data-name="Username" id="username" maxlength="256" name="username" placeholder="Enter your username address" required="required" value="{{$user->username}}">
+                  <input class="w-input edit-profile-field" data-name="Username" id="username" maxlength="256" name="username" placeholder="Enter your username address"  value="{{$user->username}}">
 				  
                   <label class="edit-profile-label" for="website">Website</label>
                   <input class="w-input edit-profile-field" data-name="Website" id="website" maxlength="256" name="website" placeholder="Enter Website" required="required" value="{{$user->website}}">
@@ -41,7 +53,7 @@
 				  <div class="edit-profile-heading-3">Private Information</div>
                   
 				  <label class="edit-profile-label" for="email">Email</label>
-                  <input class="w-input edit-profile-field" data-name="Email" id="email" maxlength="256" name="email" placeholder="Enter your email address" required="required" type="email" value="{{$user->email}}">
+                  <input class="w-input edit-profile-field" data-name="Email" id="email" maxlength="256" name="email" placeholder="Enter your email address" required="required"  value="{{$user->email}}">
 				  
                   <label class="edit-profile-label" for="phone_number">Phone Number</label>
                   <input class="w-input edit-profile-field" data-name="Email 4" id="phone_number" maxlength="256" name="phone_number" placeholder="Enter your Phone Number" required="required" type="number" value="{{$user->phone_number}}">
@@ -81,12 +93,7 @@
                 <input class="w-input edit-profile-field" data-name="Email 6" id="email-6" maxlength="256" name="email-6" placeholder="Enter your email address" required="required" type="email">
                 <input class="w-button edit-profile-submit" data-wait="Please wait..." type="submit" value="Change Password">
               </form>
-              <div class="w-form-done">
-                <p>Thank you! Your submission has been received!</p>
-              </div>
-              <div class="w-form-fail">
-                <p>Oops! Something went wrong while submitting the form</p>
-              </div>
+              
             </div>
           </div>
         </div>

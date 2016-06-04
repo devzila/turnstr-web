@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Posts;
 use App\Models\Passwordreset;
 use App\Helpers\ResponseClass;
+use App\Http\Requests\UserUpdateRequest ;
 use Hash;
 use Response;
 use App\Models\UserDevice;
@@ -16,6 +17,7 @@ use Mail;
 use URL;
 use Input;
 use Auth;
+use Session;
 class UserController extends Controller {
     /**
      * The Http Request Object
@@ -122,6 +124,60 @@ class UserController extends Controller {
 		$data['user'] =  User::find($userId);
 		return view('profile.editprofile',$data);
 		
+	}
+	
+	public function updateProfile(){
+		
+		$user_id = Auth::user()->id;
+		$user = User::find($user_id);
+		$userData = Input::all();
+		
+		$updatedArr = array(
+            'name'=>$userData['name'],
+            'email'=>$userData['email'],
+            'username'=>$userData['username'],
+            'phone_number'=>$userData['phone_number'],
+            'gender'=>$userData['gender'],
+            'bio'=>$userData['bio'],
+            'website'=>$userData['website']
+        );
+		
+		if(empty($updatedArr['email'])){
+			Session::flash('error','The Email Field is Required');
+			return redirect("users/edit");
+		}
+		if(!filter_var($updatedArr['email'], FILTER_VALIDATE_EMAIL)){
+			Session::flash('error','Enter Email Address in Email Field');
+			return redirect("users/edit");
+		}
+		
+		if(empty($updatedArr['username'])){
+			Session::flash('error','The Username Field is Required');
+			return redirect("users/edit");
+		}		
+		
+		$isEmailExist = User::where(function ($query)  use ($updatedArr) {
+            return $query->where('email',$updatedArr['email']);
+        })->where('id','!=',$user_id)->get();
+		
+		$isUsernameExist = User::where(function ($query)  use ($updatedArr) {
+            return $query->where('username',$updatedArr['username']);
+        })->where('id','!=',$user_id)->get();
+		
+		if (count($isEmailExist)) {
+            Session::flash('error','The Email already Exits');
+			return redirect("users/edit");
+        }
+		
+		if (count($isUsernameExist)) {
+            Session::flash('error','The Username already Exits');
+			return redirect("users/edit");
+        }
+		
+		User::where('id',$user_id)->update($updatedArr);
+		
+		Session::flash('success','Your Profile Updated Successfully');
+		return redirect("users/edit");
 	}
 	
 }
