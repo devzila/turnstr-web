@@ -27,8 +27,8 @@ html{
 }
 
 .navlink.loggedin {
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 10px;
+  padding-left: 10px;
   border-style: none;
   font-weight: 400;
   text-decoration: none;
@@ -73,6 +73,7 @@ html{
 .photocaption {
   display: inline-block;
   margin-top: 10px;
+  margin-left: 10px;
   padding-left: 10px;
   float: left;
   font-family: Lato, sans-serif;
@@ -112,8 +113,9 @@ html{
 .username {
   margin-top: 10px;
   font-family: Lato, sans-serif;
-  color: #666;
-  font-size: 16px;
+  color: #de5d12;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .followbtn {
@@ -136,7 +138,9 @@ html{
 
 .usercomment {
   font-family: Lato, sans-serif;
-  font-size: 14px;
+  color: #666;
+  font-size: 15px;
+  font-weight: 400;
 }
 
 .postedtime {
@@ -205,13 +209,6 @@ html{
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-}
-
-.login-content {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
 }
 
 .content-container {
@@ -313,7 +310,6 @@ html{
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  height: 100vh;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
@@ -334,13 +330,12 @@ html{
   position: relative;
 }
 
-.profile-pic {
+.profile-pic img {
   display: inline-block;
   width: 180px;
   height: 180px;
   border: 6px solid #fff;
   border-radius: 50%;
-  background-image: url('../images/1.jpg');
   background-position: 50% 50%;
   background-size: cover;
 }
@@ -458,6 +453,9 @@ html{
 
 .edit-profile-wrapper {
   margin-top: 60px;
+  padding: 15px;
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
 }
 
 .v-tab {
@@ -477,7 +475,7 @@ html{
   position: absolute;
   display: inline-block;
   width: 25%;
-  min-height: 600px;
+  min-height: 300px;
   padding-right: 9px;
   padding-left: 9px;
   border-right: 1px solid #d5d5d5;
@@ -548,7 +546,35 @@ html{
   text-align: center;
 }
 
+.header-search {
+  display: block;
+  width: 150px;
+  margin-top: 17px;
+  margin-right: auto;
+  margin-left: auto;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.search-field {
+  height: 30px;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  background-color: hsla(0, 0%, 100%, .8);
+  font-family: Lato, sans-serif;
+  color: #fff;
+}
+
 @media (max-width: 991px) {
+  .navbar {
+    display: block;
+    width: 100%;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+  }
   .login-form-container {
     min-height: 450px;
   }
@@ -563,13 +589,28 @@ html{
     color: #fff;
     font-size: 29px;
   }
+  .body-wrapper {
+    display: block;
+  }
   .profile-header-content {
     padding-right: 20px;
     padding-left: 20px;
   }
+  .header-search {
+    position: relative;
+    margin-left: 30%;
+    float: left;
+  }
+  .search-field {
+    display: inline-block;
+    float: left;
+  }
 }
 
 @media (max-width: 767px) {
+  .content {
+    padding-top: 0px;
+  }
   .footer {
     padding-right: 10px;
     padding-left: 10px;
@@ -607,12 +648,16 @@ html{
     margin-left: auto;
     background-color: hsla(0, 0%, 100%, .98);
   }
+  .content-wrapper {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
   .profile-pic {
     float: none;
   }
   .profile-header-content {
-    padding-right: 20px;
-    padding-left: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
     text-align: center;
   }
   .user-name {
@@ -631,8 +676,16 @@ html{
     padding-right: 30px;
     padding-left: 30px;
   }
+  .profile-upload-items {
+    margin-bottom: 15px;
+  }
+  .profile-image-grid.explorer {
+    padding-top: 30px;
+  }
   .edit-profile {
+    position: static;
     display: block;
+    width: 35%;
     margin-top: 25px;
     margin-right: auto;
     margin-left: auto;
@@ -673,9 +726,16 @@ html{
   .edit-profile-image {
     display: block;
   }
+  .header-search {
+    margin-right: 20%;
+    margin-left: 20%;
+  }
 }
 
 @media (max-width: 479px) {
+  .content {
+    padding-top: 0px;
+  }
   .postblock {
     width: 100%;
     padding-right: 5px;
@@ -730,6 +790,7 @@ html{
     min-height: 450px;
   }
   .profile-pic {
+    display: block;
     float: none;
   }
   .profile-header-content {
@@ -738,13 +799,18 @@ html{
     text-align: center;
   }
   .profile-info {
+    width: 100%;
     margin-left: 0px;
   }
   .user-name {
     margin-top: 10px;
   }
+  .profile-stats {
+    display: inline-block;
+  }
   .profile-stat-item {
     display: inline-block;
+    width: 33%;
     margin-right: 0px;
     padding-right: 10px;
     padding-left: 10px;
@@ -754,11 +820,30 @@ html{
     display: block;
   }
   .edit-profile {
+    position: static;
     width: 50%;
   }
   .following {
     width: 50%;
     margin-left: 0px;
+  }
+  .edit-profile-wrapper {
+    display: block;
+    padding-right: 10px;
+    padding-left: 10px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    text-align: center;
+  }
+  .v-tab {
+    width: 48%;
+  }
+  .v-tab-menu {
+    padding-right: 0px;
+    padding-left: 0px;
   }
   .edit-profile-label {
     display: block;
@@ -772,6 +857,10 @@ html{
   .edit-profile-submit {
     width: 100%;
     margin-left: 0%;
+  }
+  .header-search {
+    margin-right: 0%;
+    margin-left: 6%;
   }
 }
 
