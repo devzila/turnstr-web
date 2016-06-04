@@ -1,3 +1,6 @@
+html{
+	padding:0px !important;
+}
 .navbar {
   height: 64px;
   background-image: -webkit-linear-gradient(270deg, #ffb62e, #f76b1c);
@@ -7,6 +10,7 @@
 .brand {
   padding-top: 21px;
   padding-bottom: 21px;
+  border-style:none;
 }
 
 .navlink {
@@ -27,6 +31,7 @@
   padding-left: 15px;
   border-style: none;
   font-weight: 400;
+  text-decoration: none;
 }
 
 .navlink.loggedin.w--current {
