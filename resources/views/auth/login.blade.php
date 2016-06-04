@@ -36,7 +36,7 @@
                     <div class="w-form">
                         <form method="post" id="email-form" name="email-form" data-name="Email Form" action="{{ url('/login') }}">
                             {{ csrf_field() }}
-                            <input id="email"   placeholder="Email" type="email"  name="email" value="{{ old('email') }}" required="required" class="w-input formfield">
+                            <input id="email"   placeholder="Email/Username"  name="email" value="{{ old('email') }}" required="required" class="w-input formfield">
                             <input id="password" type="password" placeholder="password" name="password" required="required" class="w-input formfield">
                             <input type="submit" value="login" data-wait="Please wait..." class="w-button submit_btn">
                         </form>

@@ -8,7 +8,7 @@
                 <a  class="w-nav-link navlink" href="{{ url('/login') }}">Get the App</a>
                 <a  class="w-nav-link navlink" href="{{ url('/login') }}">Login</a>
             @else
-                <ul class="nav navbar-nav navbar-right">
+                <!--<ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             {{ Auth::user()->name }} <span class="caret"></span>
@@ -18,7 +18,11 @@
                             <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                         </ul>
                     </li>
-                </ul>
+                </ul>-->				
+				<a class="w-nav-link navlink loggedin" href="#">Discover</a>
+				<a class="w-nav-link navlink loggedin" href="#">activity</a>
+				<a class="w-nav-link navlink loggedin" href="/users/edit">Profile</a>
+				<a class="w-nav-link navlink loggedin" href="/logout">Logout</a>
             @endif
         </nav>
         <!-- Right Side Of Navbar -->

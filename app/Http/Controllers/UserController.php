@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Models\Posts;
 use App\Models\Passwordreset;
 use App\Helpers\ResponseClass;
-use App\Http\Requests\UserUpdateRequest ;
 use Hash;
 use Response;
 use App\Models\UserDevice;
