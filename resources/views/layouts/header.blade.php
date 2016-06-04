@@ -21,7 +21,7 @@
                 </ul>-->				
 				<a class="w-nav-link navlink loggedin" href="#">Discover</a>
 				<a class="w-nav-link navlink loggedin" href="#">activity</a>
-				<a class="w-nav-link navlink loggedin" href="/userprofile">Profile</a>
+				<a class="w-nav-link navlink loggedin @if(strpos(Request::fullUrl(),'/userprofile')) {{ 'w--current' }} @endif"  href="/userprofile">Profile</a>
 				<a class="w-nav-link navlink loggedin" href="/logout">Logout</a>
             @endif
         </nav>
