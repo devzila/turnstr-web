@@ -1,6 +1,6 @@
 <div data-collapse="medium" data-animation="default" data-duration="400" data-contain="1" class="w-nav navbar">
     <div class="w-container">
-        <a href="#" class="w-nav-brand brand"><img src="{{URL::asset('assets/images/logo_title.png')}}">
+        <a href="/" class="w-nav-brand brand"><img src="{{URL::asset('assets/images/logo_title.png')}}">
         </a>
         <!-- Right Side Of Navbar -->
         <nav role="navigation" class="w-nav-menu">
@@ -21,7 +21,7 @@
                 </ul>-->				
 				<a class="w-nav-link navlink loggedin" href="#">Discover</a>
 				<a class="w-nav-link navlink loggedin" href="#">activity</a>
-				<a class="w-nav-link navlink loggedin" href="/users/edit">Profile</a>
+				<a class="w-nav-link navlink loggedin" href="/userprofile">Profile</a>
 				<a class="w-nav-link navlink loggedin" href="/logout">Logout</a>
             @endif
         </nav>
