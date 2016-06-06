@@ -263,6 +263,33 @@ class Posts extends Model
 
       }
 	  
+	  public function scopeGetUserHomePosts($query, $userId, $page = 0,  $records = 50){
+
+        return  $query
+            ->join('users','posts.user_id','=','users.id')
+            ->select('posts.*','users.name', 'users.profile_image','users.profile_thumb_image')
+			->where('users.id',$userId)
+            ->orwhereIn('user_id', function($subQuery) use($userId)
+            {
+                $subQuery->select('user_id')
+                    ->from('user_activity')
+                    ->where('follower_id', $userId);
+            })
+            ->orWhereIn('posts.id', function($subQuery) use($userId)
+            {
+                $subQuery->select('post_id')
+                    ->from('user_activity')
+                    ->where('liked_id', $userId);
+            })
+            ->orderBy('posts.updated_at', 'desc')
+            ->skip($page * $records)
+            ->take($records)
+            ->get();
+			//echo count($a);
+
+      }
+	  
+	  
 	  public function scopeUserProfilePosts($query, $userId){
 
         return $query
