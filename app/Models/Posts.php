@@ -281,7 +281,7 @@ class Posts extends Model
                     ->from('user_activity')
                     ->where('liked_id', $userId);
             })
-            ->orderBy('posts.updated_at', 'desc')
+            ->orderBy('posts.created_at', 'desc')
             ->skip($page * $records)
             ->take($records)
             ->get();
