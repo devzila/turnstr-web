@@ -273,20 +273,20 @@ class Posts extends Model
             {
                 $subQuery->select('user_id')
                     ->from('user_activity')
-                    ->where('follower_id', $userId);
+                    ->where('follower_id', $userId)
+                    ->where('status', 1);
             })
             ->orWhereIn('posts.id', function($subQuery) use($userId)
             {
                 $subQuery->select('post_id')
                     ->from('user_activity')
-                    ->where('liked_id', $userId);
+                    ->where('liked_id', $userId)
+					->where('status', 1);
             })
             ->orderBy('posts.created_at', 'desc')
             ->skip($page * $records)
             ->take($records)
             ->get();
-			//echo count($a);
-
       }
 	  
 	  

@@ -33,7 +33,7 @@ class PostsController extends Controller
     {
         // $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
         // $selfposts = Posts::selfPosts(DeviceSession::get()->user->id);
-        $res = Posts::homePagePosts(DeviceSession::get()->user->id);
+        $res = Posts::GetUserHomePosts(DeviceSession::get()->user->id);
 
         if (count($res)) {
             foreach ($res as $key => $value) {
@@ -41,6 +41,8 @@ class PostsController extends Controller
                 $value->total_likes = (string)($value->total_likes);
                 $value->total_comments = (string)($commentsCount);
                 $value->shareUrl = UniversalClass::shareUrl($value->id);
+                $value->liked = null;
+                $value->is_following = null;
 
             }
         }

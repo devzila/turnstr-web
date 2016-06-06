@@ -19,9 +19,10 @@ class Useractivity extends Model
 
         return $query->where(function ($query) use ($user_id) {
            //$query->where('user_activity.user_id',$user_id)
-                    $query->where('user_activity.follower_id',$user_id)
-                    ->orWhere('user_activity.liked_id',$user_id)
-                    ->where('user_activity.user_id','<>',$user_id);
+                    $query->where('user_activity.follower_id','<>',$user_id)
+                    ->where('user_activity.liked_id','<>',$user_id)
+                    ->where('user_activity.user_id',$user_id)
+                    ->where('user_activity.status',1);
         })
         ->leftjoin('posts as postData',function($join) {
             $join->where('user_activity.activity','=','liked');
