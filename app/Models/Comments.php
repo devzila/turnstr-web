@@ -10,9 +10,13 @@ class Comments extends Model
     protected $table = 'comments';
     protected $fillable = ['user_id','post_id','comments']; 
 
-    public function scopeCommentsByPost($query, $post_id) {
-    	return $query->where('post_id',$post_id)->join('users','comments.user_id','=','users.id')
-    					->select('comments.*','users.username','users.profile_image')->orderBy('comments.created_at','DESC')->get();
+    public function scopeCommentsByPost($query, $post_id,$record = "") {
+    	$query->where('post_id',$post_id)->join('users','comments.user_id','=','users.id')
+    		  ->select('comments.*','users.username','users.profile_image')->orderBy('comments.created_at','DESC');
+		if(!empty($record)){
+			$query->take($record);
+		}
+		return $query->get();
     }
     /*
     * Get comments count by post id
