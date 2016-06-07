@@ -373,6 +373,9 @@ class PostsController extends Controller
     {
         $currentUserId = DeviceSession::get()->user->id;
         $userIdName = Input::get('user_id');
+		if ($userIdName=='') {
+            return ResponseClass::Prepare_Response('','Invalid user-id',false,200);
+        }
 		$userId = "";
 		if($userIdName[0] == '@'){
 			$fieldName = 'username';
