@@ -467,6 +467,9 @@
 	var queueIndex = -1;
 
 	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
 	    draining = false;
 	    if (currentQueue.length) {
 	        queue = currentQueue.concat(queue);
@@ -638,6 +641,11 @@
 
 	  api.ready = function() {
 	    var doBranding = $html.attr('data-wf-status');
+	    var publishedDomain = $html.attr('data-wf-domain') || '';
+
+	    if (/\.webflow\.io$/i.test(publishedDomain) && location.hostname !== publishedDomain) {
+	      doBranding = true;
+	    }
 
 	    if (doBranding) {
 	      var $branding = $('<div></div>');
