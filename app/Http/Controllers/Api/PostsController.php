@@ -373,12 +373,14 @@ class PostsController extends Controller
     {
         $currentUserId = DeviceSession::get()->user->id;
         $userIdName = Input::get('user_id');
+		$userId = "";
 		if($userIdName[0] == '@'){
 			$fieldName = 'username';
 			$userIdName = substr($userIdName, 1); 
 			$userdt = User::where('username',$userIdName)->first();
-			
-			$userId = $userdt->id;
+			if($userdt){
+				$userId = $userdt->id;
+			}
 		}else{
 			$userId = $userIdName;		
 		}
