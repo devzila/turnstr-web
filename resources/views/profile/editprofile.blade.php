@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="body-wrapper">
+
 <div class="w-section content-wrapper">
     <div class="w-container edit-profile-wrapper">
       <div class="w-tabs" data-duration-in="300" data-duration-out="100">
@@ -12,7 +12,7 @@
             <div>Change Password</div>
           </a>
         </div>
-        <div class="w-tab-content v-tab-content">
+        <div class="w-tab-content v-tab-content text-left">
           <div class="w-tab-pane w--tab-active" data-w-tab="Tab 1">
             <div class="edit-profile-info">
               <div class="w-row">
@@ -101,5 +101,5 @@
       </div>
     </div>
   </div>
- </div>
+
  @endsection
