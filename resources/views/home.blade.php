@@ -18,7 +18,9 @@
 
                     </div>
                 </div>
-
+				<div class="w-clearfix photosharecaption">
+					<div class="comments-count"><span>Comments {{$post->total_comments}}  , </span><span> Likes {{$post->total_likes}}</span></div>
+				</div>
                 <div class="w-clearfix userinfo">
 					@if($post->profile_thumb_image)
 						<div class="userthumb">
@@ -30,8 +32,35 @@
                         <div class="usercomment">{{ $post->caption }}</div>
                     </div>
                 </div>
-
-
+				@if($post->comments->isEmpty())
+                    <div class="w-clearfix userinfo">
+                        <div class="usercommentsblock">
+                            <div class="username">No Comment</div>
+                        </div>
+                    </div>
+                @else
+                    @foreach($post->comments as $comment)
+                        <div class="w-clearfix userinfo">
+                            <div class="userthumb"><img class="img-circle" src="<?php echo $comment->profile_image;?>" />
+                            </div>
+                            <div class="usercommentsblock">
+                                <div class="username">{{ $comment->username}}</div>
+                                <div class="usercomment">{{ $comment->comments }}</div>
+                            </div>
+                            <?php
+                            if(empty($comment->comments)){?>
+                            <div class="usercommentsblock">
+                                <div class="username">No Comments</div>
+                            </div>
+                            <?php }?>
+                            <div class="postedtime">3h</div>
+                            <div class="photocaption"></div>
+                        </div>
+                    @endforeach
+                @endif
+				@if($post->total_comments > 2)
+				 <div class="view-share"><a href="<?php echo App\Helpers\UniversalClass::shareUrl($post->id) ?>">View More</a></div>
+				@endif
             </div>
 
         </div>

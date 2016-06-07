@@ -883,3 +883,7 @@ html{
 .postimage.homepostimg {
 	height:100%;
 }
+.view-share {
+	float:right;
+	margin-right:10px;
+}
