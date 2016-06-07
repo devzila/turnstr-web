@@ -85,6 +85,19 @@ class Useractivity extends Model
     	$res = $query->where('activity','liked')->where('post_id',$post_id)->count();
     	return ($res>0) ? $res : -1 ;
     }
+	
+	/*
+	* Get Like Status of the Post by user id
+    */
+    public function scopeLikeStatusByUserId($query, $post_id,$userId) {
+    	$res = $query
+				->where('post_id',$post_id)
+				->where('user_id',$userId)->where('activity','liked')
+				->select('status')
+				->first();		
+		return $res;
+    }
+	
     /*
 	* Get Followers Details
     */
