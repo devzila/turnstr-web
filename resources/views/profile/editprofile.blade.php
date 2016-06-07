@@ -13,6 +13,7 @@
           </a>
         </div>
         <div class="w-tab-content v-tab-content text-left">
+		
           <div class="w-tab-pane w--tab-active" data-w-tab="Tab 1">
             <div class="edit-profile-info">
               <div class="w-row">
@@ -37,7 +38,7 @@
 			  @endif
 			  <div class="edit-profile-form">
               <div class="w-form">
-                <form data-name="Email Form" id="email-form" name="email-form" method="post" action="/users/update">
+                <form data-name="Edit Form" id="edit-form" name="edit-form" method="post" action="/users/update">
 				  {!! csrf_field() !!}
                   <label class="edit-profile-label" for="name">Name</label>
                   <input class="w-input edit-profile-field" data-name="Name" id="name" maxlength="256" name="name" placeholder="Enter your name" type="text" value="{{$user->name}}">
@@ -75,23 +76,24 @@
               </div>
             </div>
           </div>
-          <div class="w-tab-pane " data-w-tab="Tab 2">
+          <div class="w-tab-pane" data-w-tab="Tab 2">
             <div class="w-row">
               <div class="w-col w-col-4 w-col-medium-6 w-col-small-4 w-col-tiny-6 edit-profile-image">
-                <div class="profile-pic edit"></div>
+                <div class="profile-pic edit"><img src="{{$user->profile_image}}"></div>
               </div>
               <div class="w-col w-col-8 w-col-medium-6 w-col-small-8 w-col-tiny-6">
-                <h3 class="user-name edit">Jim Baker</h3>
+                <h3 class="user-name edit">{{$user->name}}</h3>
               </div>
             </div>
             <div class="w-form">
-              <form data-name="Email Form" id="email-form" name="email-form">
-                <label class="edit-profile-label" for="name-2">Old Password</label>
-                <input class="w-input edit-profile-field" data-name="Name 2" id="name-2" maxlength="256" name="name-2" placeholder="Enter your name" type="text">
-                <label class="edit-profile-label" for="email-5">New Password</label>
-                <input class="w-input edit-profile-field" data-name="Email 5" id="email-5" maxlength="256" name="email-5" placeholder="Enter your email address" required="required" type="email">
-                <label class="edit-profile-label" for="email-6">New Password again</label>
-                <input class="w-input edit-profile-field" data-name="Email 6" id="email-6" maxlength="256" name="email-6" placeholder="Enter your email address" required="required" type="email">
+              <form data-name="Password Form" id="password-form" name="password-form" action="/password/changePassword">
+                {!! csrf_field() !!}
+				<label class="edit-profile-label" for="oldpassword">Old Password</label>
+                <input class="w-input edit-profile-field" data-name="oldpassword" id="oldpassword" maxlength="50" name="name-2" placeholder="Enter your Old Password" type="password">
+                <label class="edit-profile-label" for="password">New Password</label>
+                <input class="w-input edit-profile-field" data-name="password" id="password" maxlength="50" name="password" placeholder="Enter new password" required="required" type="password">
+                <label class="edit-profile-label" for="cpassword">Confirm Password</label>
+                <input class="w-input edit-profile-field" data-name="cpassword" id="cpassword" maxlength="50" name="cpassword" placeholder="Confirm Password" required="required" type="password">
                 <input class="w-button edit-profile-submit" data-wait="Please wait..." type="submit" value="Change Password">
               </form>
               
@@ -101,5 +103,8 @@
       </div>
     </div>
   </div>
-
- @endsection
+@endsection
+@section('additional_js')
+  <script type="text/javascript" src="{{ asset('/assets/js/modernizr.js')}}"></script>  
+  <!--[if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+@endsection

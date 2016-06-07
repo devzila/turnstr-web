@@ -179,4 +179,16 @@ class UserController extends Controller {
 		return redirect("users/edit");
 	}
 	
+	public function changePasword(){
+		$userId = Auth::user()->id;
+		$oldpassword = $this->request->input('oldpassword');
+		$password = $this->request->input('password');
+		$cpassword = $this->request->input('cpassword');
+		if(empty($oldpassword) || empty($password) || empty($cpassword)){
+			Session::flash('error','All Fields are Required.');
+			return redirect("users/edit");
+		}		
+    }
+	
+	
 }
