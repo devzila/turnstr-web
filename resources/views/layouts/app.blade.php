@@ -18,19 +18,20 @@
     <script>
         WebFont.load({
             google: {
-                families: ["Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic"]
+                families: ["Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic","Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic","Raleway:200,300,regular,500,600,700,800,900"]
             }
         });
     </script>
     <link rel="apple-touch-icon" href="https://daks2k3a4ib2z.cloudfront.net/img/webclip.png">
 </head>
 <body>
-
+<div class="body-wrapper">
 <!-- Header -->
 @include('layouts/header')
 
 
-<div class="w-container content">
+<!--<div class="w-container content">-->
+<div class="content-wrapper">
     @yield('content')
 </div>
 
@@ -43,5 +44,6 @@
 <script src="{{ asset("/assets/js/custom/docs.js") }}" type="text/javascript"></script>
 
 @yield('additional_js')
+</div>
 </body>
 </html>
