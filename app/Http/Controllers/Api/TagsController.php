@@ -9,6 +9,8 @@ use Response;
 use App\Models\PostTags;
 use App\Models\Posts;
 use App\Models\Api;
+use App\Models\Useractivity;
+use App\Models\DeviceSession;
 use DB;
 
 class TagsController extends Controller
@@ -34,6 +36,16 @@ class TagsController extends Controller
 
         // add additional field
         $posts = Posts::addExtraAttributes($posts);
+		
+		$userId = DeviceSession::get()->user->id;
+		if($userId && $posts){			
+            foreach ($posts as $key => $value) {
+				$followingDetails = Useractivity::getFollowDetailByUserId($value->user_id,$userId);
+				$value->follow = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
+				$likeDetail = Useractivity::likeStatusByUserId($value->id,$userId);
+				$value->liked = (count($likeDetail) && isset($likeDetail->status)) ? (int)($likeDetail->status) : 0 ;
+			}
+		}
 
         return ResponseClass::Prepare_Response($posts,"Post Listing tagged for $id",true, Api::STATUS_CODE_SUCCESS_OK);
     }

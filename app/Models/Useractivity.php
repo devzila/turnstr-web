@@ -92,7 +92,7 @@ class Useractivity extends Model
     public function scopeLikeStatusByUserId($query, $post_id,$userId) {
     	$res = $query
 				->where('post_id',$post_id)
-				->where('user_id',$userId)->where('activity','liked')
+				->where('liked_id',$userId)->where('activity','liked')
 				->select('status')
 				->first();		
 		return $res;
