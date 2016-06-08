@@ -1,6 +1,13 @@
 html{
 	padding:0px !important;
 }
+body {
+  font-family: Lato, sans-serif;
+  color: #333;
+  font-size: 14px;
+  line-height: 20px;
+}
+
 .navbar {
   height: 64px;
   background-image: -webkit-linear-gradient(270deg, #ffb62e, #f76b1c);
@@ -47,6 +54,8 @@ html{
 
 .content {
   padding-top: 40px;
+  font-family: Lato, sans-serif;
+  font-size: 16px;
   text-align: center;
 }
 
@@ -90,24 +99,20 @@ html{
   color: #4891de;
 }
 
-.options {
-  display: inline-block;
-  margin-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  float: right;
-}
-
 .userinfo {
   margin-top: 15px;
   padding-right: 10px;
   padding-left: 10px;
 }
 
-.userthumb {
+.userthumb  img{
   width: 40px;
   height: 40px;
   float: left;
+  border-radius: 50px;
+  background-color: #969696;
+  background-position: 50% 50%;
+  background-size: cover;
 }
 
 .username {
@@ -319,7 +324,15 @@ html{
 }
 
 .content-wrapper {
-  display: block;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -558,12 +571,276 @@ html{
 }
 
 .search-field {
-  height: 30px;
-  border: 1px solid #fff;
-  border-radius: 3px;
+  width: 80%;
+  height: 40px;
+  float: left;
+  border: 1px solid #c2c2c2;
+  border-radius: 3px 0px 0px 3px;
   background-color: hsla(0, 0%, 100%, .8);
   font-family: Lato, sans-serif;
   color: #fff;
+  font-size: 16px;
+}
+
+.post-content {
+  position: relative;
+}
+
+.post-modal {
+  position: fixed;
+  z-index: 1500;
+  display: none;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .55);
+  opacity: 0;
+}
+
+.modal-content {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin-top: 100px;
+  text-align: center;
+}
+
+.modal-window {
+  display: block;
+  width: 60%;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 5px 20px 20px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 31px 33px 0 rgba(0, 0, 0, .16);
+  opacity: 1;
+}
+
+.slider {
+  min-height: 400px;
+  background-color: transparent;
+}
+
+.dropdown-control {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 40px;
+  margin-right: 10px;
+  background-color: transparent;
+  text-align: center;
+}
+
+.dropdown-menu {
+  display: block;
+  margin-bottom: 0px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.dropdown-list {
+  position: relative;
+  top: 0px;
+  right: 50px;
+  display: none;
+  width: 150px;
+  margin-top: 0px;
+  padding: 0px;
+  border: 1px solid #c9c9c9;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 5px 3px 0 rgba(0, 0, 0, .1);
+  opacity: 0;
+}
+
+.dropdown-link-item {
+  display: block;
+  width: 100%;
+  padding: 10px 20px;
+  font-family: Lato, sans-serif;
+  color: #de5d12;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.dropdown-link-item:hover {
+  background-color: #f2f2f2;
+}
+
+.post-stats {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.post-stats-label {
+  display: inline-block;
+  font-family: Lato, sans-serif;
+  color: #999;
+  font-weight: 400;
+}
+
+.post-stats-data {
+  display: inline-block;
+  margin-right: 10px;
+  margin-left: 5px;
+  font-family: Lato, sans-serif;
+  font-weight: 700;
+}
+
+.share-modal-heading {
+  margin-bottom: 20px;
+  font-family: Lato, sans-serif;
+  color: #666;
+  font-size: 24px;
+}
+
+.share-platform-list {
+  display: inline-block;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.close-modal {
+  padding: 8px 23px;
+  color: #333;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.search-module {
+  margin-bottom: 20px;
+}
+
+.search-submit {
+  width: 20%;
+  height: 40px;
+  float: left;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  text-transform: uppercase;
+}
+
+.search-form {
+  display: block;
+  width: 70%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.activity-list-item {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 10px 25px;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-bottom: 1px solid #e2e2e2;
+  color: #666;
+  font-size: 16px;
+}
+
+.activity-text {
+  padding-left: 25px;
+  float: left;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  text-align: left;
+}
+
+.activity-username {
+  color: #333;
+  font-weight: 700;
+}
+
+.activity-time {
+  color: #999;
+}
+
+.activity-container {
+  padding-top: 35px;
+  padding-bottom: 35px;
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.followers {
+  position: absolute;
+  z-index: 2500;
+  display: none;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .5);
+  opacity: 0;
+}
+
+.modal-content-window {
+  position: relative;
+  margin-top: 100px;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.followers-heading {
+  display: block;
+  margin-top: 0px;
+  border-bottom: 1px solid #d3d3d3;
+  font-size: 24px;
+}
+
+.follow-button {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  float: right;
+  border: 1px solid #de5d12;
+  border-radius: 5px;
+  background-color: transparent;
+  color: #de5d12;
+}
+
+.followers-bg-link {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100vh;
+}
+
+.close-button {
+  position: static;
+  top: 10px;
+  right: 10px;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  font-family: 'Fontawesome webfont', sans-serif;
+  font-size: 23px;
+}
+
+.close-button-link {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  padding: 4px 0px 0px;
+  color: #585858;
+  text-align: center;
+  text-decoration: none;
 }
 
 @media (max-width: 991px) {
@@ -865,6 +1142,12 @@ html{
   }
 }
 
+@font-face {
+  font-family: 'Fontawesome webfont';
+  src: url('../fonts/fontawesome-webfont.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
 .photosharecaption {
   display: inline-block;  
   font-family: Lato, sans-serif;

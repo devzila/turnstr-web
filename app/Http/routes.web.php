@@ -10,6 +10,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/userprofile/{id?}', 'UserController@userProfile');
     Route::get('/users/edit', 'UserController@edit');
     Route::post('/users/update', 'UserController@updateProfile');
+    Route::get('/users/activity', 'ActivityController@getActivity');
 });
 
 Route::group(['middleware' => ['web','auth'], 'prefix' => 'admin'], function () {
