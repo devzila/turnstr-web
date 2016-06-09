@@ -17,7 +17,7 @@
 					<a class="w-button following" href="#">Following</a>
 					<div class="profile_intro">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</div>
                 @else
-					<div class="profile-subheading">@JimBaker</div>
+					<div class="profile-subheading">{{$userdetail->username}}</div>
 					<a href="/users/edit" class="w-button edit-profile">Edit Profile</a>
 				@endif
 				

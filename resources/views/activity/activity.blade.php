@@ -14,8 +14,7 @@
 				 </div>
 			@else
 				@foreach($activities as $activity)
-					  <div class="w-clearfix activity-list-item">
-					  
+					  <div class="w-clearfix activity-list-item">					  
 						<div class="userthumb">@if($activity->user_info->profile_thumb_image)<img src="{{$activity->user_info->profile_thumb_image}}">@endif</div>
 					  
 					  <div class="activity-text">
@@ -25,7 +24,7 @@
 						  @else
 								&nbsp; has started following you. 
 						  @endif
-						  <span class="activity-time">12w</span>
+						  <span class="activity-time">{{ App\Helpers\UniversalClass::timeString(strtotime($activity->activity_time))}}</span>
 						  </div>
 						</div>
 					  </div>
