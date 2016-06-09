@@ -115,12 +115,22 @@ body {
   background-size: cover;
 }
 
-.username {
+.username{
   margin-top: 10px;
   font-family: Lato, sans-serif;
   color: #de5d12;
   font-size: 15px;
   font-weight: 700;
+}
+
+.username  a{
+  margin-top: 10px;
+  font-family: Lato, sans-serif;
+  color: #de5d12;
+  font-size: 15px;
+  font-weight: 700;
+  border-style:none;
+  text-decoration:none;
 }
 
 .followbtn {
@@ -1172,4 +1182,11 @@ body {
 }
 .text-left{
 	text-align:left;
+}
+
+a.link-anchor{
+	border-style: none;
+}
+.post-thumb{
+	float:right;
 }

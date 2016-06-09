@@ -138,14 +138,25 @@
                     </div>
 					
                 </div>
-				
-				<div class="w-clearfix photosharecaption">
-					
-					<div class="comments-count"><span>Comments {{ $total_comments }}  , </span><span > Likes {{ $total_likes}}</span></div>					
-					@if($post->caption)					
-						<div class="w-clearfix">{{ $post->caption }}</div>
-					@endif
+				<div class="post-stats">
+					<div class="post-stats-label">Comments</div>
+					<div class="post-stats-data">{{$total_comments}}</div>
+					<div class="post-stats-label">Likes</div>
+					<div class="post-stats-data">{{$total_likes}}</div>
 				</div>
+				<div class="w-clearfix post-content">
+					@if($post->caption)
+						<div class="photocaption">{{$post->caption}}</div>
+					@endif
+					<div class="tag"></div>
+					<div class="dropdown-control">
+					  <div>
+						<a class="w-inline-block dropdown-menu" data-ix="dropdown" href="#"><img src="/assets/images/options.png">
+						</a>
+					  </div>
+					  <div class="dropdown-list" data-ix="hoverout"><a class="dropdown-link-item" href="#">Report</a><a class="dropdown-link-item" data-ix="show-modal" href="#">Share</a>
+					  </div>
+					</div>
 				@if($userdetail->name)
 					<div class="w-clearfix userinfo">	
 						@if($userdetail->profile_thumb_image)
@@ -159,7 +170,7 @@
 						@endif
 						<a class="w-button followbtn" href="#">follow</a>
 							<div class="usercommentsblock">
-							<div class="username"> {{ $userdetail->name }} </div>
+							<div class="username"> <a href="/userprofile/{{$userdetail->id}}"> {{ $userdetail->name }} </a></div>
 						</div>
 					</div>
 				@endif
@@ -172,10 +183,11 @@
                 @else
                     @foreach($comments as $comment)
                         <div class="w-clearfix userinfo">
-                            <div class="userthumb"><img class="img-circle" src="<?php echo $comment->profile_image;?>" />
+                            <div class="userthumb">
+							<a href="/userprofile/{{$comment->user_id}}"><img class="img-circle" src="<?php echo $comment->profile_image;?>" /></a>
                             </div>
                             <div class="usercommentsblock">
-                                <div class="username">{{ $comment->username}}</div>
+                                <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{ $comment->username}}</a></div>
                                 <div class="usercomment">{{ $comment->comments }}</div>
                             </div>
                             <?php
@@ -190,7 +202,7 @@
                     @endforeach
                 @endif
 
-
+				</div>
             </div>
 
         </div>
@@ -211,7 +223,32 @@
             border-radius: 50%;
         }
     </style>
-
+<div class="post-modal">
+    <div class="w-container modal-content">
+      <div class="modal-window">
+        <h1 class="share-modal-heading">Share Post</h1>
+        <div class="share-platforms">
+          <ul class="w-list-unstyled">
+            <li class="share-platform-list"><img src="/assets/images/facebook.png" width="120">
+            </li>
+            <li class="share-platform-list"><img src="/assets/images/twitter@2x.png" width="120">
+            </li>
+            <li class="share-platform-list"><img src="/assets/images/tumblr@2x.png" width="120">
+            </li>
+            <li class="share-platform-list"><img src="/assets/images/flickr@2x.png" width="120">
+            </li>
+            <li class="share-platform-list"><img src="/assets/images/email@2x.png" width="120">
+            </li>
+            <li class="share-platform-list"><img src="/assets/images/foursquare@2x.png" width="120">
+            </li>
+          </ul>
+        </div>
+        <a class="w-inline-block close-modal" data-ix="dissapear-modal" href="#">
+          <div>Close</div>
+        </a>
+      </div>
+    </div>
+  </div>
 @endsection
 @section('additional_js')
     <script src="https://cdn.rawgit.com/vinayakjadhav/jR3DCarousel/v0.0.8/dist/jR3DCarousel.min.js"></script>

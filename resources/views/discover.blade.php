@@ -4,8 +4,8 @@
         <div class="w-container">
           <div class="search-module">
             <div class="w-form">
-              <form class="w-clearfix search-form" data-name="Email Form" id="email-form" name="email-form">
-                <input class="w-input search-field" data-name="Search" id="searchData" maxlength="256" name="searchData" placeholder="Search" type="text" value="{{Input::get('searchData')}}">
+              <form class="w-clearfix search-form" action="/discover">
+                <input class="w-input search-field"  id="searchData" maxlength="256" name="searchData" placeholder="Search" type="text" value="{{Input::get('searchData')}}">
                 <input class="w-button search-submit" data-wait="Please wait..." type="submit" value="Submit">
               </form>
               <div class="w-form-done">
