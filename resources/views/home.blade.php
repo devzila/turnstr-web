@@ -18,17 +18,21 @@
 
                     </div>
                 </div>
-				<div class="w-clearfix photosharecaption">
-					<div class="comments-count"><span>Comments {{$post->total_comments}}  , </span><span> Likes {{$post->total_likes}}</span></div>
+				<div class="post-stats">
+					<div class="post-stats-label">Comments</div>
+					<div class="post-stats-data">{{$post->total_comments}}</div>
+					<div class="post-stats-label">Likes</div>
+					<div class="post-stats-data">{{$post->total_likes}}</div>
 				</div>
+				
                 <div class="w-clearfix userinfo">
 					@if($post->profile_thumb_image)
 						<div class="userthumb">
-							<img class="img-circle" src="<?php echo $post->profile_thumb_image;?>" />
+							<a href="/userprofile/{{$post->user_id}}"><img class="img-circle" src="<?php echo $post->profile_thumb_image;?>" /></a>
 						</div>
 					@endif					
                     <div class="usercommentsblock">
-                        <div class="username">{{ $post->name}}</div>
+                        <div class="username"><a href="/userprofile/{{$post->user_id}}">{{ $post->name}}</a></div>
                         <div class="usercomment">{{ $post->caption }}</div>
                     </div>
                 </div>
@@ -41,18 +45,19 @@
                 @else
                     @foreach($post->comments as $comment)
                         <div class="w-clearfix userinfo">
-                            <div class="userthumb"><img class="img-circle" src="<?php echo $comment->profile_image;?>" />
+                            <div class="userthumb">
+								<a href="/userprofile/{{$comment->user_id}}"><img class="img-circle" src="<?php echo $comment->profile_image;?>" /></a>
                             </div>
                             <div class="usercommentsblock">
-                                <div class="username">{{ $comment->username}}</div>
+                                <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{ $comment->username}}</a></div>
                                 <div class="usercomment">{{ $comment->comments }}</div>
                             </div>
-                            <?php
-                            if(empty($comment->comments)){?>
+                            
+                            @if(empty($comment->comments))
                             <div class="usercommentsblock">
                                 <div class="username">No Comments</div>
                             </div>
-                            <?php }?>
+                            @endif
                             <div class="postedtime">{{ App\Helpers\UniversalClass::timeString(strtotime($comment->created_at))}}</div>
                             <div class="photocaption"></div>
                         </div>
