@@ -237,6 +237,8 @@ class PostsController extends Controller
             $imagesToExplore[$key]->media3_type = end($arr3);
             $imagesToExplore[$key]->media4_type = end($arr4);
             
+			$imagesToExplore[$key]->is_following = ($value->follow > 0) ? (int)($value->follow) : 0;
+			
             // getting comments count
             $commentsCount = comments::commentsCountByPostId($value->id);
             $imagesToExplore[$key]->comments_count = ($commentsCount > 0) ? (string)($commentsCount) : "0" ;
