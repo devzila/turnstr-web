@@ -41,7 +41,9 @@ class HomeController extends Controller
                 $commentsCount = Comments::commentsCountByPostId($value->id);                
 				$commentsCount = ($commentsCount==-1)?0:$commentsCount;
                 $value->total_comments = (string)($commentsCount);
-				$value->total_likes = ($value->total_likes==-1)?0:$value->total_likes;			
+				//$value->total_likes = ($value->total_likes==-1)?0:$value->total_likes;
+				$total_likes = Useractivity::likeCountByPostId($value->id);
+                $value->total_likes = (string)(($total_likes>0)?$total_likes:0);
             }
         }
 		
