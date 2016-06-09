@@ -26,9 +26,9 @@
 				</div>
 				
                 <div class="w-clearfix userinfo">
-					@if($post->profile_thumb_image)
+					@if($post->profile_image)
 						<div class="userthumb">
-							<a href="/userprofile/{{$post->user_id}}"><img class="img-circle" src="<?php echo $post->profile_thumb_image;?>" /></a>
+							<a href="/userprofile/{{$post->user_id}}"><img class="img-circle" src="{{$post->profile_image}}" /></a>
 						</div>
 					@endif					
                     <div class="usercommentsblock">

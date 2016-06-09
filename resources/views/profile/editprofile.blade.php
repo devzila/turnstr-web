@@ -32,7 +32,7 @@
 				  </div>
 			  @endif
 			  @if (Session::has('error'))
-				  <div class="w-form-fail">
+				  <div class="w-form-fail" style="display:block;">
 					<p>{{Session::get('error')}}</p>
 				  </div>
 			  @endif
@@ -86,10 +86,10 @@
               </div>
             </div>
             <div class="w-form">
-              <form data-name="Password Form" id="password-form" name="password-form" action="/password/changePassword">
+              <form data-name="Password Form" id="password-form" name="password-form" action="/users/changepassword" method="post">
                 {!! csrf_field() !!}
 				<label class="edit-profile-label" for="oldpassword">Old Password</label>
-                <input class="w-input edit-profile-field" data-name="oldpassword" id="oldpassword" maxlength="50" name="name-2" placeholder="Enter your Old Password" type="password">
+                <input class="w-input edit-profile-field" data-name="oldpassword" id="oldpassword" maxlength="50" name="oldpassword" placeholder="Enter your Old Password" type="password">
                 <label class="edit-profile-label" for="password">New Password</label>
                 <input class="w-input edit-profile-field" data-name="password" id="password" maxlength="50" name="password" placeholder="Enter new password" required="required" type="password">
                 <label class="edit-profile-label" for="cpassword">Confirm Password</label>
