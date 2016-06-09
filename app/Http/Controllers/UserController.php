@@ -181,13 +181,28 @@ class UserController extends Controller {
 	
 	public function changePasword(){
 		$userId = Auth::user()->id;
+		
 		$oldpassword = $this->request->input('oldpassword');
 		$password = $this->request->input('password');
 		$cpassword = $this->request->input('cpassword');
 		if(empty($oldpassword) || empty($password) || empty($cpassword)){
 			Session::flash('error','All Fields are Required.');
 			return redirect("users/edit");
-		}		
+		}
+		if($password != $cpassword){
+			Session::flash('error','Confirm Password do not Match with New Password');
+			return redirect("users/edit");
+		}
+		
+		$userDetails = User::find($userId);
+		if($userDetails->password != Hash::make($oldpassword)){
+			Session::flash('error','Please enter correct old Password');
+			return redirect("users/edit");
+		}
+		$hashedPassword = Hash::make($password);
+        User::where('id',$userDetails->id)->update(array('password'=>$hashedPassword));
+		Session::flash('success','Your Profile Updated Successfully');
+		return redirect("users/edit");
     }
 	
 	
