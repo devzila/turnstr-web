@@ -39,8 +39,8 @@ class PostsController extends Controller
         if (count($res)) {
             foreach ($res as $key => $value) {
                 $commentsCount = Comments::commentsCountByPostId($value->id);
-                $value->total_likes = (string)($value->total_likes);
-                $value->total_comments = (string)($commentsCount);
+                $value->total_likes = (string)(($value->total_likes>0)?$value->total_likes:0);
+                $value->total_comments = (string)(($commentsCount>0)?$commentsCount:0);
                 $value->shareUrl = UniversalClass::shareUrl($value->id);
 				
 				$followingDetails = Useractivity::getFollowDetailByUserId($value->user_id,$userId);

@@ -16,9 +16,9 @@
 				@foreach($activities as $activity)					
 					  <div class="w-clearfix activity-list-item">					  
 						<div class="userthumb">
-						@if($activity->user_info->profile_thumb_image)
+						@if($activity->user_info->profile_image)
 							<a href="/userprofile/{{$activity->user_info->id}}">
-								<img src="{{$activity->user_info->profile_thumb_image}}">
+								<img src="{{$activity->user_info->profile_image}}">
 							</a>
 						@endif
 						</div>
@@ -26,7 +26,7 @@
 					  <div class="activity-text">
 						  <div><span class="activity-username username">
 						  <a class="link-anchor" href="/userprofile/{{$activity->user_info->id}}">
-							{{$activity->user_info->username}}
+							{{$activity->user_info->name}}
 						  </a>
 						  </span>
 						  @if($activity->activity == 'liked')

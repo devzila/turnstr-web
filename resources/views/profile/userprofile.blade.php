@@ -1,7 +1,5 @@
 @extends('layouts.app')
 @section('content')
-	<div class="body-wrapper">
-	<div class="content-wrapper">
       <div class="w-section profile-header">
         <div class="w-container profile-header-content">
           <div class="w-row">
@@ -15,7 +13,7 @@
                 <h3 class="user-name">{{$userdetail->name}}</h3>
 				@if($AuthUser != 1)
 					<a class="w-button following" href="#">Following</a>
-					<div class="profile_intro">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</div>
+					<div class="profile_intro">{{$userdetail->bio}}</div>
                 @else
 					<div class="profile-subheading">{{$userdetail->username}}</div>
 					<a href="/users/edit" class="w-button edit-profile">Edit Profile</a>
@@ -69,17 +67,6 @@
 		  
         </div>
       </div>
-	  </div>
-    </div>
+	  
    
 @endsection
-@section('additional_js')
-<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
-  <script>
-    WebFont.load({
-      google: {
-        families: ["Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic","Open Sans:300,300italic,400,400italic,600,600italic,700,700italic,800,800italic","Raleway:200,300,regular,500,600,700,800,900"]
-      }
-    });
-  </script>
- @endsection
