@@ -19,7 +19,7 @@
                         </ul>
                     </li>
                 </ul>-->				
-				<a class="w-nav-link navlink loggedin" href="#">Discover</a>
+				<a class="w-nav-link navlink loggedin @if(strpos(Request::fullUrl(),'/discover')) {{ 'w--current' }} @endif" href="/discover">Discover</a>
 				<a class="w-nav-link navlink loggedin @if(strpos(Request::fullUrl(),'/users/activity')) {{ 'w--current' }} @endif" href="/users/activity">activity</a>
 				<a class="w-nav-link navlink loggedin @if(strpos(Request::fullUrl(),'/userprofile')) {{ 'w--current' }} @endif"  href="/userprofile">Profile</a>
 				<a class="w-nav-link navlink loggedin" href="/logout">Logout</a>

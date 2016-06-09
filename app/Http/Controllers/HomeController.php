@@ -9,6 +9,8 @@ use App\Models\Posts;
 use App\Models\Comments;
 use App\Models\Useractivity;
 use Auth;
+use Input;
+use App\Helpers\UniversalClass;
 
 class HomeController extends Controller
 {
@@ -46,4 +48,38 @@ class HomeController extends Controller
 		
         return view('home', ['posts' => $posts]);
     }
+	
+	
+	public function discover()
+    {
+        $searchData = Input::get('searchData');
+        $userId = Auth::user()->id;
+        
+        $imagesToExplore = Posts::getImages($userId,$searchData);
+
+        foreach ($imagesToExplore as $key => $value) {
+            $arr1 = explode('.',$value->media1_url);
+            $arr2 = explode('.',$value->media2_url);
+            $arr3 = explode('.',$value->media3_url);
+            $arr4 = explode('.',$value->media4_url);
+            $imagesToExplore[$key]->media1_type = end($arr1);
+            $imagesToExplore[$key]->media2_type = end($arr2);
+            $imagesToExplore[$key]->media3_type = end($arr3);
+            $imagesToExplore[$key]->media4_type = end($arr4);
+            
+			$imagesToExplore[$key]->is_following = ($value->follow > 0) ? (int)($value->follow) : 0;
+			
+            // getting comments count
+            $commentsCount = comments::commentsCountByPostId($value->id);
+            $imagesToExplore[$key]->comments_count = ($commentsCount > 0) ? (string)($commentsCount) : "0" ;
+            // total likes converting to string
+            $imagesToExplore[$key]->total_likes = ($value->total_likes > 0) ? (string)($value->total_likes):"0";
+            $imagesToExplore[$key]->shareUrl = UniversalClass::shareUrl($value->id);
+        }
+
+        return view('discover', ['posts'=>$imagesToExplore]);
+    }
+
+	
+	
 }
