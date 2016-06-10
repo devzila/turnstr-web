@@ -180,6 +180,8 @@ class UserController extends Controller {
 	}
 	
 	public function changePasword(){
+		
+		$cp = 2;
 		$userId = Auth::user()->id;
 		
 		$oldpassword = $this->request->input('oldpassword');
@@ -187,22 +189,32 @@ class UserController extends Controller {
 		$cpassword = $this->request->input('cpassword');
 		if(empty($oldpassword) || empty($password) || empty($cpassword)){
 			Session::flash('error','All Fields are Required.');
-			return redirect("users/edit");
+			return redirect("users/edit?cp=2");
 		}
 		if($password != $cpassword){
 			Session::flash('error','Confirm Password do not Match with New Password');
-			return redirect("users/edit");
+			return redirect("users/edit?cp=2");
+		}
+		
+		if(strlen($password)<4){
+			Session::flash('error','New Password must be at least 4 Digits.');
+			return redirect("users/edit?cp=2");
 		}
 		
 		$userDetails = User::find($userId);
-		if($userDetails->password != Hash::make($oldpassword)){
+		
+		if (!Hash::check($oldpassword, $userDetails->password))
+        {
 			Session::flash('error','Please enter correct old Password');
-			return redirect("users/edit");
+			return redirect("users/edit?cp=2");		
 		}
+		
+		
+		
 		$hashedPassword = Hash::make($password);
         User::where('id',$userDetails->id)->update(array('password'=>$hashedPassword));
-		Session::flash('success','Your Profile Updated Successfully');
-		return redirect("users/edit");
+		Session::flash('success','Your Password is successfully Changed.');
+		return redirect("users/edit?cp=2");
     }
 	
 	
