@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Useractivity;
 use App\Models\Posts;
 use App\Models\Comments;
+use Auth;
 
 class ShareController extends Controller
 {
@@ -31,6 +32,7 @@ class ShareController extends Controller
 
         $data['post'] = Posts::find($decryptedPostId);
 		$user_id = $data['post']->user_id;
+		$mainUserId = Auth::user()->id;
 		
 		$data['userdetail'] = User::find($user_id);
 		
@@ -43,7 +45,10 @@ class ShareController extends Controller
 		$total_likes = Useractivity::likeCountByPostId($decryptedPostId);
 		$total_likes = ($total_likes==-1)?0:$total_likes;
 		$data['total_likes'] = (string)($total_likes);
-				
+		
+		$followingDetails = Useractivity::getFollowDetailByUserId($user_id,$mainUserId);
+		$data['is_following'] = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
+		
         $extensionArr = array('mov','mp4');
 
         for ($i=0;$i<=4;$i++) {

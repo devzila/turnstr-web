@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Posts;
 use App\Models\Passwordreset;
 use App\Helpers\ResponseClass;
+use App\Models\Useractivity;
 use Hash;
 use Response;
 use App\Models\UserDevice;
@@ -105,11 +106,14 @@ class UserController extends Controller {
 	public function userProfile($userId = ""){
 		$data = array();
 		$data['AuthUser'] =0;
-		
-		if(empty($userId) || $userId == Auth::user()->id){
-			$userId = Auth::user()->id;
+		$authUser = Auth::user()->id;
+		if(empty($userId) || $userId == $authUser){
+			$userId = $authUser;
 			$data['AuthUser'] = 1;
 		}
+				
+		$followingDetails = Useractivity::getFollowDetailByUserId($userId,$authUser);
+		$data['is_following'] = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
 		
 		$data['userdetail'] =  User::find($userId);
 		$data['posts'] = Posts::GetAllPostsByUserId($userId);
