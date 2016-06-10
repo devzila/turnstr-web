@@ -46,9 +46,13 @@ class ShareController extends Controller
 		$total_likes = ($total_likes==-1)?0:$total_likes;
 		$data['total_likes'] = (string)($total_likes);
 		
-		$followingDetails = Useractivity::getFollowDetailByUserId($user_id,$mainUserId);
-		$data['is_following'] = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
-		
+		if(isset(Auth::user()->id)){
+			$mainUserId = Auth::user()->id;
+			$followingDetails = Useractivity::getFollowDetailByUserId($user_id,$mainUserId);
+			$data['is_following'] = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
+		}else{
+			$data['is_following']=0;
+		}
         $extensionArr = array('mov','mp4');
 
         for ($i=0;$i<=4;$i++) {
