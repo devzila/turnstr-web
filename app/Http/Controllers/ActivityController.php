@@ -7,7 +7,7 @@ use App\Models\Posts;
 use App\Models\Comments;
 use App\Helpers\UniversalClass;
 use Auth;
-
+use Illuminate\Http\Request;
  /**
  * User Activity Class Web
  *
@@ -16,7 +16,11 @@ use Auth;
 
 class ActivityController extends Controller {
 	
-	   public function getActivity() {
+	public function __construct(Request $request){
+		$this->request = $request;
+	}
+		
+	public function getActivity() {
 
         $user_id = Auth::user()->id;
         $activityList = array();
@@ -76,6 +80,23 @@ class ActivityController extends Controller {
         }
 		return view("activity.activity",['activities'=>$alreadyLiked]);
     }
+	/*
+	* followId (user_id of user you are following)
+    * followStatus (1= follow & 0 = unfollow)
+	*
+	*/
+	public function followUser(){
+		$followerId = Auth::user()->id;
+		$following_id = $this->request->get('followId');
+		$following_status = $this->request->get('status');	
+		
+		Useractivity::followUnfollowStatus($following_id,$followerId,$following_status);
+		
+		$msg = ($following_status) ? "Successfully Followed": "Successfully UnFollowed";
+		$response = [ 'status'=>1,'msg'=>$msg];
+		return response()->json($response,200);
+		
+	}
 
 	
 }

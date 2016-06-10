@@ -13,6 +13,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/users/activity', 'ActivityController@getActivity');
 	Route::get('/discover', 'HomeController@discover');
 	Route::post('/users/changepassword', 'UserController@changePasword');
+	Route::post('/users/followuser', 'ActivityController@followUser');
     
 });
 
