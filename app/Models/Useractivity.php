@@ -2,7 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\User;
 class Useractivity extends Model
 {
     /**
@@ -110,4 +110,42 @@ class Useractivity extends Model
                     ->get();
         return $res;
     }
+	
+	public static function followUnfollowStatus($following_id,$followerId,$following_status){
+		
+		$alreadyFollowing = Useractivity::where('user_id',$following_id)->where('follower_id',$followerId)->where('activity','follow')->first();
+
+        if (count($alreadyFollowing) && $alreadyFollowing->status != $following_status) {
+            $updateArr = array(
+                    'status'=>$following_status
+                );
+            Useractivity::where('user_id',$following_id)->where('follower_id',$followerId)->where('activity','follow')->update($updateArr);
+
+            if ($following_status) {
+                User::where('id',$followerId)->increment('following');
+                User::where('id',$following_id)->increment('followers');
+            } else {
+
+                User::where('id',$followerId)->decrement('following');
+                User::where('id',$following_id)->decrement('followers');
+            }
+            
+        } else if (!count($alreadyFollowing)) {
+            $insArr = array(
+                    'user_id'=>$following_id,
+                    'follower_id'=>$followerId,
+                    'activity'=>'follow',
+                    'status'=>1,
+                    'created_at'=>date('Y-m-d H:i:s'),
+                    'updated_at'=>date('Y-m-d H:i:s')
+                );
+            Useractivity::insert($insArr);
+            User::where('id',$followerId)->increment('following');
+            User::where('id',$following_id)->increment('followers');
+        }
+		
+	}
+	
+	
+	
 }

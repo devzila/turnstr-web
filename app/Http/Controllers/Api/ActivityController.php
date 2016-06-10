@@ -47,37 +47,8 @@ class ActivityController extends Controller {
         $followerId = DeviceSession::get()->user->id; // who is following
         $following_id = Input::get('following_id'); // who is being followed
         $following_status = Input::get('following_status'); // following/unfollowing
-
-        $alreadyFollowing = Useractivity::where('user_id',$following_id)->where('follower_id',$followerId)->where('activity','follow')->first();
-
-        if (count($alreadyFollowing) && $alreadyFollowing->status != $following_status) {
-            $updateArr = array(
-                    'status'=>$following_status
-                );
-            Useractivity::where('user_id',$following_id)->where('follower_id',$followerId)->where('activity','follow')->update($updateArr);
-
-            if ($following_status) {
-                User::where('id',$followerId)->increment('following');
-                User::where('id',$following_id)->increment('followers');
-            } else {
-
-                User::where('id',$followerId)->decrement('following');
-                User::where('id',$following_id)->decrement('followers');
-            }
-            
-        } else if (!count($alreadyFollowing)) {
-            $insArr = array(
-                    'user_id'=>$following_id,
-                    'follower_id'=>$followerId,
-                    'activity'=>'follow',
-                    'status'=>1,
-                    'created_at'=>date('Y-m-d H:i:s'),
-                    'updated_at'=>date('Y-m-d H:i:s')
-                );
-            Useractivity::insert($insArr);
-            User::where('id',$followerId)->increment('following');
-            User::where('id',$following_id)->increment('followers');
-        }
+		Useractivity::followUnfollowStatus($following_id,$followerId,$following_status);
+        
         return ResponseClass::Prepare_Response('','Action performed successfully',true,200);
         
     }

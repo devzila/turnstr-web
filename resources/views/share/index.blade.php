@@ -206,7 +206,7 @@
 								@endif	
 							</div>
 						@endif
-						<a class="w-button followbtn" href="#">follow</a>
+						<a class="w-button followbtn" id="followbtn" data-status="1" data-followId="{{$userdetail->id}}" href="#">follow</a>
 							<div class="usercommentsblock">
 							<div class="username"> <a href="/userprofile/{{$userdetail->id}}"> {{ $userdetail->name }} </a></div>
 						</div>
@@ -291,6 +291,47 @@
 			window.open(url,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
 			return false;	
 		}
+	</script>
+	<script>
+		(function(e) {			
+			e(document).on("click", "#followbtn", function() {
+				var followBtn = e("#followbtn");				
+				var status = followBtn.attr("data-status");
+				var followId = followBtn.attr("data-followId");
+				var followBtnHtml = followBtn.html();
+				followBtn.html("Wait...");
+				followBtn.attr('disabled','disabled');
+				
+				data = {
+					status: status,
+					followId: followId,
+					_token: "{{ csrf_token() }}"
+				};
+				e.ajax({
+					url: "/users/followuser",
+					type: "post",
+					data: data,
+					dataType: "json",
+					success: function(t) {						
+						if(t.status == 1){
+							if(status == 1){
+								followBtn.attr("data-status",0);
+								followBtn.html("Unfollow");
+							}else{
+								followBtn.attr("data-status",1);
+								followBtn.html("Follow");
+							}
+						}
+					},
+					error: function(){
+						followBtn.html(followBtnHtml);						
+					},
+					complete: function() {						
+						followBtn.removeAttr('disabled');
+					}
+				})
+			});
+		})(jQuery)
 	</script>
 	
 	
