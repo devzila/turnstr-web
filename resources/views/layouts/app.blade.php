@@ -27,6 +27,7 @@
 </head>
 <body>
 <div class="body-wrapper">
+@yield('modalBody')
 <!-- Header -->
 @include('layouts/header')
 

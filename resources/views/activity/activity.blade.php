@@ -26,7 +26,7 @@
 					  <div class="activity-text">
 						  <div><span class="activity-username username">
 						  <a class="link-anchor" href="/userprofile/{{$activity->user_info->id}}">
-							{{$activity->user_info->name}}
+							{{$activity->user_info->username}}
 						  </a>
 						  </span>
 						  @if($activity->activity == 'liked')

@@ -17,7 +17,43 @@
 	<meta property="twitter:image" content="{{$post->media1_thumb_url}}" />
 @endsection
 
+@section('modalBody')
+<div class="post-modal">
+    <div class="w-container modal-contentn">
+      <div class="modal-window">
+        <h1 class="share-modal-heading">Share Post</h1>
+        <div class="share-platforms">
+          <ul class="w-list-unstyled">
+            <li class="share-platform-list">
+				<a class="icon-facebook" onclick="return share_social(this.href);" href="https://www.facebook.com/sharer/sharer.php?u={{ Request::fullUrl()}}&title={{$post->caption}}"><img src="/assets/images/facebook.png" width="120"></a>			
+            </li>
+            <li class="share-platform-list">
+				<a class="icon-twitter" onclick="return share_social(this.href);" href="http://twitter.com/share?url={{ Request::fullUrl()}}&title={{$post->caption}}"><img src="/assets/images/twitter@2x.png" width="120"></a>			
+            </li>
+            <li class="share-platform-list">
+			<a href="http://tumblr.com/widgets/share/tool?canonicalUrl={{ Request::fullUrl()}}" onclick="return share_social(this.href);"><img src="/assets/images/tumblr@2x.png" width="120"></a>
+			<!--<script>!function(d,s,id){var js,ajs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://secure.assets.tumblr.com/share-button.js";ajs.parentNode.insertBefore(js,ajs);}}(document, "script", "tumblr-js");</script>-->
+			
+            </li>
+            <!--<li class="share-platform-list"><img src="/assets/images/flickr@2x.png" width="120">
+            </li>-->
+            <li class="share-platform-list">
+				<a  href="mailto:?to=&amp;body={{ Request::fullUrl()}}&subject={{$post->caption}}"><img src="/assets/images/email@2x.png" width="120"></a>			
+            </li>
+            <li class="share-platform-list"><img src="/assets/images/foursquare@2x.png" width="120">
+            </li>
+          </ul>
+        </div>
+        <a class="w-inline-block close-modal" data-ix="dissapear-modal" href="#">
+          <div>Close</div>
+        </a>
+      </div>
+    </div>
+  </div>
+@endsection
 @section('content')
+
+
 <style type="text/css">
     .plyr .plyr__play-large{
             z-index: 9999999 !important;
@@ -60,6 +96,8 @@
     margin: 8px auto;
 }
 </style>
+
+
 <div hidden="" id="sprite-plyr"><!--?xml version="1.0" encoding="UTF-8"?-->
     <svg xmlns="http://www.w3.org/2000/svg">
         <symbol viewBox="0 0 18 18" id="plyr-play">
@@ -151,7 +189,7 @@
 					<div class="tag"></div>
 					<div class="dropdown-control">
 					  <div>
-						<a class="w-inline-block dropdown-menu" data-ix="dropdown" href="#"><img src="/assets/images/options.png">
+						<a class="w-inline-block dropdown-menu1" data-ix="dropdown" href="#"><img src="/assets/images/options.png">
 						</a>
 					  </div>
 					  <div class="dropdown-list" data-ix="hoverout"><a class="dropdown-link-item" href="#">Report</a><a class="dropdown-link-item" data-ix="show-modal" href="#">Share</a>
@@ -223,32 +261,6 @@
             border-radius: 50%;
         }
     </style>
-<div class="post-modal">
-    <div class="w-container modal-content">
-      <div class="modal-window">
-        <h1 class="share-modal-heading">Share Post</h1>
-        <div class="share-platforms">
-          <ul class="w-list-unstyled">
-            <li class="share-platform-list"><img src="/assets/images/facebook.png" width="120">
-            </li>
-            <li class="share-platform-list"><img src="/assets/images/twitter@2x.png" width="120">
-            </li>
-            <li class="share-platform-list"><img src="/assets/images/tumblr@2x.png" width="120">
-            </li>
-            <li class="share-platform-list"><img src="/assets/images/flickr@2x.png" width="120">
-            </li>
-            <li class="share-platform-list"><img src="/assets/images/email@2x.png" width="120">
-            </li>
-            <li class="share-platform-list"><img src="/assets/images/foursquare@2x.png" width="120">
-            </li>
-          </ul>
-        </div>
-        <a class="w-inline-block close-modal" data-ix="dissapear-modal" href="#">
-          <div>Close</div>
-        </a>
-      </div>
-    </div>
-  </div>
 @endsection
 @section('additional_js')
     <script src="https://cdn.rawgit.com/vinayakjadhav/jR3DCarousel/v0.0.8/dist/jR3DCarousel.min.js"></script>
