@@ -15,7 +15,7 @@
 					<a class="w-button following" href="#">Following</a>
 					<div class="profile_intro">{{$userdetail->bio}}</div>
                 @else
-					<div class="profile-subheading">{{$userdetail->username}}</div>
+					<div class="profile-subheading">{{ '@'.$userdetail->username}}</div>
 					<a href="/users/edit" class="w-button edit-profile">Edit Profile</a>
 				@endif
 				

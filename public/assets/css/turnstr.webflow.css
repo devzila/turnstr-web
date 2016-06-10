@@ -605,7 +605,7 @@ body {
   opacity: 0;
 }
 
-.modal-content {
+.modal-contentn{
   position: absolute;
   left: 0px;
   top: 0px;
@@ -642,12 +642,14 @@ body {
   text-align: center;
 }
 
-.dropdown-menu {
+.dropdown-menu1 {
   display: block;
   margin-bottom: 0px;
   padding-top: 8px;
   padding-bottom: 8px;
   text-align: center;
+  text-decoration:none;
+  border-style:none;
 }
 
 .dropdown-list {
