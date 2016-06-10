@@ -42,6 +42,7 @@ class TagsController extends Controller
             foreach ($posts as $key => $value) {
 				$followingDetails = Useractivity::getFollowDetailByUserId($value->user_id,$userId);
 				$value->follow = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
+				$value->is_following = $value->follow;
 				$likeDetail = Useractivity::likeStatusByUserId($value->id,$userId);
 				$value->liked = (count($likeDetail) && isset($likeDetail->status)) ? (int)($likeDetail->status) : 0 ;
 			}
