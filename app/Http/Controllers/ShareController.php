@@ -32,7 +32,7 @@ class ShareController extends Controller
 
         $data['post'] = Posts::find($decryptedPostId);
 		$user_id = $data['post']->user_id;
-		$mainUserId = Auth::user()->id;
+		//$mainUserId = Auth::user()->id;
 		
 		$data['userdetail'] = User::find($user_id);
 		
