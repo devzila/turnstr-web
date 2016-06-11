@@ -12,9 +12,11 @@
               <div class="profile-info">
                 <h3 class="user-name">{{$userdetail->name}}</h3>
 				@if($AuthUser != 1)
-					<a class="w-button following" id="followbtn" data-status="{{ !$is_following }}" data-followId="{{$userdetail->id}}" data-token="{{ csrf_token() }}" href="#">
-						@if($is_following) Unfollow @else Follow @endif
+					@if($AuthUser == 2)
+						<a class="w-button following" id="followbtn" data-status="{{ !$is_following }}" data-followId="{{$userdetail->id}}" data-token="{{ csrf_token() }}" href="#">
+							@if($is_following) Unfollow @else Follow @endif
 						</a>
+					@endif
 					
 					<div class="profile_intro">{{$userdetail->bio}}</div>
                 @else
