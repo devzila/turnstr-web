@@ -106,14 +106,23 @@ class UserController extends Controller {
 	public function userProfile($userId = ""){
 		$data = array();
 		$data['AuthUser'] =0;
-		$authUser = Auth::user()->id;
+		$data['is_following'] = 0;
+		$authUser = (isset(Auth::user()->id)) ? Auth::user()->id : "";
+			
+		
 		if(empty($userId) || $userId == $authUser){
 			$userId = $authUser;
 			$data['AuthUser'] = 1;
+		
+		}elseif(empty($userId)){
+			return redirect('/login');
+		}elseif(!empty($userId) && !empty($authUser)){
+			$data['AuthUser'] = 2;
+			$followingDetails = Useractivity::getFollowDetailByUserId($userId,$authUser);
+			$data['is_following'] = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
 		}
+		
 				
-		$followingDetails = Useractivity::getFollowDetailByUserId($userId,$authUser);
-		$data['is_following'] = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
 		
 		$data['userdetail'] =  User::find($userId);
 		$data['posts'] = Posts::GetAllPostsByUserId($userId);
