@@ -36,4 +36,44 @@ class User extends Authenticatable
         return UserDevice::where('access_token',$access_token)
                             ->join('users','user_id','=','users.id')->first();
     }
+
+    public function isAdmin(){
+        return strtolower($this->role) == 'admin';
+    }
+
+    public function scopeFollowers($query, $page = 0,  $records = 10){
+        $userId = $this->id;
+        return $query
+            ->whereIn('id', function($subQuery) use($userId)
+            {
+                $subQuery->select('follower_id')
+                    ->from('user_activity')
+                    ->where('user_id', $userId)
+                    ->where('activity','follow')
+                    ->where('status',1);
+            })
+            ->skip($page * $records)
+            ->take($records)
+            ->get();
+
+    }
+
+    public function scopeFollowings($query, $page = 0,  $records = 10){
+        $userId = $this->id;
+        return $query
+            ->whereIn('id', function($subQuery) use($userId)
+            {
+                $subQuery->select('user_id')
+                    ->from('user_activity')
+                    ->where('follower_id', $userId)
+                    ->where('activity','follow')
+                    ->where('status',1);
+            })
+            ->skip($page * $records)
+            ->take($records)
+            ->get();
+
+    }
+
+
 }

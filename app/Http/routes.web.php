@@ -1,37 +1,42 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Routes File
-|--------------------------------------------------------------------------
-|
-| Here is where you will register all of the routes in an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+#   Route::get('/', 'IndexController@index');
 
-// for shared image
+Route::group(['middleware' => 'web'], function () {
+    Route::auth();
+    Route::get('/', 'HomeController@index');
+    Route::get('/share/{id}', 'ShareController@index');
+    Route::get('/userprofile/{id?}', 'UserController@userProfile');
+    Route::get('/users/edit', 'UserController@edit');
+    Route::post('/users/update', 'UserController@updateProfile');
+    Route::get('/users/activity', 'ActivityController@getActivity');
+	Route::get('/discover', 'HomeController@discover');
+	Route::post('/users/changepassword', 'UserController@changePasword');
+	Route::post('/users/followuser', 'ActivityController@followUser');
+    
+});
 
-Route::get('forgotpassword/{shortcode}', [
-    'uses' => 'UserController@resetpassword',
-    'middleware' => []
-]);
+Route::group(['middleware' => ['web','auth'], 'prefix' => 'admin'], function () {
 
-Route::post('updatePasword', [
-    'uses' => 'UserController@updatePasword',
-    'as' => 'updatePasword',
-    'middleware' => []
-]);
+    Route::get('/', [
+        'uses' => 'Admin\HomeController@index',
+        'as' => 'admin_home'
+    ]);
 
-Route::resource('/','HomeController');
 
-// APi for shared web url
-Route::get('posts/{id}', [
-    'uses' => 'PostsController@index',
-    'middleware' => []
-]);
+    // Post routes
+    Route::resource('/posts', 'Admin\PostController');
+    Route::resource('/comments', 'Admin\CommentsController');
+    Route::resource('/users', 'Admin\UserController');
+
+    // User Routes
+    Route::get('users', [
+        'uses' => 'Admin\UserController@index',
+        'as' => 'posts_listing'
+    ]);
+	Route::post('users/{id}/update', [
+        'uses' => 'Admin\UserController@update',
+        'as' => 'user_update'
+    ]);
+});

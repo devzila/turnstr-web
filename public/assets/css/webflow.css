@@ -1343,6 +1343,8 @@ textarea.w-select {
   text-align: center;
   clear: both;
   display: block;
+  margin-right: auto;
+  margin-left: auto;
 }
 .w-richtext figure.w-richtext-align-fullwidth > div {
   display: inline-block;
@@ -1528,7 +1530,6 @@ textarea.w-select {
 .w-tab-content {
   position: relative;
   display: block;
-  overflow: hidden;
 }
 .w-tab-pane {
   position: relative;

@@ -1,0 +1,12 @@
+.paddingNone{
+    padding : 0px;
+} 
+.marginNone{
+   margin : 0px;
+}
+
+.panel-default > .panel-heading {
+    color: #FFF !important;
+    background-color: rgb(251, 152, 39) !important;
+    border-color: rgb(251, 152, 39);
+}

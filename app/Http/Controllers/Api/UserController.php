@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Posts;
 use App\Models\Passwordreset;
+use App\Models\Useractivity;
 use App\Models\Api;
 use App\Helpers\ResponseClass;
 use Rhumsaa\Uuid\Uuid;
@@ -64,8 +65,22 @@ class UserController extends Controller {
         ]);
 
         if($user){
+
+            // Auto follow turnstr
+            $autofollow = array(
+                'user_id'=>50,
+                'follower_id'=>$user->id,
+                'activity'=>'follow',
+                'status'=>1,
+                'created_at'=>date('Y-m-d H:i:s'),
+                'updated_at'=>date('Y-m-d H:i:s')
+            );
+            Useractivity::insert($autofollow);
+
+            User::where('id',$user->id)->update(array('following'=>1));
             $device = UserDevice::add($user, $this->request->all());
-            return ResponseClass::Prepare_Response($device,true,200);
+
+            return ResponseClass::Prepare_Response($device,'User Registered Succeessfully',true,200);
         }
 
         return ResponseClass::Prepare_Response('','Unable to create user',false,200);
@@ -189,7 +204,7 @@ class UserController extends Controller {
         }
 
         User::where('id',$userId)->update($updatedArr);
-        return ResponseClass::Prepare_Response('','Profile updated successfully',true,200);
+        return ResponseClass::Prepare_Response('Profile updated successfully','Profile updated successfully',true,200);
     }
         
 
@@ -220,12 +235,46 @@ class UserController extends Controller {
             $fileName = Uuid::uuid1()->toString() . '.' . $extension;
             $request->file("profile_image")->move($destinationPath, $fileName);
 
-            Image::make($destinationPath.'/'.$fileName)->resize(200, 200)->rotate(90)->save($destinationPath.'/thumb/thumb_'.$fileName);
+            Image::make($destinationPath.'/'.$fileName)->resize(400, 400)->save($destinationPath.'/thumb/thumb_'.$fileName);
+            // Image::make($destinationPath.'/'.$fileName)->resize(400, 400)->rotate(90)->save($destinationPath.'/thumb/thumb_'.$fileName);
 
-            $pathToImage = URL::to('/') . '/profile/'.$userId.'/'. $fileName;
-           User::where('id',$userId)->update(['profile_image'=>$pathToImage]);
+            $pathToImage = URL::to('/') . '/profile/'.$userId.'/thumb/'. $fileName;
+            $pathToThumbImage = URL::to('/') . '/profile/'.$userId.'/thumb/thumb_'. $fileName;
+           User::where('id',$userId)->update(['profile_image'=>$pathToThumbImage,'profile_thumb_image'=>$pathToThumbImage]);
 
         return ResponseClass::Prepare_Response('','uploaded successfuly',true,200);
     }
+
+    public function followersList(Request $request)
+    {
+        $data = array();
+        $userId = DeviceSession::get()->user->id;
+        $usersList = Useractivity::getFollowersByUserId($userId);
+
+        foreach ($usersList as $k=>$row) {
+            $postCount = Posts::where('user_id',$row->id)->count();
+            $usersList[$k]->id = (string)($row->id);
+            $usersList[$k]->post_count = (string)$postCount;
+        }
+//        $data['user']->is_following = 1;
+        return ResponseClass::Prepare_Response($usersList,'followers list',true,200);
+    }
+
+
+    public function followers($id){
+        $followers = User::find($id)->followers();
+        return ResponseClass::Prepare_Response($followers,'followers list',true,200);
+    }
+
+    public function followings($id){
+        $followings = User::find($id)->followings();
+        return ResponseClass::Prepare_Response($followings,'following list',true,200);
+    }
+
+    public function currentUserFollowings(){
+        $followings = User::find(DeviceSession::get()->user->id)->followings();
+        return ResponseClass::Prepare_Response($followings,'following list',true,200);
+    }
+
 
 }

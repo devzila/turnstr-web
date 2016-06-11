@@ -1,44 +1,82 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
 @section('content')
-	
-    <div class="w-clearfix postblock">
-      <div class="postimage">
-      	<div class="jR3DCarouselGallery">
-      		<!-- <div class='slide'><img src='http://static.dnaindia.com/sites/default/files/2015/11/28/399304-getty2.jpg' /></div>
-      		<div class='slide'><img src='http://www.beautiful-self.com/wp-content/uploads/2016/02/kim-look-3.jpg' /></div>
-      		<div class='slide'><img src='http://static.dnaindia.com/sites/default/files/2015/11/28/399304-getty2.jpg' /></div>
-      		<div class='slide'><img src='http://www.beautiful-self.com/wp-content/uploads/2016/02/kim-look-3.jpg' /></div> -->
-      	</div>
-      </div>
-      <div class="photocaption">This is some text inside of a div block.</div>
-      <div class="tag"># Nature</div>
-      <div class="options"><img src="assets/images/options.png">
-      </div>
-      <div class="w-clearfix userinfo">
-        <div class="userthumb"><img src="assets/images/user.png">
-        </div><a href="#" class="w-button followbtn">follow</a>
-        <div class="usercommentsblock">
-          <div class="username">Kevin Smith</div>
+    @foreach($posts as $post)
+    <div class="row" style="margin-bottom: 40px;">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 col-sm-12 col-xs-12">
+
+
+            <div class="postblock">
+                <div class="postimage homepostimg">
+                    <div class="jR3DCarouselGallery" style="margin:auto;">
+                        <div class='slide'>
+                            <a href="<?php echo App\Helpers\UniversalClass::shareUrl($post->id) ?>">
+                                <img src="<?php echo $post->media1_url;?>" />
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+				<div class="post-stats">
+					<div class="post-stats-label">Comments</div>
+					<div class="post-stats-data">{{$post->total_comments}}</div>
+					<div class="post-stats-label">Likes</div>
+					<div class="post-stats-data">{{$post->total_likes}}</div>
+				</div>
+				
+                <div class="w-clearfix userinfo">
+					@if($post->profile_image)
+						<div class="userthumb">
+							<a href="/userprofile/{{$post->user_id}}"><img class="img-circle" src="{{$post->profile_image}}" /></a>
+						</div>
+					@endif					
+                    <div class="usercommentsblock">
+                        <div class="username"><a href="/userprofile/{{$post->user_id}}">{{ $post->name}}</a></div>
+                        <div class="usercomment">{{ $post->caption }}</div>
+                    </div>
+                </div>
+				@if($post->comments->isEmpty())
+                    <div class="w-clearfix userinfo">
+                        <div class="usercommentsblock">
+                            <div class="username">No Comment</div>
+                        </div>
+                    </div>
+                @else
+                    @foreach($post->comments as $comment)
+                        <div class="w-clearfix userinfo">
+                            <div class="userthumb">
+								<a href="/userprofile/{{$comment->user_id}}"><img class="img-circle" src="<?php echo $comment->profile_image;?>" /></a>
+                            </div>
+                            <div class="usercommentsblock">
+                                <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{ $comment->username}}</a></div>
+                                <div class="usercomment">{{ $comment->comments }}</div>
+                            </div>
+                            
+                            @if(empty($comment->comments))
+                            <div class="usercommentsblock">
+                                <div class="username">No Comments</div>
+                            </div>
+                            @endif
+                            <div class="postedtime">{{ App\Helpers\UniversalClass::timeString(strtotime($comment->created_at))}}</div>
+                            <div class="photocaption"></div>
+                        </div>
+                    @endforeach
+                @endif
+				@if($post->total_comments > 2)
+				 <div class="view-share"><a href="<?php echo App\Helpers\UniversalClass::shareUrl($post->id) ?>">View More</a></div>
+				@endif
+            </div>
+
         </div>
-      </div>
-      <div class="w-clearfix userinfo">
-        <div class="userthumb"><img src="assets/images/user.png">
-        </div>
-        <div class="usercommentsblock">
-          <div class="username">Kevin Smith</div>
-          <div class="usercomment">Awesome photography, keep it up!!</div>
-        </div>
-        <div class="postedtime">3h</div>
-      </div>
-      <div class="w-clearfix userinfo">
-        <div class="userthumb"><img src="assets/images/user.png">
-        </div>
-        <div class="usercommentsblock">
-          <div class="username">Kevin Smith</div>
-          <div class="usercomment">Awesome photography, keep it up!!</div>
-        </div>
-        <div class="postedtime">3h</div>
-      </div>
+        <div class="col-md-3"></div>
     </div>
+    @endforeach
+
+    <style>
+        .img-circle {
+            border-radius: 50%;
+        }
+    </style>
+
 @endsection

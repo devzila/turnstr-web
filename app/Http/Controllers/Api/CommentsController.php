@@ -11,6 +11,7 @@ use App\Models\Useractivity;
 use App\Models\Comments;
 use App\Models\DeviceSession;
 use Input;
+use App\Models\PostTags;
 
 class CommentsController extends Controller
 {
@@ -45,14 +46,19 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
-        $post_id = $request->input('post_id');
+         $post_id = $request->input('post_id');
          $result = Comments::create([
             'user_id' => DeviceSession::get()->user->id,
-             'post_id' => $post_id,
-    		 'comments' => $request->input('comments'),
+            'post_id' => $post_id,
+    		'comments' => $request->input('comments')
     	 ]);
-          return ResponseClass::Prepare_Response($result,'',true,200);
-        // return Response::json($result, 200);
+
+        // tag post if #tag present in comment
+        PostTags::tag($post_id, $result->comments);
+
+
+        return ResponseClass::Prepare_Response($result,'Comment create successfully',true,200);
+
     }
 
     /**
@@ -117,9 +123,13 @@ class CommentsController extends Controller
     {
         $user_id = DeviceSession::get()->user->id;
         $postId = Input::get('post_id');
-		$comments = Comments::commentsByPost($postId);
+
+        $comments = Comments::commentsByPost($postId);
+
         $likeData = Useractivity::getActivityById($user_id,$postId);
+        
         $like = (isset($likeData->status)) ? $likeData->status : 0 ;
-        return ResponseClass::Prepare_Response(['comments'=>$comments,'like'=>$like],'List of comments',true,200);
+        
+        return ResponseClass::Prepare_Response(['comments'=>$comments,'is_liked'=>$like],'List of comments',true,200);
     }
 }

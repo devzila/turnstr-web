@@ -10,10 +10,16 @@ use Response;
 use Validator;
 use App\Models\User;
 use App\Models\Posts;
+use App\Models\Report;
+use App\Models\PostTags;
 use App\Models\DeviceSession;
+use App\Models\Useractivity;
+use App\Models\Comments;
 use App\Helpers\UniversalClass;
+use App\Models\Api;
 use Rhumsaa\Uuid\Uuid;
 use URL;
+use Image;
 use File;
 
 class PostsController extends Controller
@@ -25,9 +31,28 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
+        // $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
+        // $selfposts = Posts::selfPosts(DeviceSession::get()->user->id);
+		$userId = DeviceSession::get()->user->id;
+        $res = Posts::getUserHomePosts($userId);
 
-        return ResponseClass::Prepare_Response($posts,'Post Listing',true,200);
+        if (count($res)) {
+            foreach ($res as $key => $value) {
+                $commentsCount = Comments::commentsCountByPostId($value->id);
+				 $value->total_comments = (string)(($commentsCount>0)?$commentsCount:0);
+				 
+				$total_likes = Useractivity::likeCountByPostId($value->id);
+                $value->total_likes = (string)(($total_likes>0)?$total_likes:0);
+               
+                $value->shareUrl = UniversalClass::shareUrl($value->id);
+				
+				$followingDetails = Useractivity::getFollowDetailByUserId($value->user_id,$userId);
+                $value->is_following = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
+                $likeDetail = Useractivity::likeStatusByUserId($value->id,$userId);
+				$value->liked = (count($likeDetail) && isset($likeDetail->status)) ? (int)($likeDetail->status) : 0 ;				
+            }
+        }
+        return ResponseClass::Prepare_Response($res,'Post Listing',true,200);
     }
 
     /**
@@ -54,6 +79,7 @@ class PostsController extends Controller
             'media3_url' => $request->input('media3_url'),
             'media4_url' => $request->input('media4_url')
         ]);
+        $result['shareUrl'] = UniversalClass::shareUrl($result['id']);
         return ResponseClass::Prepare_Response($result,'Posts created successfuly',true,200);
     }
 
@@ -65,9 +91,31 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
-        $post = Posts::find($id);
-        return ResponseClass::Prepare_Response($post,'List of posts',true,200);
+        $userId = DeviceSession::get()->user->id;
+        //$post = Posts::find($id);
+        $post = Posts::getPostDetails($id);
+        if (count($post) && isset($post->id)) {
+
+            // Adding comments count
+            $commentsCount = Comments::commentsCountByPostId($id);
+            $commentsCount = ($commentsCount==-1)?0:$commentsCount;
+            $post->comments_count = (string)($commentsCount);
+            // adding total likes
+            $total_likes = UserActivity::likeCountByPostId($id);
+            $total_likes = ($total_likes==-1)?0:$total_likes;
+            $post->total_likes = (string)($total_likes);
+            // geting following status
+            $followStatus = Useractivity::GetFollowingStatusByPostId($post->id)->toArray();
+            $post->is_following = (isset($followStatus[0]['status'])) ? $followStatus[0]['status'] : 0 ;
+       
+            Posts::addExtraAttributes($post);
+            return ResponseClass::Prepare_Response($post,'List of posts',true,200);
+        }
+        else
+        {
+            return ResponseClass::Prepare_Response([],'Unprocessable Entity',false, Api::STATUS_CODE_CLIENT_ERROR_UNPROCESSABLE_ENTITY);
+        }
+
         // return $post->toJson();
     }
 
@@ -111,8 +159,18 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+
         $post = Posts::find($id);
+        if(!$post){
+            return ResponseClass::Prepare_Response('','Unprocessable Entity',true, 422);
+        }
+
+        if(DeviceSession::get()->user->id != $post->user_id){
+            return ResponseClass::Prepare_Response('','Unauthorised Access',true, 403);
+        }
+
+
+
         $post->delete();
         return ResponseClass::Prepare_Response('','Deleted successfuly',true,200);
     }
@@ -127,10 +185,31 @@ class PostsController extends Controller
     {
         $userId = Input::get('userIds');
         $idArr = explode(',', $userId);
-        $post = Posts::whereIn('id',$idArr)->delete();
+        $post = Posts::whereIn('id',$idArr)->where('user_id', '=', DeviceSession::get()->user->id)->delete();
         return ResponseClass::Prepare_Response('','Deleted successfuly',true,200);
     }
 
+    /**
+    *   Home page api
+    *
+    */
+    public function homePage($page=0)
+    {
+        // $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
+        // $selfposts = Posts::selfPosts(DeviceSession::get()->user->id);
+        $res = Posts::homePagePosts(DeviceSession::get()->user->id,$page);
+
+        if (count($res)) {
+            foreach ($res as $key => $value) {
+                $commentsCount = Comments::commentsCountByPostId($value->id);
+                $value->total_likes = (string)($value->total_likes);
+                $value->total_comments = (string)($commentsCount);
+
+            }
+        }
+        
+        return ResponseClass::Prepare_Response($res,'Post Listing',true,200);
+    }
     /**
      * Search and return objects thumbnails.
      *
@@ -147,7 +226,8 @@ class PostsController extends Controller
         if (isset($userDevice->id)) {
             $userId =  $userDevice->id;
         }
-
+        
+        
         $imagesToExplore = Posts::getImages($userId,$searchData);
 
         foreach ($imagesToExplore as $key => $value) {
@@ -159,6 +239,15 @@ class PostsController extends Controller
             $imagesToExplore[$key]->media2_type = end($arr2);
             $imagesToExplore[$key]->media3_type = end($arr3);
             $imagesToExplore[$key]->media4_type = end($arr4);
+            
+			$imagesToExplore[$key]->is_following = ($value->follow > 0) ? (int)($value->follow) : 0;
+			
+            // getting comments count
+            $commentsCount = comments::commentsCountByPostId($value->id);
+            $imagesToExplore[$key]->comments_count = ($commentsCount > 0) ? (string)($commentsCount) : "0" ;
+            // total likes converting to string
+            $imagesToExplore[$key]->total_likes = ($value->total_likes > 0) ? (string)($value->total_likes):"0";
+            $imagesToExplore[$key]->shareUrl = UniversalClass::shareUrl($value->id);
         }
 
         return ResponseClass::Prepare_Response($imagesToExplore,'List of images to explore',true,200);
@@ -185,10 +274,10 @@ class PostsController extends Controller
             $posts[$key]->media2_type = end($arr2);
             $posts[$key]->media3_type = end($arr3);
             $posts[$key]->media4_type = end($arr4);
+            $posts[$key]->shareUrl = UniversalClass::shareUrl($value->id);
         }
         return ResponseClass::Prepare_Response(['postDetails'=>$posts,'post_count'=>$postCount],'List of posts',true,200);
     }
-
     /**
      * posts
      *
@@ -198,11 +287,9 @@ class PostsController extends Controller
     public function shareUrl()
     {
         $postId = Input::get('id');
-            
-        $postId = UniversalClass::encrypt($postId);
-     //   
-        $postUrl = URL::to('/').'/posts/'.$postId;
-      //  $postUrl = $postId;
+        
+        $postUrl = UniversalClass::shareUrl($postId);
+        
         return ResponseClass::Prepare_Response($postUrl,'share url',true,200);
     }
 
@@ -244,11 +331,14 @@ class PostsController extends Controller
             $request->file("image$i")->move($destinationPath, $fileNames[$i]);
 
             $thumbNames[$i] = '';
-            if($request->file("thumb$i")){
-                $extension = $request->file("thumb$i")->getClientOriginalExtension();
+            $thumbImgNames[$i] = '';
+            if($request->file("videoimage$i")){
+                $extension = $request->file("videoimage$i")->getClientOriginalExtension();
                 $thumbNames[$i] = Uuid::uuid1()->toString() . '.' . $extension;
-                $request->file("thumb$i")->move($destinationPath, $thumbNames[$i]);
-
+                $request->file("videoimage$i")->move($destinationPath, $thumbNames[$i]);
+            } else {
+                Image::make($destinationPath.'/'.$fileNames[$i])->resize(400, 400)->save($destinationPath.'/thumb_'.$fileNames[$i]);
+                $thumbImgNames[$i] = URL::to('/') .'/media/thumb_'.$fileNames[$i];
             }
         }
 
@@ -260,26 +350,92 @@ class PostsController extends Controller
             'media2_url' => URL::to('/') . '/media/' . $fileNames[2],
             'media3_url' => URL::to('/') . '/media/' . $fileNames[3],
             'media4_url' => URL::to('/') . '/media/' . $fileNames[4],
-            'media1_thumb_url' => $thumbNames[1] ? URL::to('/') . '/media/' . $thumbNames[1] : '',
-            'media2_thumb_url' => $thumbNames[2] ? URL::to('/') . '/media/' . $thumbNames[2] : '',
-            'media3_thumb_url' => $thumbNames[3] ? URL::to('/') . '/media/' . $thumbNames[3] : '',
-            'media4_thumb_url' => $thumbNames[4] ? URL::to('/') . '/media/' . $thumbNames[4] : ''
+            'media1_thumb_url' => $thumbNames[1] ? URL::to('/') . '/media/' . $thumbNames[1] : $thumbImgNames[1],
+            'media2_thumb_url' => $thumbNames[2] ? URL::to('/') . '/media/' . $thumbNames[2] : $thumbImgNames[2],
+            'media3_thumb_url' => $thumbNames[3] ? URL::to('/') . '/media/' . $thumbNames[3] : $thumbImgNames[3],
+            'media4_thumb_url' => $thumbNames[4] ? URL::to('/') . '/media/' . $thumbNames[4] : $thumbImgNames[4]
         ]);
 
+        // tag post if #tag present in caption
+        PostTags::tag($result->id, $result->caption);
 
-        for($i = 1; $i<=4; $i++){
-            $newProp = "media".$i."_type";
-            if (isset($extensionArr[$newProp])) {
-                $result->$newProp = $extensionArr[$newProp];
-            }
-        }
 
-        $result->liked = null;
-        $result->follow = null;
+        Posts::addExtraAttributes($result);
 
         return ResponseClass::Prepare_Response($result,'uploaded successfuly',true,200);
 
 
+    }
+
+    /**
+     * 
+     * @param  int $user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function otheruser()
+    {
+        $currentUserId = DeviceSession::get()->user->id;
+        $userIdName = Input::get('user_id');
+		if ($userIdName=='') {
+            return ResponseClass::Prepare_Response('','Invalid user-id',false,200);
+        }
+		$userId = "";
+		if($userIdName[0] == '@'){
+			$fieldName = 'username';
+			$userIdName = substr($userIdName, 1); 
+			$userdt = User::where('username',$userIdName)->first();
+			if($userdt){
+				$userId = $userdt->id;
+			}
+		}else{
+			$userId = $userIdName;		
+		}
+		
+        if ($userId=='') {
+            return ResponseClass::Prepare_Response('','Invalid user-id',false,200);
+        }
+        $data = array(); 
+        $postCount = Posts::where('user_id',$userId)->count();
+        $isFollowing = Useractivity::getFollowDetailByUserId($userId,$currentUserId);
+
+        $data['user'] = User::find($userId); 
+        $data['post'] = Posts::getAllPostsByUserId($userId);
+        if (!count($data['user'])) {
+            return ResponseClass::Prepare_Response('','Invalid user details',false,200);
+        }
+        if (count($data['post'])) {
+            foreach ($data['post'] as $key => $value) {
+                $value->id = (string)($value->id);
+                $commentsCount = comments::commentsCountByPostId($value->id);
+                $value->comments_count = (string)($commentsCount);
+            }
+        }
+        $data['user']->id = (string)($data['user']->id);
+        $data['user']->post_count = (string)$postCount;
+        $data['user']->is_following = (count($isFollowing) && isset($isFollowing->status)) ? (int)($isFollowing->status) : 0 ;
+
+        return ResponseClass::Prepare_Response($data,'Other user data',true,200);
+    }
+
+    public function markInappropriate() {
+        $post_id = Input::get('post_id');
+        $user_id = Input::get('user_id');
+        $report_content = Input::get('report_content');
+
+        $insArr = array(
+            "post_id"=>$post_id,
+            "user_id"=>$user_id,
+            "content"=>$report_content,
+            "created_at"=>date('Y-m-d H:i:s'),
+            "updated_at"=>date('Y-m-d H:i:s')
+        );
+
+        $res = Report::where('post_id',$post_id)->where('user_id',$user_id)->first();
+        if (count($res)) {
+            return ResponseClass::Prepare_Response('','Already Marked as Inappropriate',true,200);
+        }
+        Report::insert($insArr);
+        return ResponseClass::Prepare_Response('','Marked as Inappropriate',true,200);
     }
 
 }

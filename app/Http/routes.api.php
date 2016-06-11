@@ -14,9 +14,18 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
 
     Route::get('test',['uses' => 'UserController@test']);
     Route::resource('posts', 'PostsController');
+    Route::resource('posts.tag', 'TagsController', ['only' => ['store']]);
+    Route::resource('tag', 'TagsController', ['only' => ['show']]);
     Route::resource('comments', 'CommentsController');
     Route::resource('posts.comments', 'CommentsController');
     Route::post('getComments', 'CommentsController@commentsByPostId');
+    Route::get('homePage/{page?}', 'PostsController@index');
+    Route::get('followersList', 'UserController@followersList');
+    Route::post('markInappropriate', 'PostsController@markInappropriate');
+
+    Route::get('user/{id}/followers',['uses' => 'UserController@followers']);
+    Route::get('user/{id}/followings',['uses' => 'UserController@followings']);
+    Route::get('me/followings',['uses' => 'UserController@currentUserFollowings']);
 
     Route::post('posts/upload', [
         'uses' => 'PostsController@upload',
@@ -80,6 +89,11 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
             'as' => 'activityList',
             'middleware' => []
         ]);
+        Route::post('otheruser', [
+            'uses' => 'PostsController@otheruser',
+            'as' => 'OtherUser',
+            'middleware' => []
+        ]);
     /* Activity Routes ends*/
 
 });
@@ -93,7 +107,7 @@ Route::group(['prefix' => 'api'], function () {
     ]);
 
     Route::post('register', [
-        'uses' => 'UserController@register',
+                'uses' => 'UserController@register',
         'as' => 'MobileUserRegister',
         'middleware' => []
     ]);
@@ -107,12 +121,13 @@ Route::group(['prefix' => 'api'], function () {
         'as' => 'MobileUserForgot',
         'middleware' => []
     ]);
-	
+    
     Route::post('explorer', [
         'uses' => 'PostsController@explorer',
         'as' => 'ExploreImages',
         'middleware' => []
     ]);
+	
     //shareURL
     Route::post('posts/shareUrl', [
         'uses' => 'PostsController@shareUrl',
