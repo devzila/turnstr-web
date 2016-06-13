@@ -21,6 +21,7 @@ use Rhumsaa\Uuid\Uuid;
 use URL;
 use Image;
 use File;
+use Illuminate\Contracts\Filesystem\Filesystem;
 
 class PostsController extends Controller
 {
@@ -366,7 +367,97 @@ class PostsController extends Controller
 
 
     }
+	
+	/**
+     * 
+     * @Image Uploading  Amazon
+     * @server S3 V3
+     */
+	
+	public function uploadFileToS3Aws(Request $request){
+		
+		
+		$files = [
+            'image1' => $request->file('image1'),
+            'image2' => $request->file('image2'),
+            'image3' => $request->file('image3'),
+            'image4' => $request->file('image4')
+        ];
 
+        $rules = [
+            'image1' => 'required',
+            'image2' => 'required',
+            'image3' => 'required',
+            'image4' => 'required'
+        ];
+
+
+        $validator = Validator::make($files, $rules);
+        if ($validator->fails()) {
+            return ResponseClass::Prepare_Response('','validation fails',false, 200);
+        }
+		
+		$awsUrl = env('AWS_URL');	
+		$filePath = '/';		
+		
+		$s3 = \Storage::disk('s3');		
+		
+		$fileNames =[];
+        $thumbNames = [];
+        $extensionArr = array();
+        for($i = 1; $i<=4; $i++){
+            $extension = $request->file("image$i")->getClientOriginalExtension();
+            $extensionArr["media".$i."_type"] = $extension;
+            $fileNames[$i] = Uuid::uuid1()->toString() . '.' . $extension;
+			$imageDetail = $request->file("image$i");
+			
+			$filePath = '/stage-turnstr/';
+			$s3Upload = $s3->put($filePath.$fileNames[$i], file_get_contents($imageDetail), 'public');
+			
+			
+            $thumbNames[$i] = '';
+            $thumbImgNames[$i] = '';
+            if($request->file("videoimage$i")){
+                $extension = $request->file("videoimage$i")->getClientOriginalExtension();
+                $thumbNames[$i] = Uuid::uuid1()->toString() . '.' . $extension;
+                $videoDetail = $request->file("videoimage$i");//->move($destinationPath, $thumbNames[$i]);
+				$s3UploadVideo = $s3->put($filePath.$thumbNames[$i], file_get_contents($videoDetail), 'public');
+            } else {
+                //$thumbImage = Image::make($destinationPath.'/'.$fileNames[$i])->resize(400, 400);
+				$image_thumb = Image::make($imageDetail)->crop(400,400);
+				$image_thumb = $image_thumb->stream();
+				//->save($destinationPath.'/thumb_'.$fileNames[$i]);
+                $thumbImgNames[$i] = $awsUrl .'/thumb_'.$fileNames[$i];
+				$s3UploadThumb = $s3->put($filePath.'thumb_'.$fileNames[$i], file_get_contents($image_thumb), 'public');
+            }
+        }
+		
+		
+		$result = Posts::create([
+            'user_id' => DeviceSession::get()->user->id,
+            'caption' => $request->get('caption'),
+            'media1_url' => $awsUrl . '/' . $fileNames[1],
+            'media2_url' => $awsUrl . '/' . $fileNames[2],
+            'media3_url' => $awsUrl . '/' . $fileNames[3],
+            'media4_url' => $awsUrl . '/' . $fileNames[4],
+            'media1_thumb_url' => $thumbNames[1] ? $awsUrl . '/' . $thumbNames[1] : $thumbImgNames[1],
+            'media2_thumb_url' => $thumbNames[2] ? $awsUrl . '/' . $thumbNames[2] : $thumbImgNames[2],
+            'media3_thumb_url' => $thumbNames[3] ? $awsUrl . '/' . $thumbNames[3] : $thumbImgNames[3],
+            'media4_thumb_url' => $thumbNames[4] ? $awsUrl . '/' . $thumbNames[4] : $thumbImgNames[4]
+        ]);
+
+        // tag post if #tag present in caption
+        PostTags::tag($result->id, $result->caption);
+
+
+        Posts::addExtraAttributes($result);
+
+        return ResponseClass::Prepare_Response($result,'uploaded successfuly',true,200);	
+	
+	}
+	
+	
+	
     /**
      * 
      * @param  int $user_id
