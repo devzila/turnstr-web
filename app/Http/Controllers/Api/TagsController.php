@@ -10,6 +10,7 @@ use App\Models\PostTags;
 use App\Models\Posts;
 use App\Models\Api;
 use App\Models\Useractivity;
+use App\Models\Comments;
 use App\Models\DeviceSession;
 use DB;
 
