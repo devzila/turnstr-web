@@ -40,6 +40,11 @@ class TagsController extends Controller
 		$userId = DeviceSession::get()->user->id;
 		if($userId && $posts){			
             foreach ($posts as $key => $value) {
+				$commentsCount = Comments::commentsCountByPostId($value->id);
+				$value->total_comments = (string)(($commentsCount>0)?$commentsCount:0);
+				 
+                $value->total_likes = (string)(($value->total_likes > 0 )?$value->total_likes:0);
+				
 				$followingDetails = Useractivity::getFollowDetailByUserId($value->user_id,$userId);
 				$value->follow = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
 				$value->is_following = $value->follow;
