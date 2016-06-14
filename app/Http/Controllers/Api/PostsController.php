@@ -30,12 +30,13 @@ class PostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
         // $selfposts = Posts::selfPosts(DeviceSession::get()->user->id);
+		$page = $request->input('page', 0);
 		$userId = DeviceSession::get()->user->id;
-        $res = Posts::getUserHomePosts($userId);
+        $res = Posts::getUserHomePosts($userId,$page);
 
         if (count($res)) {
             foreach ($res as $key => $value) {
