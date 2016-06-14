@@ -263,7 +263,7 @@ class Posts extends Model
 
       }
 	  
-	  public function scopeGetUserHomePosts($query, $userId, $page = 0,  $records = 50){
+	  public function scopeGetUserHomePosts($query, $userId, $page = 0,  $records = self::POSTS_PER_PAGE){
 
         return  $query
             ->join('users','posts.user_id','=','users.id')
