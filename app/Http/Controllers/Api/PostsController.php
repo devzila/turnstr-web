@@ -411,7 +411,7 @@ class PostsController extends Controller
             $fileNames[$i] = Uuid::uuid1()->toString() . '.' . $extension;
 			$imageDetail = $request->file("image$i");
 			
-			$filePath = '/stage-turnstr/';
+			$filePath = '/';
 			$s3Upload = $s3->put($filePath.$fileNames[$i], file_get_contents($imageDetail), 'public');
 			
 			
