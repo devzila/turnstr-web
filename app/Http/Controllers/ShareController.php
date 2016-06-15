@@ -31,6 +31,11 @@ class ShareController extends Controller
         $decryptedPostId = UniversalClass::decrypt($id);
 
         $data['post'] = Posts::find($decryptedPostId);
+		
+		if(!$data['post']){
+			return view('errors.404', $data);
+		}
+		
 		$user_id = $data['post']->user_id;
 		//$mainUserId = Auth::user()->id;
 		
