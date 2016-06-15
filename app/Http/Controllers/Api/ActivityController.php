@@ -85,6 +85,7 @@ class ActivityController extends Controller {
                     'created_at'=>date('Y-m-d H:i:s'),
                     'updated_at'=>date('Y-m-d H:i:s')
                 );
+			Posts::where('id',$post_id)->increment('total_likes');
             Useractivity::insert($insArr);
         }
         return ResponseClass::Prepare_Response('','Action performed successfully',true,200);
