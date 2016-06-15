@@ -425,11 +425,11 @@ class PostsController extends Controller
 				$s3UploadVideo = $s3->put($filePath.$thumbNames[$i], file_get_contents($videoDetail), 'public');
             } else {
                 //$thumbImage = Image::make($destinationPath.'/'.$fileNames[$i])->resize(400, 400);
-				$image_thumb = Image::make($imageDetail)->crop(400,400);
+				$image_thumb = Image::make($imageDetail)->resize(400,400);
 				$image_thumb = $image_thumb->stream();
 				//->save($destinationPath.'/thumb_'.$fileNames[$i]);
                 $thumbImgNames[$i] = $awsUrl .'/thumb_'.$fileNames[$i];
-				$s3UploadThumb = $s3->put($filePath.'thumb_'.$fileNames[$i], file_get_contents($image_thumb), 'public');
+				$s3UploadThumb = $s3->put($filePath.'thumb_'.$fileNames[$i], $image_thumb->__toString(), 'public');
             }
         }
 		
