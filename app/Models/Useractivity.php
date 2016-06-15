@@ -82,7 +82,7 @@ class Useractivity extends Model
 	* Get comments count by post id
     */
     public function scopeLikeCountByPostId($query, $post_id) {
-    	$res = $query->where('activity','liked')->where('post_id',$post_id)->count();
+    	$res = $query->where('activity','liked')->where('post_id',$post_id)->where('status',1)->count();
     	return ($res>0) ? $res : -1 ;
     }
 	
