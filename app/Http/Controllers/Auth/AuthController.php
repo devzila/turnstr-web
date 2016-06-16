@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use \App\Models\User;
+use \App\Models\Useractivity;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -31,7 +32,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new authentication controller instance.
@@ -55,6 +56,7 @@ class AuthController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
+			'username' => 'required|unique:users',
             'password' => 'required|confirmed|min:6',
         ]);
     }
@@ -67,11 +69,28 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'username' => $data['username'],
             'password' => bcrypt($data['password']),
         ]);
+		
+		if($user){
+            // Auto follow turnstr
+            $autofollow = array(
+                'user_id' => env('TURNSTR_USER_ID', 2),
+                'follower_id' => $user->id,
+                'activity' => 'follow',
+                'status' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            );
+            Useractivity::insert($autofollow);
+
+            User::where('id',$user->id)->update(array('following'=>1));                       
+        }
+		return $user;
     }
 
 }

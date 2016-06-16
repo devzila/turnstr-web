@@ -17,8 +17,9 @@
           <div class="w-tab-pane w--tab-active" data-w-tab="Tab 1">
             <div class="edit-profile-info">
               <div class="w-row">
+			  
                 <div class="w-col w-col-4 edit-profile-image">
-                  <div class="profile-pic edit"><img src="{{$user->profile_image}}"></div>
+                  @if($user->profile_image)<div class="profile-pic edit"><img src="{{$user->profile_image}}"></div>@endif
                 </div>
                 <div class="w-col w-col-8">
                   <h3 class="user-name edit">{{$user->name}}</h3>
@@ -74,8 +75,8 @@
           <div class="w-tab-pane" data-w-tab="Tab 2">
 			
             <div class="w-row">
-              <div class="w-col w-col-4 w-col-medium-6 w-col-small-4 w-col-tiny-6 edit-profile-image">
-                <div class="profile-pic edit"><img src="{{$user->profile_image}}"></div>
+              <div class="w-col w-col-4 w-col-medium-6 w-col-small-4 w-col-tiny-6 edit-profile-image">              
+				@if($user->profile_image)<div class="profile-pic edit"><img src="{{$user->profile_image}}"></div>@endif
               </div>
               <div class="w-col w-col-8 w-col-medium-6 w-col-small-8 w-col-tiny-6">
                 <h3 class="user-name edit">{{$user->name}}</h3>

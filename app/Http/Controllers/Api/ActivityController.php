@@ -61,32 +61,9 @@ class ActivityController extends Controller {
         $likedOf = Input::get('post_user'); // who's post is liked
         $post_id = Input::get('post_id'); // post id
         $like_status = Input::get('like_status'); // like/unlike
-
-        $alreadyLiked = Useractivity::where('post_id',$post_id)->where('liked_id',$likedBy)->where('activity','liked')->first();
+		
+		Useractivity::likeUnlikeStatus($post_id,$likedOf,$likedBy,$like_status);
         
-        if (count($alreadyLiked) && $alreadyLiked->status != $like_status) {
-            $updateArr = array(
-                    'status'=>$like_status
-                );
-            Useractivity::where('post_id',$post_id)->where('liked_id',$likedBy)->where('activity','liked')->update($updateArr);
-            if ($like_status==1) {
-                Posts::where('id',$post_id)->increment('total_likes');
-            } else if ($like_status==0) {
-                Posts::where('id',$post_id)->decrement('total_likes');
-            }
-            
-        } else if (!count($alreadyLiked)) {
-            $insArr = array(
-                    'user_id'=>$likedOf,
-                    'liked_id'=>$likedBy,
-                    'post_id'=>$post_id,
-                    'activity'=>'liked',
-                    'status'=>1,
-                    'created_at'=>date('Y-m-d H:i:s'),
-                    'updated_at'=>date('Y-m-d H:i:s')
-                );
-            Useractivity::insert($insArr);
-        }
         return ResponseClass::Prepare_Response('','Action performed successfully',true,200);
         
     }

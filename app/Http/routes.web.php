@@ -7,6 +7,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::auth();
     Route::get('/', 'HomeController@index');
     Route::get('/share/{id}', 'ShareController@index');
+	Route::resource('comments', 'CommentsController');
     Route::get('/userprofile/{id?}', 'UserController@userProfile');
     Route::get('/users/edit', 'UserController@edit');
     Route::post('/users/update', 'UserController@updateProfile');
@@ -14,6 +15,8 @@ Route::group(['middleware' => 'web'], function () {
 	Route::get('/discover', 'HomeController@discover');
 	Route::post('/users/changepassword', 'UserController@changePasword');
 	Route::post('/users/followuser', 'ActivityController@followUser');
+	Route::post('/users/likePost', 'ActivityController@likePost');
+	
     
 });
 

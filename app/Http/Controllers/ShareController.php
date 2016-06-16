@@ -29,8 +29,13 @@ class ShareController extends Controller
     public function index($id)
     {
         $decryptedPostId = UniversalClass::decrypt($id);
-
+		$data['page_title'] = "Turn Share";
         $data['post'] = Posts::find($decryptedPostId);
+		
+		if(!$data['post']){
+			return view('errors.404', $data);
+		}
+		
 		$user_id = $data['post']->user_id;
 		//$mainUserId = Auth::user()->id;
 		
@@ -41,6 +46,8 @@ class ShareController extends Controller
 		$commentsCount = Comments::commentsCountByPostId($decryptedPostId);
 		$commentsCount = ($commentsCount==-1)?0:$commentsCount;
 		$data['total_comments'] = (string)($commentsCount);
+		
+		
 		// adding total likes
 		$total_likes = Useractivity::likeCountByPostId($decryptedPostId);
 		$total_likes = ($total_likes==-1)?0:$total_likes;
@@ -48,10 +55,13 @@ class ShareController extends Controller
 		
 		if(isset(Auth::user()->id)){
 			$mainUserId = Auth::user()->id;
+			$likeDetail = Useractivity::likeStatusByUserId($decryptedPostId,$mainUserId);
+			$data['liked'] = (count($likeDetail) && isset($likeDetail->status)) ? (int)($likeDetail->status) : 0 ;
 			$followingDetails = Useractivity::getFollowDetailByUserId($user_id,$mainUserId);
 			$data['is_following'] = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
 		}else{
 			$data['is_following']=0;
+			$data['liked']=0;
 		}
         $extensionArr = array('mov','mp4');
 

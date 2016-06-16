@@ -181,6 +181,12 @@
 					<div class="post-stats-data">{{$total_comments}}</div>
 					<div class="post-stats-label">Likes</div>
 					<div class="post-stats-data">{{$total_likes}}</div>
+					
+					<div class="post-stats-label">
+					@if(isset(Auth::user()->id))
+						<a class="w-button followbtn" id="likebtn" data-like-status="{{ !$liked }}" data-postId="{{$post->id}}" data-token="{{ csrf_token() }}" href="#">@if($liked) Unlike @else Like @endif</a>
+					@endif
+					</div>
 				</div>
 				<div class="w-clearfix post-content">
 					@if($post->caption)
@@ -206,7 +212,7 @@
 								@endif	
 							</div>
 						@endif
-						@if(isset(Auth::user()->id))
+						@if(isset(Auth::user()->id) && Auth::user()->id != $userdetail->id)
 							<a class="w-button followbtn" id="followbtn" data-status="{{ !$is_following }}" data-followId="{{$userdetail->id}}" data-token="{{ csrf_token() }}" href="#">
 								@if($is_following) unfollow @else follow @endif
 							</a>
@@ -243,6 +249,35 @@
                         </div>
                     @endforeach
                 @endif
+				
+				<div class="w-clearfix userinfo">
+                        <div class="usercommentsblock">
+                            <div class="">
+								<form class="form-horizontal" method="post" action="/comments">
+									{{ csrf_field() }}
+									<input type="hidden" name="post_id" value="{{$post->id}}">
+									<div class="form-group">									
+										<div class="col-md-6">
+											<textarea name="comments" id="comments"  rows="3" cols="45" required> </textarea>
+											@if ($errors->has('comments'))
+												<div class="has-error">
+													<span class="help-block">
+													   {{ $errors->first('comments') }}
+													</span>
+												</div>
+											@endif
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-6">
+											<input class="w-button submit_btn" type="submit" name="submit" value="Add Comment">
+												
+										</div>
+									</div>								
+								</form>
+							</div>
+                        </div>
+                    </div>
 
 				</div>
             </div>
@@ -296,5 +331,6 @@
 			return false;	
 		}
 	</script>
+
 
 @endsection

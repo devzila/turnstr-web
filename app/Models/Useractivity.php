@@ -82,7 +82,7 @@ class Useractivity extends Model
 	* Get comments count by post id
     */
     public function scopeLikeCountByPostId($query, $post_id) {
-    	$res = $query->where('activity','liked')->where('post_id',$post_id)->count();
+    	$res = $query->where('activity','liked')->where('post_id',$post_id)->where('status',1)->count();
     	return ($res>0) ? $res : -1 ;
     }
 	
@@ -142,6 +142,38 @@ class Useractivity extends Model
             Useractivity::insert($insArr);
             User::where('id',$followerId)->increment('following');
             User::where('id',$following_id)->increment('followers');
+        }
+		
+	}
+	
+	
+	public static function likeUnlikeStatus($post_id,$likedOf,$likedBy,$like_status){
+		
+		$alreadyLiked = Useractivity::where('post_id',$post_id)->where('liked_id',$likedBy)->where('activity','liked')->first();
+        
+        if (count($alreadyLiked) && $alreadyLiked->status != $like_status) {
+            $updateArr = array(
+                    'status'=>$like_status
+                );
+            Useractivity::where('post_id',$post_id)->where('liked_id',$likedBy)->where('activity','liked')->update($updateArr);
+            if ($like_status==1) {
+                Posts::where('id',$post_id)->increment('total_likes');
+            } else if ($like_status==0) {
+                Posts::where('id',$post_id)->decrement('total_likes');
+            }
+            
+        } else if (!count($alreadyLiked)) {
+            $insArr = array(
+                    'user_id'=>$likedOf,
+                    'liked_id'=>$likedBy,
+                    'post_id'=>$post_id,
+                    'activity'=>'liked',
+                    'status'=>1,
+                    'created_at'=>date('Y-m-d H:i:s'),
+                    'updated_at'=>date('Y-m-d H:i:s')
+                );
+			Posts::where('id',$post_id)->increment('total_likes');
+            Useractivity::insert($insArr);
         }
 		
 	}
