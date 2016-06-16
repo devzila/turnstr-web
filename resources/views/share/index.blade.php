@@ -249,6 +249,35 @@
                         </div>
                     @endforeach
                 @endif
+				
+				<div class="w-clearfix userinfo">
+                        <div class="usercommentsblock">
+                            <div class="">
+								<form class="form-horizontal" method="post" action="/comments">
+									{{ csrf_field() }}
+									<input type="hidden" name="post_id" value="{{$post->id}}">
+									<div class="form-group">									
+										<div class="col-md-6">
+											<textarea name="comments" id="comments"  rows="3" cols="45" required> </textarea>
+											@if ($errors->has('comments'))
+												<div class="has-error">
+													<span class="help-block">
+													   {{ $errors->first('comments') }}
+													</span>
+												</div>
+											@endif
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-6">
+											<input class="w-button submit_btn" type="submit" name="submit" value="Add Comment">
+												
+										</div>
+									</div>								
+								</form>
+							</div>
+                        </div>
+                    </div>
 
 				</div>
             </div>
