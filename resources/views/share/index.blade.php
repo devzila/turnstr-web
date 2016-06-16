@@ -206,7 +206,7 @@
 								@endif	
 							</div>
 						@endif
-						@if(isset(Auth::user()->id))
+						@if(isset(Auth::user()->id) && Auth::user()->id != $userdetail->id)
 							<a class="w-button followbtn" id="followbtn" data-status="{{ !$is_following }}" data-followId="{{$userdetail->id}}" data-token="{{ csrf_token() }}" href="#">
 								@if($is_following) unfollow @else follow @endif
 							</a>
