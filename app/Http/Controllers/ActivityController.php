@@ -86,6 +86,13 @@ class ActivityController extends Controller {
 	*
 	*/
 	public function followUser(){
+		
+		
+		if(!isset(Auth::user()->id) || empty($this->request->get('followId'))){
+			
+			$response = [ 'status'=>3,'msg'=>"Please Login"];
+			return response()->json($response,200);
+		}
 		$followerId = Auth::user()->id;
 		$following_id = $this->request->get('followId');
 		$following_status = $this->request->get('status');	
@@ -97,6 +104,31 @@ class ActivityController extends Controller {
 		return response()->json($response,200);
 		
 	}
+	
+	 public function likePost() {
+		
+		if(!isset(Auth::user()->id) || empty($this->request->get('postId'))){
+			
+			$response = [ 'status'=>3,'msg'=>"Please Login"];
+			return response()->json($response,200);
+		}
+		
+		$likedBy = Auth::user()->id;
+		
+        $post_id = $this->request->get('postId'); // post id
+		
+        $like_status = $this->request->get('status'); // like/unlike
+		$postDetail = Posts::find($post_id);		
+        Useractivity::likeUnlikeStatus($post_id,$postDetail->user_id,$likedBy,$like_status);
+		
+        $msg = ($like_status) ? "Successfully Liked": "Successfully Unliked";
+		$response = [ 'status'=>1,'msg'=>$msg];
+		return response()->json($response,200);
+        
+    }
+   
+	
+	
 
 	
 }

@@ -181,6 +181,12 @@
 					<div class="post-stats-data">{{$total_comments}}</div>
 					<div class="post-stats-label">Likes</div>
 					<div class="post-stats-data">{{$total_likes}}</div>
+					
+					<div class="post-stats-label">
+					@if(isset(Auth::user()->id))
+						<a class="w-button followbtn" id="likebtn" data-like-status="{{ !$liked }}" data-postId="{{$post->id}}" data-token="{{ csrf_token() }}" href="#">@if($liked) Unlike @else Like @endif</a>
+					@endif
+					</div>
 				</div>
 				<div class="w-clearfix post-content">
 					@if($post->caption)
@@ -296,5 +302,6 @@
 			return false;	
 		}
 	</script>
+
 
 @endsection

@@ -14,6 +14,7 @@ Route::group(['middleware' => 'web'], function () {
 	Route::get('/discover', 'HomeController@discover');
 	Route::post('/users/changepassword', 'UserController@changePasword');
 	Route::post('/users/followuser', 'ActivityController@followUser');
+	Route::post('/users/likePost', 'ActivityController@likePost');
     
 });
 
