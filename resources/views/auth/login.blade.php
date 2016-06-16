@@ -46,10 +46,10 @@
                         </div>
                         @endif
                     </div>
-                        <a href="#" class="forgotpwlink">Forgot password?</a>
+                        <a href="/password/reset" class="forgotpwlink">Forgot password?</a>
                         <!--<a href="#" class="facebooklogin">Login with facebook</a>-->
                     <p>&nbsp;</p>
-                        <a href="#" class="register_new">Don't have an account? <span class="link">Sign up</span></a>
+                        <a href="/register" class="register_new">Don't have an account? <span class="link">Sign up</span></a>
                 </div>
             </div>
         </div>
