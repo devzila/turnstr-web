@@ -29,7 +29,7 @@ class ShareController extends Controller
     public function index($id)
     {
         $decryptedPostId = UniversalClass::decrypt($id);
-
+		$data['page_title'] = "Turn Share";
         $data['post'] = Posts::find($decryptedPostId);
 		
 		if(!$data['post']){

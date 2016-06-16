@@ -105,6 +105,7 @@ class UserController extends Controller {
 	
 	public function userProfile($userId = ""){
 		$data = array();
+		$data['page_title'] = "Profile";
 		$data['AuthUser'] =0;
 		$data['is_following'] = 0;
 		$authUser = (isset(Auth::user()->id)) ? Auth::user()->id : "";
@@ -133,6 +134,7 @@ class UserController extends Controller {
 	
 	public function edit(){
 		$userId = Auth::user()->id;
+		$data['page_title'] = "Edit Profile";
 		$data['user'] =  User::find($userId);
 		return view('profile.editprofile',$data);
 		

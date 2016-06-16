@@ -32,6 +32,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+		$pageTitle = "Home";
 		$userId = Auth::user()->id;
         $posts = Posts::GetUserHomePosts($userId);
 		
@@ -48,12 +49,13 @@ class HomeController extends Controller
         }
 		
 		
-        return view('home', ['posts' => $posts]);
+        return view('home', ['posts' => $posts,'page_title'=>$pageTitle]);
     }
 	
 	
 	public function discover()
     {
+		$pageTitle = "Discover";
         $searchData = Input::get('searchData');
         $userId = Auth::user()->id;
         
@@ -79,7 +81,7 @@ class HomeController extends Controller
             $imagesToExplore[$key]->shareUrl = UniversalClass::shareUrl($value->id);
         }
 
-        return view('discover', ['posts'=>$imagesToExplore]);
+        return view('discover', ['posts'=>$imagesToExplore,'page_title'=>$pageTitle]);
     }
 
 	
