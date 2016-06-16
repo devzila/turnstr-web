@@ -21,7 +21,7 @@ class ActivityController extends Controller {
 	}
 		
 	public function getActivity() {
-
+		$pageTitle = "Activity";
         $user_id = Auth::user()->id;
         $activityList = array();
 
@@ -78,7 +78,7 @@ class ActivityController extends Controller {
                 $value->is_following = $alreadyLiked[$key]->status;
             }
         }
-		return view("activity.activity",['activities'=>$alreadyLiked]);
+		return view("activity.activity",['activities'=>$alreadyLiked,'page_title'=>$pageTitle]);
     }
 	/*
 	* followId (user_id of user you are following)
