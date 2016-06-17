@@ -7,11 +7,26 @@ Route::group(['middleware' => 'web'], function () {
     Route::auth();
     Route::get('/', 'HomeController@index');
     Route::get('/share/{id}', 'ShareController@index');
+	
+    Route::get('/userprofile/{id?}', 'UserController@userProfile');	
 	Route::resource('comments', 'CommentsController');
-    Route::get('/userprofile/{id?}', 'UserController@userProfile');
-	Route::get('/explore', 'HomeController@explore');	
-	Route::post('/users/followuser', 'ActivityController@followUser');
-	Route::post('/users/likePost', 'ActivityController@likePost');
+
+	Route::post('/users/followuser',[
+        'uses' => 'ActivityController@followUser',
+        'as' => 'followUser',
+		'middleware' => 'auth'
+    ]);	
+	Route::post('/users/likePost',[
+        'uses' => 'ActivityController@likePost',
+        'as' => 'likePost',
+		'middleware' => 'auth'
+    ]);
+	
+	Route::get('/explore',[
+        'uses' => 'HomeController@explore',
+        'as' => 'explore',
+		'middleware' => 'auth'
+    ]);
 	
 	Route::get('/users/activity',[
         'uses' => 'ActivityController@getActivity',
