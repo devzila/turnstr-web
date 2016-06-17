@@ -53,9 +53,9 @@ class HomeController extends Controller
     }
 	
 	
-	public function discover()
+	public function explore()
     {
-		$pageTitle = "Discover";
+		$pageTitle = "Explore";
         $searchData = Input::get('searchData');
         $userId = Auth::user()->id;
         
