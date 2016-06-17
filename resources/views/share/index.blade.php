@@ -190,7 +190,7 @@
 				</div>
 				<div class="w-clearfix post-content">
 					@if($post->caption)
-						<div class="photocaption">{{$post->caption}}</div>
+						<div class="photocaption"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($post->caption) ?></div>
 					@endif
 					<div class="tag"></div>
 					<div class="dropdown-control">
@@ -236,7 +236,7 @@
                             </div>
                             <div class="usercommentsblock">
                                 <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{ $comment->username}}</a></div>
-                                <div class="usercomment">{{ $comment->comments }}</div>
+                                <div class="usercomment"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($comment->comments) ?></div>
                             </div>
                             <?php
                             if(empty($comment->comments)){?>

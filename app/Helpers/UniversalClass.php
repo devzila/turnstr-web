@@ -56,5 +56,26 @@ class UniversalClass{
 			}
 		}
 	}
+	
+	static function replaceTagMentionLink($sentance){
+		// find all #tag
+		preg_match_all('/#([^\s]+)/', $sentance, $matches);
+
+		if(!array_key_exists(1, $matches)){
+			return;
+		}
+		// generate Links For #tags
+		foreach($matches[1] as $match){
+			$sentance = preg_replace("/([^>]|^)#$match\b/","$1<a href='/tags?searchData=$match'>#$match</a>",$sentance);
+		}
+		
+		preg_match_all('/@([^\s]+)/', $sentance, $matches2);
+		// generate Links For @mention
+		foreach($matches2[1] as $match2){
+			$sentance = preg_replace("/([^>]|^)@$match2\b/","$1<a href='/userprofile/@$match2'>@$match2</a>",$sentance);
+		}
+		return $sentance;
+	}
+	
 }
 ?>

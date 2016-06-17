@@ -377,8 +377,6 @@ class PostsController extends Controller
 	
 	public function uploadFileToS3Aws(Request $request){
 		
-		echo $awsUrl = env('AWS_REGION');
-		exit;
 		$files = [
             'image1' => $request->file('image1'),
             'image2' => $request->file('image2'),
@@ -479,6 +477,8 @@ class PostsController extends Controller
 			$userdt = User::where('username',$userIdName)->first();
 			if($userdt){
 				$userId = $userdt->id;
+			}else{
+				$userId="@".$userIdName;
 			}
 		}else{
 			$userId = $userIdName;		
