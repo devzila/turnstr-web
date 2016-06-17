@@ -1194,3 +1194,7 @@ a.link-anchor{
 .post-thumb{
 	float:right;
 }
+
+.body-wrapper .row {
+	margin:0px;
+}

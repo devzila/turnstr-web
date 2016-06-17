@@ -21,7 +21,9 @@
 			  <?php $i=0; ?>
 			  @if(count($posts)!= 0)
 				  @foreach($posts as $post)
-					
+					@if(!$post->media1_thumb_url)
+						@continue
+					@endif
 				  <?php ++$i;?>
 					  @if($i%3 == 1)
 						<div class="w-row profile-image-grid">
