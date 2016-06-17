@@ -33,7 +33,7 @@
 					@endif					
                     <div class="usercommentsblock">
                         <div class="username"><a href="/userprofile/{{$post->user_id}}">{{ $post->name}}</a></div>
-                        <div class="usercomment">{{ $post->caption }}</div>
+                        <div class="usercomment"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($post->caption) ?></div>
                     </div>
                 </div>
 				@if($post->comments->isEmpty())
@@ -50,7 +50,7 @@
                             </div>
                             <div class="usercommentsblock">
                                 <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{ $comment->username}}</a></div>
-                                <div class="usercomment">{{ $comment->comments }}</div>
+                                <div class="usercomment"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($comment->comments) ?></div>
                             </div>
                             
                             @if(empty($comment->comments))

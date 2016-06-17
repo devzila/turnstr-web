@@ -109,7 +109,17 @@ class UserController extends Controller {
 		$data['AuthUser'] =0;
 		$data['is_following'] = 0;
 		$authUser = (isset(Auth::user()->id)) ? Auth::user()->id : "";
+		
+		if(!empty($userId) && $userId[0] == '@'){
+			$userId = substr($userId, 1); 
+			$userdt = User::where('username','=',$userId)->first();
+			if($userdt){
+				$userId = $userdt->id;
+			}else{
+				$userId="@".$userId;
+			}
 			
+		}
 		
 		if(empty($userId) || $userId == $authUser){
 			$userId = $authUser;
@@ -126,6 +136,11 @@ class UserController extends Controller {
 				
 		
 		$data['userdetail'] =  User::find($userId);
+		
+		if(!$data['userdetail']){			
+			return view('errors.generic',['msg'=>"This User Does Not Exists",'previousUrl'=>URL::previous()]);
+		}
+		
 		$data['posts'] = Posts::GetAllPostsByUserId($userId);
 		
 		return view('profile.userprofile',$data);
