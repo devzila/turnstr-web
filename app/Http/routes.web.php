@@ -9,7 +9,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/share/{id}', 'ShareController@index');
 	Route::resource('comments', 'CommentsController');
     Route::get('/userprofile/{id?}', 'UserController@userProfile');
-	Route::get('/discover', 'HomeController@discover');	
+	Route::get('/explore', 'HomeController@explore');	
 	Route::post('/users/followuser', 'ActivityController@followUser');
 	Route::post('/users/likePost', 'ActivityController@likePost');
 	
