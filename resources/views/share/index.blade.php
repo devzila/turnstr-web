@@ -203,22 +203,24 @@
 					</div>
 				@if($userdetail->name)
 					<div class="w-clearfix userinfo">	
-						@if($userdetail->profile_thumb_image)
-							<div class="userthumb">					
-								@if($userdetail->profile_thumb_image)
-									<a href="/userprofile/{{$userdetail->id}}">
-										<img class="img-circle" src="{{ $userdetail->profile_thumb_image }}">
-									</a>
-								@endif	
-							</div>
-						@endif
+						
+						<div class="userthumb">						
+							@if($userdetail->profile_image)
+								<a href="/userprofile/{{$userdetail->user_id}}"><img class="img-circle" src="{{$userdetail->profile_image}}" /></a>
+							@else
+								<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
+							@endif
+						</div>
+						
 						@if(isset(Auth::user()->id) && Auth::user()->id != $userdetail->id)
 							<a class="w-button followbtn" id="followbtn" data-status="{{ !$is_following }}" data-followId="{{$userdetail->id}}" data-token="{{ csrf_token() }}" href="#">
 								@if($is_following) unfollow @else follow @endif
 							</a>
 						@endif
 							<div class="usercommentsblock">
-							<div class="username"> <a href="/userprofile/{{$userdetail->id}}"> {{ $userdetail->name }} </a></div>
+							<div class="username"> 
+							<a href="/userprofile/{{$userdetail->id}}"> {{ $userdetail->name }} </a>
+							</div>
 						</div>
 					</div>
 				@endif
@@ -232,7 +234,11 @@
                     @foreach($comments as $comment)
                         <div class="w-clearfix userinfo">
                             <div class="userthumb">
-							<a href="/userprofile/{{$comment->user_id}}"><img class="img-circle" src="<?php echo $comment->profile_image;?>" /></a>
+								@if(!empty($comment->profile_image))
+									<a href="/userprofile/{{$comment->user_id}}"><img class="img-circle" src="{{$comment->profile_image }}" /></a>
+								@else
+									<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
+								@endif
                             </div>
                             <div class="usercommentsblock">
                                 <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{ $comment->username}}</a></div>

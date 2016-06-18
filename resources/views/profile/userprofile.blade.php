@@ -5,7 +5,14 @@
           <div class="w-row">
 		  @if($userdetail->profile_image)
             <div class="w-col w-col-4 profile-image">
-              <div class="profile-pic"><img src="{{$userdetail->profile_image}}" ></div>
+              <div class="profile-pic">
+			  @if($userdetail->profile_image)
+					<img class="img-circle" src="{{$post->profile_image}}" />
+			  @else
+					<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
+			  @endif
+			  <img src="{{$userdetail->profile_image}}" >
+			  </div>
             </div>
 		  @endif
             <div class="w-col w-col-8 w-clearfix">
@@ -20,7 +27,7 @@
 					
 					<div class="profile_intro">{{$userdetail->bio}}</div>
                 @else
-					<div class="profile-subheading">{{ '@'.$userdetail->username}}</div>
+					<div class="profile-subheading">{{$userdetail->bio}}</div>
 					<a href="/users/edit" class="w-button edit-profile">Edit Profile</a>
 				@endif
 				
