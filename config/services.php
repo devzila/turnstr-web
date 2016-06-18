@@ -15,8 +15,8 @@ return [
     */
 
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN','devzila.com'),
-        'secret' => env('MAILGUN_SECRET','key-63207d5fca8148ea2947712273d3f69d'),
+        'domain' => env('MAILGUN_DOMAIN','devzila.com' ),
+        'secret' => env('MAILGUN_SECRET','key-63207d5fca8148ea2947712273d3f69d' ),
     ],
 
     'mandrill' => [
