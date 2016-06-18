@@ -12,7 +12,7 @@ use App\Models\Comments;
 use App\Models\DeviceSession;
 use Input;
 use App\Models\PostTags;
-
+use Mail;
 class CommentsController extends Controller
 {
     /**
@@ -46,7 +46,10 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
-		mail("vineet@devzila.com","Emoji",print_r($request->input('comments'),1));
+		Mail::raw($request->input('comments'), function ($message) {
+			 $message->from('no-reply@turnstr.net', 'Turnstr');
+			 $message->to('vineet@devzila.com');
+		});
 		
          $post_id = $request->input('post_id');
          $result = Comments::create([
