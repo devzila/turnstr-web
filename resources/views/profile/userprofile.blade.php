@@ -3,7 +3,7 @@
       <div class="w-section profile-header">
         <div class="w-container profile-header-content">
           <div class="w-row">
-		  @if($userdetail->profile_image)
+		  
             <div class="w-col w-col-4 profile-image">
               <div class="profile-pic">
 			  @if($userdetail->profile_image)
@@ -14,7 +14,7 @@
 			  
 			  </div>
             </div>
-		  @endif
+		  
             <div class="w-col w-col-8 w-clearfix">
               <div class="profile-info">
                 <h3 class="user-name">{{$userdetail->name}}</h3>
