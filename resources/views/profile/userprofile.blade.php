@@ -7,11 +7,11 @@
             <div class="w-col w-col-4 profile-image">
               <div class="profile-pic">
 			  @if($userdetail->profile_image)
-					<img class="img-circle" src="{{$post->profile_image}}" />
+					<img class="img-circle" src="{{$userdetail->profile_image}}" />
 			  @else
 					<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
 			  @endif
-			  <img src="{{$userdetail->profile_image}}" >
+			  
 			  </div>
             </div>
 		  @endif
