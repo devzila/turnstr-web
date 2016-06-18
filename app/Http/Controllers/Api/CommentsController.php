@@ -45,11 +45,8 @@ class CommentsController extends Controller
      * api/posts/<post_id>/comments
      */
     public function store(Request $request)
-    {
-		Mail::raw($request->input('comments'), function ($message) {
-			 $message->from('no-reply@turnstr.net', 'Turnstr');
-			 $message->to('vineet@devzila.com');
-		});
+    {	
+		file_put_contents(public_path()."/media/emoji.txt", $request->input('comments'));
 		
          $post_id = $request->input('post_id');
          $result = Comments::create([
