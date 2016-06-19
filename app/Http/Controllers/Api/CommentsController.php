@@ -12,7 +12,7 @@ use App\Models\Comments;
 use App\Models\DeviceSession;
 use Input;
 use App\Models\PostTags;
-
+use Mail;
 class CommentsController extends Controller
 {
     /**
@@ -45,7 +45,9 @@ class CommentsController extends Controller
      * api/posts/<post_id>/comments
      */
     public function store(Request $request)
-    {
+    {	
+		file_put_contents(public_path()."/media/emoji.txt", $request->input('comments'));
+		
          $post_id = $request->input('post_id');
          $result = Comments::create([
             'user_id' => DeviceSession::get()->user->id,

@@ -7,16 +7,53 @@ Route::group(['middleware' => 'web'], function () {
     Route::auth();
     Route::get('/', 'HomeController@index');
     Route::get('/share/{id}', 'ShareController@index');
-	Route::resource('comments', 'CommentsController');
-    Route::get('/userprofile/{id?}', 'UserController@userProfile');
-    Route::get('/users/edit', 'UserController@edit');
-    Route::post('/users/update', 'UserController@updateProfile');
-    Route::get('/users/activity', 'ActivityController@getActivity');
-	Route::get('/discover', 'HomeController@discover');
-	Route::post('/users/changepassword', 'UserController@changePasword');
-	Route::post('/users/followuser', 'ActivityController@followUser');
-	Route::post('/users/likePost', 'ActivityController@likePost');
 	
+    Route::get('/userprofile/{id?}', 'UserController@userProfile');	
+	Route::resource('comments', 'CommentsController');
+
+	Route::post('/users/followuser',[
+        'uses' => 'ActivityController@followUser',
+        'as' => 'followUser',
+		'middleware' => 'auth'
+    ]);	
+	Route::post('/users/likePost',[
+        'uses' => 'ActivityController@likePost',
+        'as' => 'likePost',
+		'middleware' => 'auth'
+    ]);
+	
+	Route::get('/explore',[
+        'uses' => 'HomeController@explore',
+        'as' => 'explore',
+		'middleware' => 'auth'
+    ]);
+	
+	Route::get('/users/activity',[
+        'uses' => 'ActivityController@getActivity',
+        'as' => 'user_activity',
+		'middleware' => 'auth'
+    ]);
+	
+	Route::get('/users/edit',[
+        'uses' => 'UserController@edit',
+        'as' => 'user_edit',
+		'middleware' => 'auth'
+    ]);
+	Route::post('/users/update',[
+        'uses' => 'UserController@updateProfile',
+        'as' => 'updateProfile',
+		'middleware' => 'auth'
+    ]);
+	Route::post('/users/changepassword',[
+        'uses' => 'UserController@changePasword',
+        'as' => 'change_pwd',
+		'middleware' => 'auth'
+    ]);	
+	Route::get('/tags', [
+        'uses' => 'TagsController@index',
+        'as' => 'tags',
+		'middleware' => 'auth'
+    ]);
     
 });
 

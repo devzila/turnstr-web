@@ -19,7 +19,13 @@
               <div class="w-row">
 			  
                 <div class="w-col w-col-4 edit-profile-image">
-                  @if($user->profile_image)<div class="profile-pic edit"><img src="{{$user->profile_image}}"></div>@endif
+				<div class="profile-pic edit">
+					 @if($user->profile_image)
+							<img src="{{$user->profile_image}}">
+					  @else
+							<img class="img-circle" src="/assets/images/defaultprofile.png" />
+					  @endif
+				</div>
                 </div>
                 <div class="w-col w-col-8">
                   <h3 class="user-name edit">{{$user->name}}</h3>
@@ -76,7 +82,13 @@
 			
             <div class="w-row">
               <div class="w-col w-col-4 w-col-medium-6 w-col-small-4 w-col-tiny-6 edit-profile-image">              
-				@if($user->profile_image)<div class="profile-pic edit"><img src="{{$user->profile_image}}"></div>@endif
+				<div class="profile-pic edit">
+					 @if($user->profile_image)
+							<img src="{{$user->profile_image}}">
+					  @else
+							<img class="img-circle" src="/assets/images/defaultprofile.png" />
+					  @endif
+				</div>
               </div>
               <div class="w-col w-col-8 w-col-medium-6 w-col-small-8 w-col-tiny-6">
                 <h3 class="user-name edit">{{$user->name}}</h3>

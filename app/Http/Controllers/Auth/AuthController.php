@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Input;
 use Redirect;
 use Auth;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -60,6 +61,23 @@ class AuthController extends Controller
             'password' => 'required|confirmed|min:6',
         ]);
     }
+
+
+    public function login(Request $request)
+    {
+        $field = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $request->merge([$field => $request->input('email')]);
+
+        if (Auth::attempt($request->only($field, 'password')))
+        {
+            return redirect('/');
+        }
+
+        return redirect('/login')->withErrors([
+            'error' => 'These credentials do not match our records.',
+        ]);
+    }
+
 
     /**
      * Create a new user instance after a valid registration.

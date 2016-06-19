@@ -12,7 +12,7 @@
                     <div class="jR3DCarouselGallery" style="margin:auto;">
                         <div class='slide'>
                             <a href="<?php echo App\Helpers\UniversalClass::shareUrl($post->id) ?>">
-                                <img src="<?php echo $post->media1_url;?>" />
+                                <img src="<?php echo $post->media1_thumb_url;?>" />
                             </a>
                         </div>
 
@@ -25,15 +25,17 @@
 					<div class="post-stats-data">{{$post->total_likes}}</div>
 				</div>
 				
-                <div class="w-clearfix userinfo">
-					@if($post->profile_image)
-						<div class="userthumb">
+                <div class="w-clearfix userinfo">					
+					<div class="userthumb">
+						@if($post->profile_image)
 							<a href="/userprofile/{{$post->user_id}}"><img class="img-circle" src="{{$post->profile_image}}" /></a>
-						</div>
-					@endif					
+						@else
+							<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
+						@endif
+					</div>										
                     <div class="usercommentsblock">
                         <div class="username"><a href="/userprofile/{{$post->user_id}}">{{ $post->name}}</a></div>
-                        <div class="usercomment">{{ $post->caption }}</div>
+                        <div class="usercomment"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($post->caption) ?></div>
                     </div>
                 </div>
 				@if($post->comments->isEmpty())
@@ -46,11 +48,15 @@
                     @foreach($post->comments as $comment)
                         <div class="w-clearfix userinfo">
                             <div class="userthumb">
-								<a href="/userprofile/{{$comment->user_id}}"><img class="img-circle" src="<?php echo $comment->profile_image;?>" /></a>
+								@if(!empty($comment->profile_image))
+									<a href="/userprofile/{{$comment->user_id}}"><img class="img-circle" src="{{$comment->profile_image }}" /></a>
+								@else
+									<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
+								@endif
                             </div>
                             <div class="usercommentsblock">
                                 <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{ $comment->username}}</a></div>
-                                <div class="usercomment">{{ $comment->comments }}</div>
+                                <div class="usercomment"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($comment->comments) ?></div>
                             </div>
                             
                             @if(empty($comment->comments))

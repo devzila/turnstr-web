@@ -40,10 +40,11 @@
                             <input id="password" type="password" placeholder="password" name="password" required="required" class="w-input formfield">
                             <input type="submit" value="login" data-wait="Please wait..." class="w-button submit_btn">
                         </form>
-                        @if ($errors->has('email') || $errors->has('password') )
-                        <div class="w-form-fail">
-                            <p>Oops! Login/Password did not match. Try again.</p>
-                        </div>
+
+                        @if ($errors->first('error') )
+                            <div class="w-form-fail">
+                                <p>Oops! Login/Password did not match. Try again.</p>
+                            </div>
                         @endif
                     </div>
                         <a href="/password/reset" class="forgotpwlink">Forgot password?</a>

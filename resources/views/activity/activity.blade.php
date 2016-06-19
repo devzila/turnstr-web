@@ -15,11 +15,13 @@
 			@else
 				@foreach($activities as $activity)					
 					  <div class="w-clearfix activity-list-item">					  
-						<div class="userthumb">
+						<div class="userthumb">						
 						@if($activity->user_info->profile_image)
 							<a href="/userprofile/{{$activity->user_info->id}}">
 								<img src="{{$activity->user_info->profile_image}}">
 							</a>
+						@else
+							<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
 						@endif
 						</div>
 					  
