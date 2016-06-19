@@ -113,6 +113,10 @@ class Useractivity extends Model
 	
 	public static function followUnfollowStatus($following_id,$followerId,$following_status){
 		
+		if($following_id == $followerId){
+			return;
+		}
+		
 		$alreadyFollowing = Useractivity::where('user_id',$following_id)->where('follower_id',$followerId)->where('activity','follow')->first();
 
         if (count($alreadyFollowing) && $alreadyFollowing->status != $following_status) {

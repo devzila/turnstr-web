@@ -39,7 +39,7 @@ Route::group(['middleware' => 'web'], function () {
         'as' => 'user_edit',
 		'middleware' => 'auth'
     ]);
-	Route::get('/users/update',[
+	Route::post('/users/update',[
         'uses' => 'UserController@updateProfile',
         'as' => 'updateProfile',
 		'middleware' => 'auth'
