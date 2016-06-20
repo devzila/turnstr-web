@@ -85,6 +85,7 @@ html.w-mod-touch * {
   text-decoration: none;
   cursor: pointer;
   border-radius: 0;
+  border:1px solid #ccc !important;
 }
 input.w-button {
   -webkit-appearance: button;
@@ -207,6 +208,7 @@ input[type="reset"] {
   background-color: #dddddd;
 }
 .w-form-fail {
+  display: none;
   margin-top: 10px;
   padding: 10px;
   background-color: #ffdede;

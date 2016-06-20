@@ -111,6 +111,19 @@ class Useractivity extends Model
         return $res;
     }
 	
+	/*
+	* Get Followings Details
+    */
+    public function scopeGetFollowingByUserId($query, $user_id) {
+        $res = $query->where('follower_id',$user_id)
+                    ->where('activity','follow')
+                    ->where('status',1)
+                    ->leftjoin('users','user_activity.user_id','=','users.id')
+                    ->select('users.*')
+                    ->get();
+        return $res;
+    }
+	
 	public static function followUnfollowStatus($following_id,$followerId,$following_status){
 		
 		if($following_id == $followerId){

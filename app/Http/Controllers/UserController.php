@@ -133,7 +133,8 @@ class UserController extends Controller {
 			$data['is_following'] = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
 		}
 		
-				
+		$data['followers'] = Useractivity::getFollowersByUserId($userId);				
+		$data['followings'] = Useractivity::getFollowingByUserId($userId);				
 		
 		$data['userdetail'] =  User::find($userId);
 		
