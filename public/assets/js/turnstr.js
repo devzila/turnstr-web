@@ -123,7 +123,7 @@
 				dataType: "json",
 				success: function(response) {						
 					if(response.status == 1){						
-						e( ".commentBLock" ).prepend( response.commentBlock );
+						e( ".commentBLock" ).append( response.commentBlock );
 						totalComments.html(function(i, val) { return +val+1 });						
 					}if(response.status == 2 || response.status == 3){						
 						commentError.html(response.msg);						
