@@ -92,6 +92,60 @@
 			});
 		
 		
+		e(document).on("keyup", "#commentPost", function(event) {
+			var hasError = e(".has-error");
+			hasError.removeClass("show").addClass("hide");
+			if ((event.keyCode || event.which) == 13) {  // Enter keycode
+				event.preventDefault();
+				var commentPost = e("#commentPost");
+				var commentPostId = e("#commentPostId");				
+				var comments = commentPost.val();
+				var commentError = e("#comment-error");
+				var totalComments = e("#total_comments");
+				
+				if(comments == ""){
+					commentError.html("Comment Filed is required.");
+					hasError.removeClass("hide").addClass("show");
+					return false;
+				}
+				commentPost.attr('disabled','disabled');
+				commentPost.val("");
+				var post_id = commentPostId.val();
+				data = {
+					post_id: post_id,
+					comments: comments,
+					_token: e("input[name='_token']").val()
+				};
+				e.ajax({
+				url: "/comments",
+				type: "post",
+				data: data,
+				dataType: "json",
+				success: function(response) {						
+					if(response.status == 1){						
+						e( ".commentBLock" ).prepend( response.commentBlock );
+						totalComments.html(function(i, val) { return +val+1 });						
+					}if(response.status == 2 || response.status == 3){						
+						commentError.html(response.msg);						
+						hasError.removeClass("hide").addClass("show");
+					}
+				},
+				error: function(){
+					commentPost.val(comments);
+					commentError.html("Comment is not Added.");
+					hasError.removeClass("hide").addClass("show");		
+				},
+				complete: function() {						
+					commentPost.removeAttr('disabled');
+				}
+			});
+			
+				
+			}
+			return false;			
+		});		
+		
+		
 		
 		
 })(jQuery)
