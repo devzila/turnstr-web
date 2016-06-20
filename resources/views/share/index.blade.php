@@ -178,7 +178,7 @@
                 </div>
 				<div class="post-stats">
 					<div class="post-stats-label">Comments</div>
-					<div class="post-stats-data">{{$total_comments}}</div>
+					<div class="post-stats-data" id="total_comments">{{$total_comments}}</div>
 					<div class="post-stats-label">Likes</div>
 					<div class="post-stats-data" id="total_likes">{{$total_likes}}</div>
 					
@@ -227,6 +227,7 @@
 						</div>
 					</div>
 				@endif
+				<div class="commentBLock">
                 @if($comments->isEmpty())
                     <div class="w-clearfix userinfo">
                         <div class="usercommentsblock">
@@ -258,33 +259,21 @@
                         </div>
                     @endforeach
                 @endif
-				
+				</div>
 				<div class="w-clearfix userinfo">
-                        <div class="usercommentsblock">
-                            <div class="">
-								<form class="form-horizontal" method="post" action="/comments">
-									{{ csrf_field() }}
-									<input type="hidden" name="post_id" value="{{$post->id}}">
-									<div class="form-group">									
-										<div class="col-md-6">
-											<textarea name="comments" id="comments"  rows="3" cols="45" required> </textarea>
-											@if ($errors->has('comments'))
-												<div class="has-error">
-													<span class="help-block">
-													   {{ $errors->first('comments') }}
-													</span>
-												</div>
-											@endif
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-6">
-											<input class="w-button submit_btn" type="submit" name="submit" value="Add Comment">
-												
-										</div>
-									</div>								
-								</form>
-							</div>
+                        <div class="">
+						<div  class="comments-box comment">
+							<form  class="commentsForm" onsubmit="return false;">
+								{{ csrf_field() }}
+								<input type="hidden" name="commentPostId" id="commentPostId" value="{{$post->id}}">
+								<input type="text" class="commentTextarea" name="commentPost" id="commentPost" placeholder="Add a comment" >								
+								<div class="has-error">
+									<span class="help-block" id="comment-error">
+									   {{ $errors->first('comments') }}
+									</span>										
+								</div>								
+							</form>
+						</div>                          
                         </div>
                     </div>
 
@@ -339,6 +328,10 @@
 			window.open(url,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
 			return false;	
 		}
+	</script>
+	<script>
+	(function(e) {	
+		})(jQuery)
 	</script>
 
 

@@ -1202,3 +1202,23 @@ a.link-anchor{
 .likedImg{
 	margin-bottom:-4px;
 }
+
+.comments-box.comment{
+	border-top: 1px solid #e3e3e3;
+	min-height: 60px;
+	margin-top:auto;
+}
+
+
+
+.commentTextarea{
+	color: #666;
+    font-family: Lato,sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    outline: medium none;
+    width: 100%;
+}
