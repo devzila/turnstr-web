@@ -1,5 +1,73 @@
+
+ 
+
 @extends('layouts.app')
 @section('content')
+
+<!--<div class="overlayFollow"></div>-->
+<div class="followers">
+    <div class="w-container modal-content-window">
+      <h1 class="followers-heading">Followers</h1>
+      <div>
+        <a class="w-inline-block close-button-link" data-ix="close-modal" href="#">
+          <div class="close-button"></div>
+        </a>
+      </div>
+	  @if($followers)
+		@foreach($followers as $fllow)  
+		  <div class="activity-list-item">
+			<div class="userthumb"></div>
+			<div class="activity-text">
+			  <div><span class="activity-username">{{ $fllow->name }}</span>
+			  </div>
+			</div>
+			<a class="w-button follow-button hide" href="#"></a>
+		  </div>
+		  @endforeach
+	  @else
+      <div class="activity-list-item">
+        <div class="userthumb"></div>
+        <div class="activity-text">
+          <div><span class="activity-username">Noone is Follwing</span>
+          </div>
+        </div><a class="w-button follow-button" href="#"></a>
+      </div>
+		@endif
+    </div>
+  </div>
+  
+  <div class="following">
+    <div class="w-container modal-content-window">
+      <h1 class="followers-heading">Followings</h1>
+      <div>
+        <a class="w-inline-block close-button-link" data-ix="close-modal1" href="#">
+          <div class="close-button"></div>
+        </a>
+      </div>
+	  @if($followings)
+      @foreach($followings as $fllowi)  
+		  <div class="activity-list-item">
+			<div class="userthumb"></div>
+			<div class="activity-text">
+			  <div><span class="activity-username">{{ $fllowi->name }}</span>
+			  </div>
+			</div>
+			<a class="w-button follow-button hide" href="#"></a>
+		  </div>
+		  @endforeach
+	  @else
+      <div class="activity-list-item">
+        <div class="userthumb"></div>
+        <div class="activity-text">
+          <div><span class="activity-username">You are not Following Anyone</span>
+          </div>
+        </div><a class="w-button follow-button" href="#"></a>
+      </div>
+		@endif        
+    </div>
+  </div>
+  
+
       <div class="w-section profile-header">
         <div class="w-container profile-header-content">
           <div class="w-row">
@@ -33,16 +101,22 @@
 				
                 <div class="profile-stats">
                   <div class="profile-stat-item">
+				  <a class="w-inline-block" href="#">
                     <h4 class="stat-posts-number">{{count($posts)}}</h4>
                     <div class="stat-label">Posts</div>
+				  </a>
                   </div>
                   <div class="profile-stat-item">
-                    <h4 class="stat-posts-number">{{$userdetail->followers}}</h4>
-                    <div class="stat-label">followers</div>
+					<a class="w-inline-block" data-ix="followers" href="#">
+						<h4 class="stat-posts-number">{{$userdetail->followers}}</h4>
+						<div class="stat-label">followers</div>
+					</a>
                   </div>
                   <div class="profile-stat-item">
-                    <h4 class="stat-posts-number">{{$userdetail->following}}</h4>
-                    <div class="stat-label">following</div>
+					<a class="w-inline-block" data-ix="following" href="#">
+						<h4 class="stat-posts-number">{{$userdetail->following}}</h4>
+						<div class="stat-label">following</div>
+					</a>
                   </div>
                 </div>
               </div>

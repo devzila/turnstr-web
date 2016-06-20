@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Helpers\UniversalClass;
 use App\Http\Requests;
 use App\Models\Useractivity;
 use App\Models\Comments;
@@ -66,18 +66,18 @@ class CommentsController extends Controller
 		$user =array();
 		$userDetail = User::find($user_id);
 		if($userDetail){
-			$user = [
-				
+			$user = [				
 				'profile_image' => ($userDetail->profile_image)? $userDetail->profile_image : "/assets/images/defaultprofile.png"
 			];
 		}
+		$comment_link = UniversalClass::replaceTagMentionLink($comments);
 		$commentBlock = '<div class="w-clearfix userinfo">
                             <div class="userthumb">
 								<a href="/userprofile/'.$userDetail->id.'"><img src="'.$user['profile_image'].'" class="img-circle"></a>
 							</div>
                             <div class="usercommentsblock">
                                 <div class="username"><a href="/userprofile/'.$userDetail->id.'">'.$userDetail->username.'</a></div>
-                                <div class="usercomment">'.$comments.'</div>
+                                <div class="usercomment">'.$comment_link.'</div>
                             </div>
                                                         <div class="postedtime">0 seconds</div>
                             <div class="photocaption"></div>
