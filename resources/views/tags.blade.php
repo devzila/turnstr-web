@@ -7,13 +7,7 @@
               <form class="w-clearfix search-form" action="/tags">
                 <input class="w-input search-field"  id="searchData" maxlength="256" name="searchData" placeholder="Search" type="text" value="{{Input::get('searchData')}}">
                 <input class="w-button search-submit" data-wait="Please wait..." type="submit" value="Submit">
-              </form>
-              <div class="w-form-done">
-                <p>Thank you! Your submission has been received!</p>
-              </div>
-              <div class="w-form-fail">
-                <p>Oops! Something went wrong while submitting the form</p>
-              </div>
+              </form>              
             </div>
           </div>
           <div class="w-row profile-image-grid explorer">
