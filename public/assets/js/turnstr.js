@@ -43,10 +43,14 @@
 		e(document).on("click", "#likebtn", function() {
 				var likebtn = e("#likebtn");				
 				var followBtn = e("#followbtn");				
+				var totalLikes = e("#total_likes");				
+				var totalLikesCount = totalLikes.html();				
 				var status = likebtn.attr("data-like-status");
 				var postId = likebtn.attr("data-postId");
-				var likebtnHtml = likebtn.html();
-				likebtn.html("Wait...");
+				var likeImg = e("#likeImg");			
+				var unlikeImg = e("#unlikeImg");	
+				//var likebtnHtml = likebtn.html();
+				//likebtn.html("Wait...");
 				likebtn.attr('disabled','disabled');
 				
 				data = {
@@ -62,11 +66,16 @@
 					success: function(t) {						
 						if(t.status == 1){
 							if(status == 1){
-								likebtn.attr("data-like-status",0);
-								likebtn.html("Unlike");
+								likebtn.attr("data-like-status",0);								
+								unlikeImg.removeClass("show").addClass('hide');
+								likeImg.removeClass("hide").addClass('show');
+								//totalLikes.html(totalLikesCount-1);	
+								totalLikes.html(function(i, val) { return +val+1 });
 							}else{
-								likebtn.attr("data-like-status",1);
-								likebtn.html("Like");
+								likebtn.attr("data-like-status",1);								
+								likeImg.removeClass("show").addClass('hide');
+								unlikeImg.removeClass("hide").addClass('show');
+								totalLikes.html(function(i, val) { return +val-1 });
 							}
 						}else if(t.status == 3){
 							likebtn.addClass("hide");
