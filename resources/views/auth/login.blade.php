@@ -10,8 +10,11 @@
     <meta name="generator" content="Webflow">
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/css/normalize.css') }}">
     <link rel="stylesheet" type="text/css" href="{{URL::asset('assets/css/webflow.css')}}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="{{URL::asset('assets/css/turnstr.webflow.css')}}">
-
+	<script type="text/javascript" src="/assets/js/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="/assets/js/turnstr.js" type="text/javascript"></script>
+	
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
     <script>
         WebFont.load({
@@ -48,8 +51,7 @@
                         @endif
                     </div>
                         <a href="/password/reset" class="forgotpwlink">Forgot password?</a>
-                        <!--<a href="#" class="facebooklogin">Login with facebook</a>-->
-                    <p>&nbsp;</p>
+                        <a href="javascript:;" class="facebooklogin" id="facebooklogin">Login with facebook</a>
                         <a href="/register" class="register_new">Don't have an account? <span class="link">Sign up</span></a>
                 </div>
             </div>
@@ -68,5 +70,10 @@
         </div>
     </div>
 </div>
+<script>
+
+
+
+</script>
 </body>
 </html>

@@ -323,16 +323,6 @@
 
     </script>
 	
-	<script>
-		function share_social(url){
-			window.open(url,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
-			return false;	
-		}
-	</script>
-	<script>
-	(function(e) {	
-		})(jQuery)
-	</script>
 
 
 @endsection
