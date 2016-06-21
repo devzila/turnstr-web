@@ -147,7 +147,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
+		
         /*
          * Application Service Providers...
          */
@@ -155,7 +155,9 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        'Intervention\Image\ImageServiceProvider'
+		'Laravel\Socialite\SocialiteServiceProvider',
+        'Intervention\Image\ImageServiceProvider',
+		
 
     ],
 
@@ -203,7 +205,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Input'     => Illuminate\Support\Facades\Input::class,
-        'Image'     => Intervention\Image\Facades\Image::class
+        'Image'     => Intervention\Image\Facades\Image::class,	 	
+		'Socialite' => Laravel\Socialite\Facades\Socialite::class
     ],
 
 ];

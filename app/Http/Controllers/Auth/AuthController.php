@@ -11,8 +11,9 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Input;
 use Redirect;
 use Auth;
+use Socialite;
 use Illuminate\Http\Request;
-
+use Exception;
 class AuthController extends Controller
 {
     /*
@@ -93,7 +94,54 @@ class AuthController extends Controller
             'username' => $data['username'],
             'password' => bcrypt($data['password']),
         ]);
+		$this->autoFollowCreatedUser($user);
 		
+		return $user;
+    }
+	
+	public function redirectToProvider()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+	
+	public function handleProviderCallback()
+    {
+        try {
+			
+            $user = Socialite::driver('facebook')->user();	
+			
+		} catch (Exception $e) {			
+		
+            return redirect('/auth/facebook');
+			
+        }
+		if(isset($user->email) && filter_var(($user->email), FILTER_VALIDATE_EMAIL)){
+			$authUser = User::where('email', $user->email)->first();			
+		}else{
+			return Socialite::driver('facebook')->with(['auth_type' => 'rerequest'])->redirect();
+		}
+        if(!$authUser){
+			$authUser = User::create([
+				'name' => $user->name,
+				'email' => $user->email,
+				'fb_token' => $user->id,
+				//'gender' => ($user->gender == 'male')?'Male':'Female',
+				//'profile_image' => $user->avatar
+			]);
+			$this->autoFollowCreatedUser($authUser);
+		}else{
+			User::where('id',$authUser->id)->update(array('fb_token'=>$user->id));
+		}
+		
+		
+		
+        Auth::login($authUser, true);
+		return view("generic.close");
+        //return redirect()->route('/');
+    }
+	
+	private function autoFollowCreatedUser($user)
+    {
 		if($user){
             // Auto follow turnstr
             $autofollow = array(
@@ -107,8 +155,8 @@ class AuthController extends Controller
             Useractivity::insert($autofollow);
 
             User::where('id',$user->id)->update(array('following'=>1));                       
-        }
-		return $user;
+        } 
+        return ;
     }
 
 }

@@ -1,4 +1,6 @@
-(function(e) {			
+var signinWin;
+(function(e) {	
+		
 		e(document).on("click", "#followbtn", function() {
 			var followBtn = e("#followbtn");
 			var likebtn = e("#likebtn");			
@@ -144,8 +146,26 @@
 			}
 			return false;			
 		});		
+	e(document).on("click", "#facebooklogin", function() {		
+        var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+		var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+
+		var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+		var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+		var left = ((width / 2) - (780 / 2)) + dualScreenLeft;
+		var top = ((height / 2) - (610 / 2)) + dualScreenTop;
+        signinWin = window.open("/auth/facebook", "SignIn", "width=780,height=610,toolbar=0,scrollbars=0,status=0,resizable=0,location=0,menuBar=0,left=" + left + ",top=" + top);
+        //setTimeout(CheckLoginStatus, 2000);
+        signinWin.focus();
+        return false;
+    });
 		
 		
 		
-		
-})(jQuery)
+})(jQuery);
+
+function share_social(url){
+			window.open(url,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+			return false;	
+		}
