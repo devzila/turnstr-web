@@ -13,8 +13,11 @@ class SetUsernameNonUniqueOnUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropUnique('users_username_unique');
-        });
+            DB::statement('ALTER TABLE users CHANGE username username VARCHAR(20) NULL DEFAULT NULL');
+            DB::statement('ALTER TABLE users CHANGE email email VARCHAR(255) NULL DEFAULT NULL');
+            DB::statement('ALTER TABLE users CHANGE following following INT(11) NOT NULL DEFAULT 0');
+            DB::statement('ALTER TABLE users CHANGE followers followers INT(11) NOT NULL DEFAULT 0');
+         });
     }
 
     /**
@@ -24,8 +27,6 @@ class SetUsernameNonUniqueOnUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->unique('username', 'users_username_unique');
-        });
+
     }
 }
