@@ -27,11 +27,15 @@
 				
                 <div class="w-clearfix userinfo">					
 					<div class="userthumb">
+						<a href="/userprofile/{{$post->user_id}}">
 						@if($post->profile_image)
-							<a href="/userprofile/{{$post->user_id}}"><img class="img-circle" src="{{$post->profile_image}}" /></a>
+							<img class="img-circle" src="{{$post->profile_image}}" />
+						@elseif($post->fb_token)
+							<img src="{{ 'http://graph.facebook.com/'.$post->fb_token.'/picture?type=normal'}}">
 						@else
-							<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
+							<img class="img-circle" src="/assets/images/defaultprofile.png" />
 						@endif
+						</a>
 					</div>										
                     <div class="usercommentsblock">
                         <div class="username"><a href="/userprofile/{{$post->user_id}}">{{ $post->name}}</a></div>
@@ -48,14 +52,18 @@
                     @foreach($post->comments as $comment)
                         <div class="w-clearfix userinfo">
                             <div class="userthumb">
-								@if(!empty($comment->profile_image))
-									<a href="/userprofile/{{$comment->user_id}}"><img class="img-circle" src="{{$comment->profile_image }}" /></a>
-								@else
-									<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
-								@endif
+								<a href="/userprofile/{{$comment->user_id}}">
+									@if(!empty($comment->profile_image))
+										<img class="img-circle" src="{{$comment->profile_image }}" />
+									@elseif($comment->fb_token)									
+										<img src="{{ 'http://graph.facebook.com/'.$comment->fb_token.'/picture?type=normal'}}">
+									@else
+										<img class="img-circle" src="/assets/images/defaultprofile.png" />
+									@endif
+								</a>
                             </div>
                             <div class="usercommentsblock">
-                                <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{ $comment->username}}</a></div>
+                                <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{($comment->username)?$comment->username:$comment->name}}</a></div>
                                 <div class="usercomment"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($comment->comments) ?></div>
                             </div>
                             

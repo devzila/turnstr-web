@@ -88,13 +88,11 @@ body {
 	font-weight: 400;
 	margin-left: 10px;
 	margin-top: 10px;
-	padding-left: 10px;
 	text-align: left;
 }
 
 .tag {
   display: inline-block;
-  margin-top: 10px;
   margin-left: 10px;
   font-family: Lato, sans-serif;
   color: #4891de;
@@ -1253,3 +1251,6 @@ a {
 	outline: 0 !important;
 }
 
+.m-t-40{
+	margin-top:40px;
+}

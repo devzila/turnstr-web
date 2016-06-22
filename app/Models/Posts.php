@@ -267,7 +267,7 @@ class Posts extends Model
 
         return  $query
             ->join('users','posts.user_id','=','users.id')
-            ->select('posts.*','users.name', 'users.profile_image','users.profile_thumb_image','users.username')
+            ->select('posts.*','users.name', 'users.profile_image','users.profile_thumb_image','users.username','users.fb_token')
 			->where('users.id',$userId)
             ->orwhereIn('user_id', function($subQuery) use($userId)
             {

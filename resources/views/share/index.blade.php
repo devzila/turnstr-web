@@ -195,7 +195,7 @@
 					@if($post->caption)
 						<div class="photocaption"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($post->caption) ?></div>
 					@endif
-					<div class="tag"></div>
+					
 					<div class="dropdown-control">
 					  <div>
 						<a class="w-inline-block dropdown-menu1" data-ix="dropdown" href="#"><img src="/assets/images/options.png">
@@ -205,14 +205,18 @@
 					  </div>
 					</div>
 				@if($userdetail->name)
-					<div class="w-clearfix userinfo">	
+					<div class="w-clearfix userinfo m-t-40">	
 						
-						<div class="userthumb">						
-							@if($userdetail->profile_image)
-								<a href="/userprofile/{{$userdetail->user_id}}"><img class="img-circle" src="{{$userdetail->profile_image}}" /></a>
-							@else
-								<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
-							@endif
+						<div class="userthumb">		
+							<a href="/userprofile/{{$userdetail->id}}">
+								@if($userdetail->profile_image)
+									<img class="img-circle" src="{{$userdetail->profile_image}}" />
+								@elseif($userdetail->fb_token)
+									<img src="{{ 'http://graph.facebook.com/'.$userdetail->fb_token.'/picture?type=normal'}}">
+								@else
+									<img class="img-circle" src="/assets/images/defaultprofile.png" />
+								@endif
+							</a>
 						</div>
 						
 						@if(isset(Auth::user()->id) && Auth::user()->id != $userdetail->id)
@@ -238,14 +242,18 @@
                     @foreach($comments as $comment)
                         <div class="w-clearfix userinfo">
                             <div class="userthumb">
-								@if(!empty($comment->profile_image))
-									<a href="/userprofile/{{$comment->user_id}}"><img class="img-circle" src="{{$comment->profile_image }}" /></a>
-								@else
-									<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
-								@endif
+								<a href="/userprofile/{{$comment->user_id}}">
+									@if(!empty($comment->profile_image))
+										<img class="img-circle" src="{{$comment->profile_image }}" />
+									@elseif($comment->fb_token)									
+										<img src="{{ 'http://graph.facebook.com/'.$comment->fb_token.'/picture?type=normal'}}">
+									@else
+										<img class="img-circle" src="/assets/images/defaultprofile.png" />
+									@endif
+								</a>
                             </div>
                             <div class="usercommentsblock">
-                                <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{ $comment->username}}</a></div>
+                                <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{($comment->username)?$comment->username:$comment->name}}</a></div>
                                 <div class="usercomment"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($comment->comments) ?></div>
                             </div>
                             <?php
@@ -283,7 +291,7 @@
         </div>
         <div class="col-md-3"></div>
     </div>
-    </div>
+    
 	<!--<div>
 		<a class="icon-facebook" onclick="return share_social(this.href);" href="https://www.facebook.com/sharer/sharer.php?u={{ Request::fullUrl()}}&title={{$post->caption}}">FTest</a>
 
