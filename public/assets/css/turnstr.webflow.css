@@ -801,7 +801,7 @@ body {
   opacity: 0;
 }
 
-.following{
+.followings{
   position: absolute;
   z-index: 2500;
   display: none;

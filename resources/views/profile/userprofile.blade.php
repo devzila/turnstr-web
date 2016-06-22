@@ -36,7 +36,7 @@
     </div>
   </div>
   
-  <div class="following">
+  <div class="followings">
     <div class="w-container modal-content-window">
       <h1 class="followers-heading">Followings</h1>
       <div>
@@ -92,10 +92,11 @@
 							@if($is_following) Unfollow @else Follow @endif
 						</a>
 					@endif
-					
+					<div class="profile-subheading">{{ '@'.$userdetail->username}}</div>
 					<div class="profile_intro">{{$userdetail->bio}}</div>
                 @else
-					<div class="profile-subheading">{{$userdetail->bio}}</div>
+					<div class="profile-subheading">{{ '@'.$userdetail->username}}</div>
+					<div class="profile_intro">{{$userdetail->bio}}</div>
 					<a href="/users/edit" class="w-button edit-profile">Edit Profile</a>
 				@endif
 				
@@ -113,7 +114,7 @@
 					</a>
                   </div>
                   <div class="profile-stat-item">
-					<a class="w-inline-block" data-ix="following" href="#">
+					<a class="w-inline-block" data-ix="followings" href="#">
 						<h4 class="stat-posts-number">{{$userdetail->following}}</h4>
 						<div class="stat-label">following</div>
 					</a>
