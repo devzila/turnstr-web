@@ -68,7 +68,7 @@ class CommentsController extends Controller
 		if($userDetail){
 			if($userDetail->profile_image)
 				$profile_image =  $userDetail->profile_image;
-			if($userDetail->fb_token)
+			elseif($userDetail->fb_token)
 				$profile_image = "http://graph.facebook.com/".$userDetail->fb_token."/picture?type=normal";
 			else
 				$profile_image = "/assets/images/defaultprofile.png";

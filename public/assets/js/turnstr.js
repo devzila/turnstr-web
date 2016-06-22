@@ -1,11 +1,12 @@
 var signinWin;
 (function(e) {	
 		
-		e(document).on("click", "#followbtn", function() {
-			var followBtn = e("#followbtn");
+		e(document).on("click", ".followbttn", function() {	
+			var btnId = this.id;			
+			var followBtn = e("#"+btnId);
 			var likebtn = e("#likebtn");			
-			var status = followBtn.attr("data-status");
-			var followId = followBtn.attr("data-followId");
+			var status = followBtn.attr("data-status-"+btnId);
+			var followId = followBtn.attr("data-followId-"+btnId);
 			var followBtnHtml = followBtn.html();
 			followBtn.html("Wait...");
 			followBtn.attr('disabled','disabled');
@@ -13,7 +14,8 @@ var signinWin;
 			data = {
 				status: status,
 				followId: followId,
-				_token: followBtn.attr("data-token")
+				_token: e('[name="csrf_token"]').attr('content')
+				
 			};
 			e.ajax({
 				url: "/users/followuser",
@@ -23,10 +25,10 @@ var signinWin;
 				success: function(t) {						
 					if(t.status == 1){
 						if(status == 1){
-							followBtn.attr("data-status",0);
+							followBtn.attr("data-status-"+btnId,0);
 							followBtn.html("Unfollow");
 						}else{
-							followBtn.attr("data-status",1);
+							followBtn.attr("data-status-"+btnId,1);
 							followBtn.html("Follow");
 						}
 					}else if(t.status == 3){
@@ -42,6 +44,9 @@ var signinWin;
 				}
 			})
 		});
+		
+		
+		
 		e(document).on("click", "#likebtn", function() {
 				var likebtn = e("#likebtn");				
 				var followBtn = e("#followbtn");				
@@ -58,7 +63,7 @@ var signinWin;
 				data = {
 					status: status,
 					postId: postId,
-					_token: likebtn.attr("data-token")
+					_token: e('[name="csrf_token"]').attr('content')
 				};
 				e.ajax({
 					url: "/users/likePost",
@@ -116,7 +121,7 @@ var signinWin;
 				data = {
 					post_id: post_id,
 					comments: comments,
-					_token: e("input[name='_token']").val()
+					_token: e('[name="csrf_token"]').attr('content')
 				};
 				e.ajax({
 				url: "/comments",

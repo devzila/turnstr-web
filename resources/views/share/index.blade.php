@@ -184,7 +184,7 @@
 					
 					<div class="post-stats-label">
 					@if(isset(Auth::user()->id))
-						<a class="" id="likebtn" data-like-status="{{ !$liked }}" data-postId="{{$post->id}}" data-token="{{ csrf_token() }}" href="#">
+						<a class="" id="likebtn" data-like-status="{{ !$liked }}" data-postId="{{$post->id}}"  href="#">
 							<img src="/assets/images/liked.png" id="likeImg" class="likedImg @if($liked) show @else hide @endif" width="23" height="20">
 							<img src="/assets/images/unliked.png" id="unlikeImg" class="likedImg @if($liked) hide @else show @endif">
 						</a>
@@ -220,7 +220,7 @@
 						</div>
 						
 						@if(isset(Auth::user()->id) && Auth::user()->id != $userdetail->id)
-							<a class="w-button followbtn" id="followbtn" data-status="{{ !$is_following }}" data-followId="{{$userdetail->id}}" data-token="{{ csrf_token() }}" href="#">
+							<a class="w-button followbtn followbttn" id="followbtn" data-status-followbtn="{{ !$is_following }}" data-followId-followbtn="{{$userdetail->id}}" href="#">
 								@if($is_following) unfollow @else follow @endif
 							</a>
 						@endif
