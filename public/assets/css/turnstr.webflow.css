@@ -822,6 +822,10 @@ body {
   margin-top: 0px;
   border-bottom: 1px solid #d3d3d3;
   font-size: 24px;
+  text-align: left;
+  width: 100%;
+  line-height:44px;
+  color:#333 !important;
 }
 
 .follow-button {
@@ -1217,8 +1221,6 @@ a.link-anchor{
 	margin-top:auto;
 }
 
-
-
 .commentTextarea{
 	color: #666;
     font-family: Lato,sans-serif;
@@ -1229,20 +1231,6 @@ a.link-anchor{
     border: medium none;
     outline: medium none;
     width: 100%;
-}
-
-.overlayFollow{
-	background: rgba(0, 0, 0, 0.6) none repeat scroll 0 0;
-    display: block;
-    height: 100%;
-    left: 0;
-    opacity: 1;
-    position: fixed;
-    top: 0;
-    transition: opacity 500ms ease 0s;
-    width: 100%;
-    z-index: 2499;
-	display:none;
 }
 
 a {

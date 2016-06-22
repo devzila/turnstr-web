@@ -3,23 +3,74 @@
 
 @extends('layouts.app')
 @section('content')
-
-<!--<div class="overlayFollow"></div>-->
-<div class="followers">
+<div id="followings" class="modal small fade in">
     <div class="w-container modal-content-window">
-      <h1 class="followers-heading">Followers</h1>
+      <h1 class="followers-heading pull-left">Followings</h1>
       <div>
-        <a class="w-inline-block close-button-link" data-ix="close-modal" href="#">
-          <div class="close-button"></div>
-        </a>
+	  <a class="close-button close close-button-link" data-dismiss="modal">x</a>
+      </div>
+	  @if($followings)
+      @foreach($followings as $fllowi)  
+		 <div class="activity-list-item">
+			<div class="userthumb">
+				<a href="/userprofile/{{$fllowi->id}}">
+					@if($fllowi->profile_image)
+						<img class="img-circle" src="{{$fllowi->profile_image}}" />
+					@elseif($fllowi->fb_token)
+						<img src="{{ 'http://graph.facebook.com/'.$fllowi->fb_token.'/picture?type=normal'}}">
+					@else
+						<img class="img-circle" src="/assets/images/defaultprofile.png" />
+					@endif
+				</a>
+			</div>
+			<div class="activity-text">
+			  <div><span class="activity-username">
+				<a href="/userprofile/{{$fllowi->id}}">{{($fllowi->username)?$fllowi->username:$fllowi->name}}	</a>
+			  </span>
+			  </div>
+			</div>
+			@if($AuthUser == 1)
+			<a href="#" data-token="{{ csrf_token() }}" data-followid="{{$fllowi->id}}" data-status="0" id="followbtn" class="w-button follow-button">Unfollow</a>
+			@endif
+		  </div>
+		@endforeach
+	  @else
+      <div class="activity-list-item">
+        <div class="userthumb"></div>
+        <div class="activity-text">
+          <div><span class="activity-username">You are not Following Anyone</span>
+          </div>
+        </div><a class="w-button follow-button" href="#"></a>
+      </div>
+		@endif        
+    </div>   
+</div>
+
+
+<div id="followers" class="modal small fade in">
+    <div class="w-container modal-content-window">
+      <h1 class="followers-heading pull-left">Followers</h1>
+      <div>
+        <a class="close-button close close-button-link" data-dismiss="modal">x</a>
       </div>
 	  @if($followers)
 		@foreach($followers as $fllow)  
 		  <div class="activity-list-item">
-			<div class="userthumb"></div>
+			<div class="userthumb">
+				<a href="/userprofile/{{$fllow->id}}">
+					@if($fllow->profile_image)
+						<img class="img-circle" src="{{$fllow->profile_image}}" />
+					@elseif($fllow->fb_token)
+						<img src="{{ 'http://graph.facebook.com/'.$fllow->fb_token.'/picture?type=normal'}}">
+					@else
+						<img class="img-circle" src="/assets/images/defaultprofile.png" />
+					@endif
+				</a>
+			</div>
 			<div class="activity-text">
-			  <div><span class="activity-username">{{($fllow->username)?$fllow->username:$fllow->name}}
-							</span>
+			  <div><span class="activity-username">
+				<a href="/userprofile/{{$fllow->id}}">{{($fllow->username)?$fllow->username:$fllow->name}}	</a>
+			  </span>
 			  </div>
 			</div>
 			<a class="w-button follow-button hide" href="#"></a>
@@ -36,38 +87,6 @@
 		@endif
     </div>
   </div>
-  
-  <div class="followings">
-    <div class="w-container modal-content-window">
-      <h1 class="followers-heading">Followings</h1>
-      <div>
-        <a class="w-inline-block close-button-link" data-ix="close-modal1" href="#">
-          <div class="close-button"></div>
-        </a>
-      </div>
-	  @if($followings)
-      @foreach($followings as $fllowi)  
-		  <div class="activity-list-item">
-			<div class="userthumb"></div>
-			<div class="activity-text">
-			  <div><span class="activity-username">{{($fllowi->username)?$fllowi->username:$fllowi->name}}</span>
-			  </div>
-			</div>
-			<a class="w-button follow-button hide" href="#"></a>
-		  </div>
-		  @endforeach
-	  @else
-      <div class="activity-list-item">
-        <div class="userthumb"></div>
-        <div class="activity-text">
-          <div><span class="activity-username">You are not Following Anyone</span>
-          </div>
-        </div><a class="w-button follow-button" href="#"></a>
-      </div>
-		@endif        
-    </div>
-  </div>
-  
 
       <div class="w-section profile-header">
         <div class="w-container profile-header-content">
@@ -78,9 +97,9 @@
 				@if($userdetail->profile_image)
 					<img class="img-circle" src="{{$userdetail->profile_image}}" />
 				@elseif($userdetail->fb_token)					
-					<img src="{{ 'http://graph.facebook.com/'.$userdetail->fb_token.'/picture?type=normal'}}">				
+					<img src="{{ 'http://graph.facebook.com/'.$userdetail->fb_token.'/picture?type=large'}}">				
 				@else
-					<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
+					<img class="img-circle" src="/assets/images/defaultprofile.png" />
 				@endif
 			  
 			  </div>
@@ -115,13 +134,13 @@
 				  </a>
                   </div>
                   <div class="profile-stat-item">
-					<a class="w-inline-block" data-ix="followers" href="#">
+					<a class="w-inline-block" data-toggle="modal" href="#followers">
 						<h4 class="stat-posts-number">{{$userdetail->followers}}</h4>
 						<div class="stat-label">followers</div>
 					</a>
                   </div>
                   <div class="profile-stat-item">
-					<a class="w-inline-block" data-ix="followings" href="#">
+					<a class="w-inline-block" data-toggle="modal" href="#followings">
 						<h4 class="stat-posts-number">{{$userdetail->following}}</h4>
 						<div class="stat-label">following</div>
 					</a>
