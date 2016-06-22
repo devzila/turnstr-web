@@ -20,6 +20,10 @@
 							<a href="/userprofile/{{$activity->user_info->id}}">
 								<img src="{{$activity->user_info->profile_image}}">
 							</a>
+						@elseif($activity->user_info->fb_token)
+							<a href="/userprofile/{{$activity->user_info->id}}">
+								<img src="{{ 'http://graph.facebook.com/'.$activity->user_info->fb_token.'/picture?type=square'}}">
+							</a>
 						@else
 							<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
 						@endif
@@ -28,7 +32,10 @@
 					  <div class="activity-text">
 						  <div><span class="activity-username username">
 						  <a class="link-anchor" href="/userprofile/{{$activity->user_info->id}}">
-							{{$activity->user_info->username}}
+							
+								{{($activity->user_info->username)?$activity->user_info->username:$activity->user_info->name}}
+							
+								
 						  </a>
 						  </span>
 						  @if($activity->activity == 'liked')

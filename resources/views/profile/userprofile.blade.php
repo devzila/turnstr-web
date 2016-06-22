@@ -18,7 +18,8 @@
 		  <div class="activity-list-item">
 			<div class="userthumb"></div>
 			<div class="activity-text">
-			  <div><span class="activity-username">{{ $fllow->name }}</span>
+			  <div><span class="activity-username">{{($fllow->username)?$fllow->username:$fllow->name}}
+							</span>
 			  </div>
 			</div>
 			<a class="w-button follow-button hide" href="#"></a>
@@ -28,7 +29,7 @@
       <div class="activity-list-item">
         <div class="userthumb"></div>
         <div class="activity-text">
-          <div><span class="activity-username">Noone is Follwing</span>
+          <div><span class="activity-username">No-one is Following</span>
           </div>
         </div><a class="w-button follow-button" href="#"></a>
       </div>
@@ -49,7 +50,7 @@
 		  <div class="activity-list-item">
 			<div class="userthumb"></div>
 			<div class="activity-text">
-			  <div><span class="activity-username">{{ $fllowi->name }}</span>
+			  <div><span class="activity-username">{{($fllowi->username)?$fllowi->username:$fllowi->name}}</span>
 			  </div>
 			</div>
 			<a class="w-button follow-button hide" href="#"></a>
@@ -74,11 +75,13 @@
 		  
             <div class="w-col w-col-4 profile-image">
               <div class="profile-pic">
-			  @if($userdetail->profile_image)
+				@if($userdetail->profile_image)
 					<img class="img-circle" src="{{$userdetail->profile_image}}" />
-			  @else
+				@elseif($userdetail->fb_token)					
+					<img src="{{ 'http://graph.facebook.com/'.$userdetail->fb_token.'/picture?type=normal'}}">				
+				@else
 					<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
-			  @endif
+				@endif
 			  
 			  </div>
             </div>
@@ -91,11 +94,15 @@
 						<a class="w-button following" id="followbtn" data-status="{{ !$is_following }}" data-followId="{{$userdetail->id}}" data-token="{{ csrf_token() }}" href="#">
 							@if($is_following) Unfollow @else Follow @endif
 						</a>
+					@endif				
+					@if($userdetail->username)
+						<div class="profile-subheading">{{ '@'.$userdetail->username}}</div>
 					@endif
-					<div class="profile-subheading">{{ '@'.$userdetail->username}}</div>
 					<div class="profile_intro">{{$userdetail->bio}}</div>
                 @else
-					<div class="profile-subheading">{{ '@'.$userdetail->username}}</div>
+					@if($userdetail->username)
+						<div class="profile-subheading">{{ '@'.$userdetail->username}}</div>
+					@endif
 					<div class="profile_intro">{{$userdetail->bio}}</div>
 					<a href="/users/edit" class="w-button edit-profile">Edit Profile</a>
 				@endif
