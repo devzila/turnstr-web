@@ -4581,6 +4581,6 @@ Webflow.require('ix').init([
   {"slug":"dissapear-modal","name":"dissapear modal","value":{"style":{},"triggers":[{"type":"click","selector":".post-modal","stepsA":[{"display":"none","opacity":0,"transition":"opacity 500ms ease 0ms"}],"stepsB":[]}]}},
   {"slug":"followers","name":"followers","value":{"style":{},"triggers":[{"type":"click","selector":".followers","stepsA":[{"display":"block","opacity":1,"transition":"opacity 500ms ease 0ms"}],"stepsB":[]}]}},
   {"slug":"close-modal","name":"close modal","value":{"style":{},"triggers":[{"type":"click","selector":".followers","stepsA":[{"display":"none","opacity":0,"transition":"opacity 500ms ease 0ms"}],"stepsB":[]}]}},
-  {"slug":"following","name":"following","value":{"style":{},"triggers":[{"type":"click","selector":".following","stepsA":[{"display":"block","opacity":1,"transition":"opacity 500ms ease 0ms"}],"stepsB":[]}]}},
-  {"slug":"close-modal1","name":"close modal","value":{"style":{},"triggers":[{"type":"click","selector":".following","stepsA":[{"display":"none","opacity":0,"transition":"opacity 500ms ease 0ms"}],"stepsB":[]}]}}
+  {"slug":"followings","name":"followings","value":{"style":{},"triggers":[{"type":"click","selector":".followings","stepsA":[{"display":"block","opacity":1,"transition":"opacity 500ms ease 0ms"}],"stepsB":[]}]}},
+  {"slug":"close-modal1","name":"close modal","value":{"style":{},"triggers":[{"type":"click","selector":".followings","stepsA":[{"display":"none","opacity":0,"transition":"opacity 500ms ease 0ms"}],"stepsB":[]}]}}
 ]);
