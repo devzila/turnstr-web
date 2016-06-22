@@ -66,14 +66,18 @@ class CommentsController extends Controller
 		$user =array();
 		$userDetail = User::find($user_id);
 		if($userDetail){
-			$user = [				
-				'profile_image' => ($userDetail->profile_image)? $userDetail->profile_image : "/assets/images/defaultprofile.png"
-			];
+			if($userDetail->profile_image)
+				$profile_image =  $userDetail->profile_image;
+			if($userDetail->fb_token)
+				$profile_image = "http://graph.facebook.com/".$userDetail->fb_token."/picture?type=normal";
+			else
+				$profile_image = "/assets/images/defaultprofile.png";
+			
 		}
 		$comment_link = UniversalClass::replaceTagMentionLink($comments);
 		$commentBlock = '<div class="w-clearfix userinfo">
                             <div class="userthumb">
-								<a href="/userprofile/'.$userDetail->id.'"><img src="'.$user['profile_image'].'" class="img-circle"></a>
+								<a href="/userprofile/'.$userDetail->id.'"><img src="'.$profile_image.'" class="img-circle"></a>
 							</div>
                             <div class="usercommentsblock">
                                 <div class="username"><a href="/userprofile/'.$userDetail->id.'">'.$userDetail->username.'</a></div>
