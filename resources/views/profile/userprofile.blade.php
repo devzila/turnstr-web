@@ -1,6 +1,3 @@
-
- 
-
 @extends('layouts.app')
 @section('content')
 <div id="followings" class="modal small fade in">
@@ -8,8 +5,9 @@
       <h1 class="followers-heading pull-left">Followings</h1>
       <div>
 	  <a class="close-button close close-button-link" data-dismiss="modal">x</a>
-      </div>
+      </div>	  
 	  @if($followings)
+		<?php $i=1; ?>
       @foreach($followings as $fllowi)  
 		 <div class="activity-list-item">
 			<div class="userthumb">
@@ -30,8 +28,9 @@
 			  </div>
 			</div>
 			@if($AuthUser == 1)
-			<a href="#" data-token="{{ csrf_token() }}" data-followid="{{$fllowi->id}}" data-status="0" id="followbtn" class="w-button follow-button">Unfollow</a>
+			<a href="#"  data-followid-{{'followbtn'.$i}}="{{$fllowi->id}}" data-status-{{'followbtn'.$i}}="0" id="followbtn{{$i}}" class="w-button follow-button followbttn" > Unfollow</a>
 			@endif
+			<?php $i++; ?>
 		  </div>
 		@endforeach
 	  @else
@@ -110,7 +109,7 @@
                 <h3 class="user-name">{{$userdetail->name}}</h3>
 				@if($AuthUser != 1)
 					@if($AuthUser == 2)
-						<a class="w-button following" id="followbtn" data-status="{{ !$is_following }}" data-followId="{{$userdetail->id}}" data-token="{{ csrf_token() }}" href="#">
+						<a class="w-button following followbttn" id="followbtn" data-status-followbtn="{{ !$is_following }}" data-followId-followbtn="{{$userdetail->id}}" href="#">
 							@if($is_following) Unfollow @else Follow @endif
 						</a>
 					@endif				
