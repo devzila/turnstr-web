@@ -5,6 +5,7 @@
     <title>turnstr  {{ (isset($page_title))? ' - '.$page_title:'' }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Webflow">
+	<meta name="csrf_token" content="{{ csrf_token() }}">
 	@yield('metadata')
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('assets/css/normalize.css') }}">

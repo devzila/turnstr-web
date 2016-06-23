@@ -178,13 +178,16 @@
                 </div>
 				<div class="post-stats">
 					<div class="post-stats-label">Comments</div>
-					<div class="post-stats-data">{{$total_comments}}</div>
+					<div class="post-stats-data" id="total_comments">{{$total_comments}}</div>
 					<div class="post-stats-label">Likes</div>
-					<div class="post-stats-data">{{$total_likes}}</div>
+					<div class="post-stats-data" id="total_likes">{{$total_likes}}</div>
 					
 					<div class="post-stats-label">
 					@if(isset(Auth::user()->id))
-						<a class="w-button followbtn" id="likebtn" data-like-status="{{ !$liked }}" data-postId="{{$post->id}}" data-token="{{ csrf_token() }}" href="#">@if($liked) Unlike @else Like @endif</a>
+						<a class="" id="likebtn" data-like-status="{{ !$liked }}" data-postId="{{$post->id}}"  href="#">
+							<img src="/assets/images/liked.png" id="likeImg" class="likedImg @if($liked) show @else hide @endif" width="23" height="20">
+							<img src="/assets/images/unliked.png" id="unlikeImg" class="likedImg @if($liked) hide @else show @endif">
+						</a>
 					@endif
 					</div>
 				</div>
@@ -192,7 +195,7 @@
 					@if($post->caption)
 						<div class="photocaption"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($post->caption) ?></div>
 					@endif
-					<div class="tag"></div>
+					
 					<div class="dropdown-control">
 					  <div>
 						<a class="w-inline-block dropdown-menu1" data-ix="dropdown" href="#"><img src="/assets/images/options.png">
@@ -202,18 +205,22 @@
 					  </div>
 					</div>
 				@if($userdetail->name)
-					<div class="w-clearfix userinfo">	
+					<div class="w-clearfix userinfo m-t-40">	
 						
-						<div class="userthumb">						
-							@if($userdetail->profile_image)
-								<a href="/userprofile/{{$userdetail->user_id}}"><img class="img-circle" src="{{$userdetail->profile_image}}" /></a>
-							@else
-								<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
-							@endif
+						<div class="userthumb">		
+							<a href="/userprofile/{{$userdetail->id}}">
+								@if($userdetail->profile_image)
+									<img class="img-circle" src="{{$userdetail->profile_image}}" />
+								@elseif($userdetail->fb_token)
+									<img src="{{ 'http://graph.facebook.com/'.$userdetail->fb_token.'/picture?type=normal'}}">
+								@else
+									<img class="img-circle" src="/assets/images/defaultprofile.png" />
+								@endif
+							</a>
 						</div>
 						
 						@if(isset(Auth::user()->id) && Auth::user()->id != $userdetail->id)
-							<a class="w-button followbtn" id="followbtn" data-status="{{ !$is_following }}" data-followId="{{$userdetail->id}}" data-token="{{ csrf_token() }}" href="#">
+							<a class="w-button followbtn followbttn" id="followbtn" data-status-followbtn="{{ !$is_following }}" data-followId-followbtn="{{$userdetail->id}}" href="#">
 								@if($is_following) unfollow @else follow @endif
 							</a>
 						@endif
@@ -224,6 +231,7 @@
 						</div>
 					</div>
 				@endif
+				<div class="commentBLock">
                 @if($comments->isEmpty())
                     <div class="w-clearfix userinfo">
                         <div class="usercommentsblock">
@@ -234,14 +242,18 @@
                     @foreach($comments as $comment)
                         <div class="w-clearfix userinfo">
                             <div class="userthumb">
-								@if(!empty($comment->profile_image))
-									<a href="/userprofile/{{$comment->user_id}}"><img class="img-circle" src="{{$comment->profile_image }}" /></a>
-								@else
-									<a href="#"><img class="img-circle" src="/assets/images/defaultprofile.png" /></a>
-								@endif
+								<a href="/userprofile/{{$comment->user_id}}">
+									@if(!empty($comment->profile_image))
+										<img class="img-circle" src="{{$comment->profile_image }}" />
+									@elseif($comment->fb_token)									
+										<img src="{{ 'http://graph.facebook.com/'.$comment->fb_token.'/picture?type=normal'}}">
+									@else
+										<img class="img-circle" src="/assets/images/defaultprofile.png" />
+									@endif
+								</a>
                             </div>
                             <div class="usercommentsblock">
-                                <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{ $comment->username}}</a></div>
+                                <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{($comment->username)?$comment->username:$comment->name}}</a></div>
                                 <div class="usercomment"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($comment->comments) ?></div>
                             </div>
                             <?php
@@ -255,33 +267,21 @@
                         </div>
                     @endforeach
                 @endif
-				
+				</div>
 				<div class="w-clearfix userinfo">
-                        <div class="usercommentsblock">
-                            <div class="">
-								<form class="form-horizontal" method="post" action="/comments">
-									{{ csrf_field() }}
-									<input type="hidden" name="post_id" value="{{$post->id}}">
-									<div class="form-group">									
-										<div class="col-md-6">
-											<textarea name="comments" id="comments"  rows="3" cols="45" required> </textarea>
-											@if ($errors->has('comments'))
-												<div class="has-error">
-													<span class="help-block">
-													   {{ $errors->first('comments') }}
-													</span>
-												</div>
-											@endif
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-6">
-											<input class="w-button submit_btn" type="submit" name="submit" value="Add Comment">
-												
-										</div>
-									</div>								
-								</form>
-							</div>
+                        <div class="">
+						<div  class="comments-box comment">
+							<form  class="commentsForm" onsubmit="return false;">
+								{{ csrf_field() }}
+								<input type="hidden" name="commentPostId" id="commentPostId" value="{{$post->id}}">
+								<input type="text" class="commentTextarea" name="commentPost" id="commentPost" placeholder="Add a comment" >								
+								<div class="has-error">
+									<span class="help-block" id="comment-error">
+									   {{ $errors->first('comments') }}
+									</span>										
+								</div>								
+							</form>
+						</div>                          
                         </div>
                     </div>
 
@@ -291,7 +291,7 @@
         </div>
         <div class="col-md-3"></div>
     </div>
-    </div>
+    
 	<!--<div>
 		<a class="icon-facebook" onclick="return share_social(this.href);" href="https://www.facebook.com/sharer/sharer.php?u={{ Request::fullUrl()}}&title={{$post->caption}}">FTest</a>
 
@@ -331,12 +331,6 @@
 
     </script>
 	
-	<script>
-		function share_social(url){
-			window.open(url,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
-			return false;	
-		}
-	</script>
 
 
 @endsection

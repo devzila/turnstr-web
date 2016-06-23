@@ -43,7 +43,7 @@ body {
 }
 
 .navlink.loggedin.w--current {
-  border-bottom: 3px solid hsla(0, 0%, 100%, .4);
+  border-bottom: 3px solid hsla(0, 0%, 100%, .4) !important;
   border-radius: 0px;
   color: #fff;
 }
@@ -81,20 +81,18 @@ body {
 }
 
 .photocaption {
-  display: inline-block;
-  margin-top: 10px;
-  margin-left: 10px;
-  padding-left: 10px;
-  float: left;
-  font-family: Lato, sans-serif;
-  color: #4a4a4a;
-  font-weight: 400;
-  text-align: left;
+	color: #4a4a4a;
+	display: inline-block;
+	float: left;
+	font-family: Lato,sans-serif;
+	font-weight: 400;
+	margin-left: 10px;
+	margin-top: 10px;
+	text-align: left;
 }
 
 .tag {
   display: inline-block;
-  margin-top: 10px;
   margin-left: 10px;
   font-family: Lato, sans-serif;
   color: #4891de;
@@ -801,6 +799,16 @@ body {
   opacity: 0;
 }
 
+.followings{
+  position: absolute;
+  z-index: 2500;
+  display: none;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .5);
+  opacity: 0;
+}
+
 .modal-content-window {
   position: relative;
   margin-top: 100px;
@@ -814,6 +822,10 @@ body {
   margin-top: 0px;
   border-bottom: 1px solid #d3d3d3;
   font-size: 24px;
+  text-align: left;
+  width: 100%;
+  line-height:44px;
+  color:#333 !important;
 }
 
 .follow-button {
@@ -1197,4 +1209,36 @@ a.link-anchor{
 
 .body-wrapper .row {
 	margin:0px;
+}
+
+.likedImg{
+	margin-bottom:-4px;
+}
+
+.comments-box.comment{
+	border-top: 1px solid #e3e3e3;
+	min-height: 60px;
+	margin-top:auto;
+}
+
+.commentTextarea{
+	color: #666;
+    font-family: Lato,sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    outline: medium none;
+    width: 100%;
+}
+
+a {
+	border:none !important;
+	text-decoration:none !important;
+	outline: 0 !important;
+}
+
+.m-t-40{
+	margin-top:40px;
 }

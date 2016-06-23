@@ -10,7 +10,8 @@ Route::group(['middleware' => 'web'], function () {
 	
     Route::get('/userprofile/{id?}', 'UserController@userProfile');	
 	Route::resource('comments', 'CommentsController');
-
+	Route::get('/tags', 'TagsController@index');
+	
 	Route::post('/users/followuser',[
         'uses' => 'ActivityController@followUser',
         'as' => 'followUser',
@@ -49,11 +50,9 @@ Route::group(['middleware' => 'web'], function () {
         'as' => 'change_pwd',
 		'middleware' => 'auth'
     ]);	
-	Route::get('/tags', [
-        'uses' => 'TagsController@index',
-        'as' => 'tags',
-		'middleware' => 'auth'
-    ]);
+	
+	Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider');
+	Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback');
     
 });
 
