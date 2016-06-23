@@ -33,8 +33,13 @@ class HomeController extends Controller
     public function index()
     {
 		$pageTitle = "Home";
-		$userId = Auth::user()->id;
-        $posts = Posts::GetUserHomePosts($userId);
+		
+		if(empty(Input::get('jsonp'))){
+			return view('home', ['page_title'=>$pageTitle]);
+		}
+		$page = Input::get('page', 0);
+		$userId = Auth::user()->id;		
+        $posts = Posts::GetUserHomePosts($userId,$page);
 		
 		if (count($posts)) {
             foreach ($posts as $key => $value) {
@@ -45,11 +50,13 @@ class HomeController extends Controller
 				//$value->total_likes = ($value->total_likes==-1)?0:$value->total_likes;
 				$total_likes = Useractivity::likeCountByPostId($value->id);
                 $value->total_likes = (string)(($total_likes>0)?$total_likes:0);
+				$value->shareUrl = UniversalClass::shareUrl($value->id);
+				$value->caption = UniversalClass::replaceTagMentionLink($value->caption);
             }
         }
 		
-		
-        return view('home', ['posts' => $posts,'page_title'=>$pageTitle]);
+		return response()->json($posts);
+        //return view('home', ['posts' => $posts,'page_title'=>$pageTitle]);
     }
 	
 	
