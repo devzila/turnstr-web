@@ -14,6 +14,11 @@ myApp.controller('TagController', function($scope, Reddit, tSharedService ) {
 	$scope.reddit = new Reddit();
 });
 
+myApp.controller('ProfileController', function($scope, Reddit, tSharedService ) {
+	tSharedService.controllerName="ProfileController";
+	$scope.reddit = new Reddit();
+});
+
 myApp.factory('tSharedService', function($rootScope) {
     var sharedService = {};
 	sharedService.ctrlDefine = function(ctrlName){
@@ -41,6 +46,8 @@ myApp.factory('tSharedService', function($rootScope) {
 			url = "/explore?searchData=" + searchData + "&page=" + page + "&jsonp=JSON_CALLBACK";
 		}else if(urlCtrl == "TagController"){
 			url = "/tags?searchData=" + searchData + "&page=" + page + "&jsonp=JSON_CALLBACK";
+		}else if(urlCtrl == "ProfileController"){
+			url = window.location.href+"?page=" + page + "&jsonp=JSON_CALLBACK";
 		}
 		return url;	
 	  }

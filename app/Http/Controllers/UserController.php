@@ -18,6 +18,7 @@ use URL;
 use Input;
 use Auth;
 use Session;
+use App\Helpers\UniversalClass;
 class UserController extends Controller {
     /**
      * The Http Request Object
@@ -136,15 +137,27 @@ class UserController extends Controller {
 		$data['followers'] = Useractivity::getFollowersByUserId($userId);				
 		$data['followings'] = Useractivity::getFollowingByUserId($userId);				
 		
+		$data['postCount'] = Posts::getAllPostsCountByUserId($userId);
+		
 		$data['userdetail'] =  User::find($userId);
 		
 		if(!$data['userdetail']){			
 			return view('errors.generic',['msg'=>"This User Does Not Exists",'previousUrl'=>URL::previous()]);
 		}
+		if(empty(Input::get('jsonp'))){
+			return view('profile.userprofile', $data);
+		}
+		$page = Input::get('page',0);
+		$posts = Posts::GetAllPostsByUserId($userId,$page);
 		
-		$data['posts'] = Posts::GetAllPostsByUserId($userId);
+		if($posts){			
+            foreach ($posts as $key => $value) {				
+				$value->shareUrl = UniversalClass::shareUrl($value->id);
+			}
+		}
 		
-		return view('profile.userprofile',$data);
+		return response()->json($posts);
+		
 		
 	}
 	

@@ -220,9 +220,16 @@ class Posts extends Model
                     
     }
 
-    public function scopeGetAllPostsByUserId($query, $user_id='')
+    public function scopeGetAllPostsByUserId($query, $user_id='',$page=0,$offset=self::POSTS_PER_PAGE)
     {
-        return $query->where('user_id',$user_id)->get();
+        return $query->where('user_id',$user_id)
+		->skip($page * $offset)->take($offset)
+		->get();
+    }
+	
+	public function scopeGetAllPostsCountByUserId($query, $user_id='')
+    {
+        return $query->where('user_id',$user_id)->count();
     }
 
     // Web app functions
