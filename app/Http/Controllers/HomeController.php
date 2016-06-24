@@ -64,9 +64,15 @@ class HomeController extends Controller
     {
 		$pageTitle = "Explore";
         $searchData = Input::get('searchData');
+        
+        if(empty(Input::get('jsonp'))){
+			return view('discover', ['page_title'=>$pageTitle]);
+		}
+		$page = Input::get('page', 0);
+        
         $userId = Auth::user()->id;
         
-        $imagesToExplore = Posts::getImages($userId,$searchData);
+        $imagesToExplore = Posts::getImages($userId,$searchData,$page);
 
         foreach ($imagesToExplore as $key => $value) {
             $arr1 = explode('.',$value->media1_url);
@@ -87,8 +93,8 @@ class HomeController extends Controller
             $imagesToExplore[$key]->total_likes = ($value->total_likes > 0) ? (string)($value->total_likes):"0";
             $imagesToExplore[$key]->shareUrl = UniversalClass::shareUrl($value->id);
         }
-
-        return view('discover', ['posts'=>$imagesToExplore,'page_title'=>$pageTitle]);
+        return response()->json($imagesToExplore);
+        //return view('discover', ['posts'=>$imagesToExplore,'page_title'=>$pageTitle]);
     }
 
 	
