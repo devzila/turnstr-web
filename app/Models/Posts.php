@@ -54,7 +54,7 @@ class Posts extends Model
     * Posts current user is following
     */ 
 
-    public function scopeGetImages($query,$userId='', $searchData='')
+    public function scopeGetImages($query,$userId='', $searchData='',$page=0,$offset=self::POSTS_PER_PAGE)
     {
         $returnData = $query->join('users','posts.user_id','=','users.id');
 
@@ -79,7 +79,8 @@ class Posts extends Model
         }
 
             return  $returnData
-                    ->orderBy('posts.updated_at','desc')
+                    ->orderBy('posts.created_at','desc')
+                    ->skip($page * $offset)->take($offset)
                     ->get();
     }
     /*
