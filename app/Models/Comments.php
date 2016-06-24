@@ -31,7 +31,7 @@ class Comments extends Model
     public function scopeAllComments($query) {
     	return $query->leftjoin('posts','comments.post_id','=','posts.id')
                     ->leftjoin('users','comments.user_id','=','users.id')
-                    ->select('comments.comments','comments.created_at','posts.caption','users.name as user_name')
+                    ->select('comments.comments','comments.id','comments.created_at','posts.caption','users.name as user_name')
                     ->get();
     }
 

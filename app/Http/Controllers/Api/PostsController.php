@@ -229,8 +229,9 @@ class PostsController extends Controller
             $userId =  $userDevice->id;
         }
         
+		$page = Input::get('access_token',0);
         
-        $imagesToExplore = Posts::getImages($userId,$searchData);
+        $imagesToExplore = Posts::getImages($userId,$searchData,$page,25);
 
         foreach ($imagesToExplore as $key => $value) {
             $arr1 = explode('.',$value->media1_url);
