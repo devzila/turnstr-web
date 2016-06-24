@@ -128,7 +128,7 @@
                 <div class="profile-stats">
                   <div class="profile-stat-item">
 				  <a class="w-inline-block" href="#">
-                    <h4 class="stat-posts-number">{{$postCount}}<!--@{{count($posts)}}--></h4>
+                    <h4 class="stat-posts-number">0</h4>
                     <div class="stat-label">Posts</div>
 				  </a>
                   </div>
