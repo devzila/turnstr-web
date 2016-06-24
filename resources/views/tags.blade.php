@@ -10,33 +10,19 @@
               </form>              
             </div>
           </div>
-          <div class="w-row profile-image-grid explorer">
-           
-			  <?php $i=0; ?>
-			  @if(count($posts)!= 0)
-				  @foreach($posts as $post)
-					@if(!$post->media1_thumb_url)
-						@continue
-					@endif
-				  <?php ++$i;?>
-					  @if($i%3 == 1)
-						<div class="w-row profile-image-grid">
-					  @endif
-						<div class="w-col w-col-4">
-						  <div class="profile-upload-items">
-							<a href="<?php echo App\Helpers\UniversalClass::shareUrl($post->id) ?>"><img src="{{$post->media1_thumb_url}}"></a>
-						  </div>
+         <div ng-app='Turnstr' ng-controller="TagController">
+			<div  infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='0'>
+                <div class="w-row profile-image-grid explorer" >           
+			        <div class="w-row "  >
+				        <div class="w-col w-col-4 profile-image-grid " ng-repeat="post in reddit.items">
+					        <div class="profile-upload-items">
+						        <a href="@{{post.shareUrl}}"><img src="@{{post.media1_thumb_url}}"></a>
+					        </div>
 						</div>
-					
-					  @if($i%3 == 0)
-						</div>
-					  @endif
-				  @endforeach
-				  @if($i!=0 || $i%3!=0)
-					  </div>			  
-				  @endif
-			  @endif
-		  
+					</div>
+				</div> 
+             </div>
+             <div ng-show='reddit.busy'><img src="/assets/images/preloader.gif"></div>
           </div>          
         </div>
       </div>

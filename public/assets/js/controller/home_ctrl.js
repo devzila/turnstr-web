@@ -9,18 +9,39 @@ myApp.controller('ExplorerController', function($scope, Reddit, tSharedService )
 	$scope.reddit = new Reddit();
 });
 
+myApp.controller('TagController', function($scope, Reddit, tSharedService ) {
+	tSharedService.controllerName="TagController";
+	$scope.reddit = new Reddit();
+});
+
 myApp.factory('tSharedService', function($rootScope) {
     var sharedService = {};
 	sharedService.ctrlDefine = function(ctrlName){
 		sharedService.controllerName = ctrlName;
 	}
+	sharedService.getParameterValues= function (param) {
+			var urls = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			for (var i = 0; i < urls.length; i++) {
+			var urlparam = urls[i].split('=');
+				if (urlparam[0] == param) {
+				return urlparam[1];
+			}
+		}
+	}
+	
   	sharedService.constructUrl=function(urlCtrl,page, offset){
 	    var url;
-		if(urlCtrl == "HomeController")
-			url = "/?page=" + page + "&jsonp=JSON_CALLBACK";
-		else if(urlCtrl == "ExplorerController")
-			url = "/explore?page=" + page + "&jsonp=JSON_CALLBACK";
+		searchData = this.getParameterValues('searchData');
 		
+		if(searchData == null) searchData="";
+		
+		if(urlCtrl == "HomeController"){
+			url = "/?page=" + page + "&jsonp=JSON_CALLBACK";	
+		}else if(urlCtrl == "ExplorerController"){			
+			url = "/explore?searchData=" + searchData + "&page=" + page + "&jsonp=JSON_CALLBACK";
+		}else if(urlCtrl == "TagController"){
+			url = "/tags?searchData=" + searchData + "&page=" + page + "&jsonp=JSON_CALLBACK";
+		}
 		return url;	
 	  }
     return sharedService;

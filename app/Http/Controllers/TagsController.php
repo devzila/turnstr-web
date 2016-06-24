@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Helpers\UniversalClass;
 
 use App\Models\PostTags;
 use App\Models\Posts;
@@ -25,10 +26,13 @@ class TagsController extends Controller
      */
     public function index(Request $request)
     {
-		$page_title = "#tags";
+		
         $page = $request->input('page', 0);
         $tag = $request->input('searchData','');
-
+		$page_title = "#".$tag;
+		if(empty($request->input('jsonp'))){
+			return view('tags', ['page_title'=>$page_title]);
+		}
         $posts = DB::table('posts')
             ->join('post_tags', 'posts.id', '=', 'post_tags.post_id')
             ->join('users', 'posts.user_id', '=', 'users.id')
@@ -53,10 +57,11 @@ class TagsController extends Controller
 				$value->is_following = $value->follow;
 				$likeDetail = Useractivity::likeStatusByUserId($value->id,$userId);
 				$value->liked = (count($likeDetail) && isset($likeDetail->status)) ? (int)($likeDetail->status) : 0 ;
+				$value->shareUrl = UniversalClass::shareUrl($value->id);
 			}
 		}
 
-        return view('tags',['posts'=>$posts,'page_title'=>$page_title]);
+        return response()->json($posts);
     }
 
 
