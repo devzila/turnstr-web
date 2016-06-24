@@ -123,7 +123,7 @@ Route::group(['prefix' => 'api'], function () {
         'middleware' => []
     ]);
     Route::post('forgotpassword', [
-        'uses' => 'UserController@forgotpassword',
+        'uses' => '\App\Http\Controllers\Auth\PasswordController@postApiPassword',
         'as' => 'MobileUserForgot',
         'middleware' => []
     ]);
