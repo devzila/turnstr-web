@@ -223,6 +223,7 @@ class Posts extends Model
     public function scopeGetAllPostsByUserId($query, $user_id='',$page=0,$offset=self::POSTS_PER_PAGE)
     {
         return $query->where('user_id',$user_id)
+		->orderBy('posts.created_at','desc')
 		->skip($page * $offset)->take($offset)
 		->get();
     }
