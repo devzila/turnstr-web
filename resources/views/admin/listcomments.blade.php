@@ -35,11 +35,12 @@
                                            <td>
                                                 {{--<a href='javascript:void(0)'>Edit</a>
                                                 <span> | </span>--}}
-                                                <form action="{{ url('/admin/comments/'.$row->id) }}" class='deleteForm{{$row->id}}' method="POST">
+												<form action="{{ url('/admin/comments/'.$row->id) }}" class='deleteForm{{$row->id}}' method="POST">
                                                     {{ csrf_field() }}
                                                     {{ method_field('DELETE') }}
-                                                    <a href='javascript:void(0)' onClick='deleteComment({{$row->id}})'>Delete</a>
+                                                         <a href='javascript:void(0)' onClick='deleteComment({{$row->id}})' >Delete</a>
                                                 </form>
+                                                
                                             </td>
                                         </tr>
                                         @endforeach
@@ -54,15 +55,15 @@
         </div>
     </div>
     <script type="text/javascript">
-    function deleteComment(commentId) {
+    function deleteComment(formClass) {
         var title = "Confirmation Alert !!!";
         var content = "Do you want to delete this Comment ?";
-debugger;
+
         $.confirm({
             title: title,
             content: content,
             confirm: function(){
-                $(".deleteForm"+commentId).submit();
+                $(".deleteForm"+formClass).submit();
                 return true;
             },
             cancel: function(){
