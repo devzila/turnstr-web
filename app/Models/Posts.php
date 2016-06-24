@@ -230,7 +230,8 @@ class Posts extends Model
 	
 	public function scopeGetAllPostsCountByUserId($query, $user_id='')
     {
-        return $query->where('user_id',$user_id)->count();
+        $res = $query->where('user_id',$user_id)->count();
+		return ($res > 0) ? $res : -1 ;
     }
 
     // Web app functions

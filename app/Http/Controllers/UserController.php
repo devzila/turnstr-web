@@ -137,7 +137,8 @@ class UserController extends Controller {
 		$data['followers'] = Useractivity::getFollowersByUserId($userId);				
 		$data['followings'] = Useractivity::getFollowingByUserId($userId);				
 		
-		$data['postCount'] = (string)Posts::getAllPostsCountByUserId($userId);
+		$postCount = Posts::getAllPostsCountByUserId($userId);
+		$data['postCount'] = ($postCount>0) ? (string)$postCount : "0" ;
 		
 		$data['userdetail'] =  User::find($userId);
 		
