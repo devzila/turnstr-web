@@ -28,7 +28,8 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
     Route::get('me/followings',['uses' => 'UserController@currentUserFollowings']);
 
     Route::post('posts/upload', [
-        'uses' => 'PostsController@upload',
+        //'uses' => 'PostsController@upload',
+        'uses' => 'PostsController@uploadFileToS3Aws',
         'as' => 'UploadPhoto',
         'middleware' => []
     ]);
