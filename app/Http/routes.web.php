@@ -78,4 +78,8 @@ Route::group(['middleware' => ['web','auth'], 'prefix' => 'admin'], function () 
         'uses' => 'Admin\UserController@update',
         'as' => 'user_update'
     ]);
+	Route::post('comments/approve', [
+        'uses' => 'Admin\CommentsController@approve',
+        'as' => 'user_update'
+    ]);
 });
