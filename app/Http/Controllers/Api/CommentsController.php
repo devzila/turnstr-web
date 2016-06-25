@@ -143,7 +143,7 @@ class CommentsController extends Controller
 			$comments->delete();
 			return ResponseClass::Prepare_Response('','Deleted Successfuly',true,200);
 		}
-         return ResponseClass::Prepare_Response('','Error Occured. Please try again.',false,200);
+         return ResponseClass::Prepare_Response('','Sorry your comment seems offensive!',false,200);
 	}
 	
 }
