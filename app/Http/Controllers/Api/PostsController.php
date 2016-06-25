@@ -398,7 +398,7 @@ class PostsController extends Controller
             return ResponseClass::Prepare_Response('','validation fails',false, 200);
         }
 		
-		$awsUrl = env('AWS_URL');	
+		$awsUrl = env('AWS_URL','https://s3-us-west-2.amazonaws.com/stage-turnstr');	
 		$filePath = '/';		
 		
 		$s3 = \Storage::disk('s3');		
