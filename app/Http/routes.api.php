@@ -101,6 +101,12 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
             'as' => 'OtherUser',
             'middleware' => []
         ]);
+		
+		Route::post('deleteComment', [
+            'uses' => 'CommentsController@deleteUserComment',
+            'as' => 'deleteUserComment',
+            'middleware' => []
+        ]);
     /* Activity Routes ends*/
 
 });
