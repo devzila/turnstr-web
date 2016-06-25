@@ -75,5 +75,16 @@ class User extends Authenticatable
 
     }
 
+    public static function createByFacebook($params){
+        $user = new User();
+        $user->email = $params['email'];
+        $user->name = $params['first_name'] . ' ' . $params['last_name'];
+        $user->fb_token = $params['id'];
+
+        $user->save();
+
+        return $user;
+    }
+
 
 }

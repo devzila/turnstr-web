@@ -28,7 +28,8 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
     Route::get('me/followings',['uses' => 'UserController@currentUserFollowings']);
 
     Route::post('posts/upload', [
-        'uses' => 'PostsController@upload',
+        //'uses' => 'PostsController@upload',
+        'uses' => 'PostsController@uploadFileToS3Aws',
         'as' => 'UploadPhoto',
         'middleware' => []
     ]);
@@ -111,6 +112,11 @@ Route::group(['prefix' => 'api'], function () {
         'as' => 'MobileUserLogin',
         'middleware' => []
     ]);
+    Route::post('login/facebook', [
+        'uses' => 'UserController@loginFacebook',
+        'as' => 'MobileUserLoginFacebook',
+        'middleware' => []
+    ]);
 
     Route::post('register', [
                 'uses' => 'UserController@register',
@@ -123,7 +129,7 @@ Route::group(['prefix' => 'api'], function () {
         'middleware' => []
     ]);
     Route::post('forgotpassword', [
-        'uses' => 'UserController@forgotpassword',
+        'uses' => '\App\Http\Controllers\Auth\PasswordController@postApiPassword',
         'as' => 'MobileUserForgot',
         'middleware' => []
     ]);

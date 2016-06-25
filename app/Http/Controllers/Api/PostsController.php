@@ -229,8 +229,9 @@ class PostsController extends Controller
             $userId =  $userDevice->id;
         }
         
+		$page = Input::get('access_token',0);
         
-        $imagesToExplore = Posts::getImages($userId,$searchData);
+        $imagesToExplore = Posts::getImages($userId,$searchData,$page,25);
 
         foreach ($imagesToExplore as $key => $value) {
             $arr1 = explode('.',$value->media1_url);
@@ -397,7 +398,7 @@ class PostsController extends Controller
             return ResponseClass::Prepare_Response('','validation fails',false, 200);
         }
 		
-		$awsUrl = env('AWS_URL');	
+		$awsUrl = env('AWS_URL','https://s3-us-west-2.amazonaws.com/stage-turnstr');	
 		$filePath = '/';		
 		
 		$s3 = \Storage::disk('s3');		
