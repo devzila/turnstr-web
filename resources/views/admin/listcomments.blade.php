@@ -32,12 +32,12 @@
                                             <td>{{($row->user_name!='') ? $row->user_name : "--" }}</td>
                                             <td>{{($row->caption!='') ? $row->caption : "--" }}</td>
                                             <td>{{($row->comments!='') ? $row->comments : "--" }}</td>
-                                            <td><div class="{{ ($row->approved) ? 'btn-success':'btn-danger' }}">{{ ($row->approved) ? 'Approved':'Disapproved' }}</div></td>
+                                            <td><div id="tappr{{$row->id}}" class="{{ ($row->approved) ? 'btn-success':'btn-danger' }}">{{ ($row->approved) ? 'Approved':'Disapproved' }}</div></td>
                                             <td>{{($row->created_at!='') ? date('M d, Y',strtotime(($row->created_at))) : "--" }}</td>
                                            <td>
                                                 {{--<a href='javascript:void(0)'>Edit</a>
                                                 <span> | </span>--}}
-												<a href='javascript:void(0)' onClick='toggleApprove("appr{{ $row->id}}")'  data-status-appr{{$row->id}}='{{!$row->approved}}' data-id-appr{{$row->id}}='{{$row->id}}' id="appr{{$row->id}}" class="{{ (!$row->approved) ? '':'btn-danger' }}">{{ (!$row->approved) ? 'Approve':'Disapprove' }}</a>
+												<a href='javascript:void(0)' onClick='toggleApprove("appr{{ $row->id}}")'  data-status-appr{{$row->id}}='{{!$row->approved}}' data-id-appr{{$row->id}}='{{$row->id}}' id="appr{{$row->id}}" class="{{ (!$row->approved) ? 'btn-success':'btn-danger' }}">{{ (!$row->approved) ? 'Approve':'Disapprove' }}</a>
 												<span> | </span>
 												<form action="{{ url('/admin/comments/'.$row->id) }}" class='deleteForm{{$row->id}}' method="POST">
                                                     {{ csrf_field() }}
@@ -96,7 +96,7 @@
 					
 				};
 				$.ajax({
-					url: "/comments/approve",
+					url: "/admin/comments/approve",
 					type: "post",
 					data: data,
 					dataType: "json",
@@ -105,10 +105,14 @@
 							if(status == 1){
 								btn.attr("data-status-"+btnId,0);
 								btn.html("Disapprove");
+								$("#t"+btnId).html("Approved");
+								$("#t"+btnId).addClass("btn-success").removeClass("btn-danger");
 								btn.removeClass("btn-success").addClass("btn-danger");
 							}else{
 								btn.attr("data-status-"+btnId,1);
 								btn.html("Approve");
+								$("#t"+btnId).html("Disapproved");
+								$("#t"+btnId).removeClass("btn-success").addClass("btn-danger");
 								btn.addClass("btn-success").removeClass("btn-danger");
 							}
 						}else if(t.status == 3){								

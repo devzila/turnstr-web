@@ -51,11 +51,20 @@ class CommentsController extends Controller {
         return redirect("admin/comments");
     }
 	
-    public function approve($comment_id){
-        $comment = Comments::find($comment_id);
-        $comment->delete();
-        Session::flash('success','Comment Deleted Successfully');
-        return redirect("admin/comments");
+    public function approve(){
+		$comment_id = $this->request->get('apprId');
+		
+		$status = ($this->request->get('status')) ? $this->request->get('status') : 0;
+		
+		$comment = Comments::find($comment_id);
+		
+		if($comment && $comment->approved != $status){
+			$comment->approved = $status;
+			$comment->save();
+			return response()->json(['status'=>1,'msg'=>'Successfully Updated']);
+		}
+		return response()->json(['status'=>0,'msg'=>'Successfully Updated']);
+       
     }
 
 }
