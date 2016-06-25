@@ -106,6 +106,29 @@ class UserController extends Controller {
         return ResponseClass::Prepare_Response($device,'Login successfully',true,200);
     }
 
+    public function loginFacebook(){
+
+
+        $user = User::where('fb_token', $this->request->get('id'))->first();
+
+        if(!$user){
+            try{
+                $user = User::createByFacebook($this->request->all());
+            }
+            catch(\Illuminate\Database\QueryException $e){
+                return ResponseClass::Prepare_Response('',$e->getMessage(),false,200);
+            }
+            catch(PDOException $e){
+                return ResponseClass::Prepare_Response('',$e->getMessage(),false,200);
+            }
+        }
+
+
+        $device = UserDevice::add($user, $this->request->all());
+        return ResponseClass::Prepare_Response($device,'Login successfully',true,200);
+    }
+
+
     /*
     *   Function to logout from api
     */

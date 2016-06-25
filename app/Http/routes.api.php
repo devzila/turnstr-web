@@ -112,6 +112,11 @@ Route::group(['prefix' => 'api'], function () {
         'as' => 'MobileUserLogin',
         'middleware' => []
     ]);
+    Route::post('login/facebook', [
+        'uses' => 'UserController@loginFacebook',
+        'as' => 'MobileUserLoginFacebook',
+        'middleware' => []
+    ]);
 
     Route::post('register', [
                 'uses' => 'UserController@register',
