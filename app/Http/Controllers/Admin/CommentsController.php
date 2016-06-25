@@ -50,5 +50,12 @@ class CommentsController extends Controller {
         Session::flash('success','Comment Deleted Successfully');
         return redirect("admin/comments");
     }
+	
+    public function approve($comment_id){
+        $comment = Comments::find($comment_id);
+        $comment->delete();
+        Session::flash('success','Comment Deleted Successfully');
+        return redirect("admin/comments");
+    }
 
 }
