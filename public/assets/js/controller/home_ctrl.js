@@ -74,6 +74,14 @@ myApp.factory('Reddit', function($http,tSharedService,$sce) {
 	  if(data.length <=0) this.complete = 1;
 	  for(var i = 0; i< data.length; i++) {
 		data[i].caption = $sce.trustAsHtml(data[i].caption);
+		//if(data[i].comments.length > 0){
+			//for(var j = 0; j < data[i].comments.length; j++) {
+				//data[i].comments[j].comments = $sce.trustAsHtml(data[i].comments[j].comments);
+				//console.log(data[i].comments);
+				//return;
+			//}
+		//}
+		
         this.items.push(data[i]);
       }	  
       this.page = this.page + 1 ;

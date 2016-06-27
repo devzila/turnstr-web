@@ -254,7 +254,7 @@
                             </div>
                             <div class="usercommentsblock">
                                 <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{($comment->username)?$comment->username:$comment->name}}</a></div>
-                                <div class="usercomment"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($comment->comments) ?></div>
+                                <div class="usercomment"><?php echo $comment->comments ?></div>
                             </div>
                             <?php
                             if(empty($comment->comments)){?>
