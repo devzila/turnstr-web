@@ -68,8 +68,7 @@
 										<div ng-if="!comment.username">@{{comment.name}}</div>
 									</a>
 								</div>
-                                <div class="usercomment"><?php $commentr = "{{comment.comments}}";
-								  echo App\Helpers\UniversalClass::replaceTagMentionLink($commentr) ?></div>
+                                <div class="usercomment">@{{comment.comments}}</div>
                             </div>
                             
                             <!--@if(empty($comment->comments))
@@ -84,7 +83,7 @@
 						</div>
                     
 				
-				 <div ng-if="post.total_comments > 2" class="view-share"><a href="@{{ post.shareUrl}}">View More</a></div>
+				 <div ng-if="post.total_comments > 4" class="view-share"><a href="@{{ post.shareUrl}}">View More</a></div>
 				
             </div>
 
