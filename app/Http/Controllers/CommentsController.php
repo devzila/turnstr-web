@@ -52,17 +52,21 @@ class CommentsController extends Controller
 			$err = $validator->errors()->all();
             $response = [ 'status'=>2,'msg'=>$err];
 			return response()->json($response,200);
-        }		
-		
+        }	
          
-         $result = Comments::create([
+         $result = Comments::createComment([
             'user_id' => $user_id,
             'post_id' => $post_id,
     		'comments' => $comments
     	 ]);
-
+		
+		if($result->approved !=1){
+			$response = [ 'status'=>2,'msg'=>"Inappropriate Content"];
+			return response()->json($response,200);
+		}
+		
         // tag post if #tag present in comment
-        PostTags::tag($post_id, $result->comments);
+        
 		$user =array();
 		$userDetail = User::find($user_id);
 		if($userDetail){

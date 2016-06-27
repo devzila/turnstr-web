@@ -46,17 +46,17 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {	
-		file_put_contents(public_path()."/media/emoji.txt", $request->input('comments'));
+		//file_put_contents(public_path()."/media/emoji.txt", $request->input('comments'));
 		
          $post_id = $request->input('post_id');
-         $result = Comments::create([
+         $result = Comments::createComment([
             'user_id' => DeviceSession::get()->user->id,
             'post_id' => $post_id,
     		'comments' => $request->input('comments')
     	 ]);
 
         // tag post if #tag present in comment
-        PostTags::tag($post_id, $result->comments);
+        //PostTags::tag($post_id, $result->comments);
 
 
         return ResponseClass::Prepare_Response($result,'Comment create successfully',true,200);
