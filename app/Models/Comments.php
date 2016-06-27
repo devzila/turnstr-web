@@ -39,10 +39,9 @@ class Comments extends Model
 		->select('comments.*','users.username','users.profile_image','users.name','users.fb_token')
 		->orderBy('comments.created_at','DESC');
 		$query->skip($page * $record)->take($record);
-		$result =  $query->get()->reverse();
-		
+		$result =  $query->get();		
 		foreach($result as $key=>$value){
-			$value->comments = UniversalClass::replaceTagMentionLink($value->comments);
+			$value->commentsHtml = UniversalClass::replaceTagMentionLink($value->comments);
 		}
 		return $result;
     }
