@@ -43,7 +43,7 @@ class HomeController extends Controller
 		
 		if (count($posts)) {
             foreach ($posts as $key => $value) {
-				$value->comments = Comments::commentsByPost($value->id,0,4);
+				$value->comments = Comments::commentsByPost($value->id,0,2);
                 $commentsCount = Comments::commentsCountByPostId($value->id);                
 				$commentsCount = ($commentsCount==-1)?0:$commentsCount;
                 $value->total_comments = (string)($commentsCount);
