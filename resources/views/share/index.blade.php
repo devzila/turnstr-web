@@ -308,7 +308,7 @@
     </style>
 @endsection
 @section('additional_js')
-    <script src="https://cdn.rawgit.com/vinayakjadhav/jR3DCarousel/v0.0.8/dist/jR3DCarousel.min.js"></script>
+    <script src="/assets/js/custom/jR3DCarousel.min.js"></script>
     <script>
         var obj = $('.jR3DCarouselGallery').jR3DCarousel({
             "width": 400,
