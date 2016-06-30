@@ -87,7 +87,7 @@ class CommentsController extends Controller
                                 <div class="username"><a href="/userprofile/'.$userDetail->id.'">'.$userDetail->username.'</a></div>
                                 <div class="usercomment">'.$comment_link.'</div>
                             </div>
-                                                        <div class="postedtime">0 seconds</div>
+                                                        <div class="postedtime">few seconds ago</div>
                             <div class="photocaption"></div>
                         </div>';
 		$response = [ 'status'=>1,'msg'=>"Successfully Added",'commentBlock'=>$commentBlock];

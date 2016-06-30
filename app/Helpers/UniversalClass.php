@@ -30,12 +30,9 @@ class UniversalClass{
         $postUrl = URL::to('/').'/share/'.$postId;
         return $postUrl;
     }
-	static function timeString($pTime){
+	static function timeString($pTime){	
 		
-		$carbonDate = new Carbon($pTime);
-		$carbonDate->timezone = 'America/New_York';
-		$cdt =  $carbonDate->toDayDateTimeString();
-		$etime = time() - strtotime($cdt);
+		$etime = time() - strtotime($pTime);
 		if ($etime < 1){
 			return '0 seconds';
 		}
@@ -80,6 +77,13 @@ class UniversalClass{
 			$sentance = preg_replace("/([^>]|^)@$match2\b/","$1<div class='tag'><a href='/userprofile/@$match2'>@$match2</a></div>",$sentance);
 		}
 		return $sentance;
+	}
+	
+	static function getTimeZone($ptime,$timezone = 'America/New_York'){
+		$carbonDate = new Carbon($ptime);
+		$carbonDate->timezone = $timezone;
+		$date = $carbonDate->toDayDateTimeString();
+		return date("Y-m-d h:i:s",strtotime($date));
 	}
 	
 }
