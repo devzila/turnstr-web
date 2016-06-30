@@ -108,8 +108,15 @@ class UserController extends Controller {
 
     public function loginFacebook(){
 
-
-        $user = User::where('fb_token', $this->request->get('id'))->first();
+		
+		if(!empty($this->request->get('email')) && filter_var(($this->request->get('email')), FILTER_VALIDATE_EMAIL)){
+			$user = User::where('email', $this->request->get('email'))->first();
+			if($user){
+				User::where('id',$user->id)->update(array('fb_token'=>$this->request->get('id')));
+			}
+		}else{
+			$user = User::where('fb_token', $this->request->get('id'))->first();
+		}
 
         if(!$user){
             try{
