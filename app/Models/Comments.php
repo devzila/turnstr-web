@@ -40,8 +40,9 @@ class Comments extends Model
 		->orderBy('comments.created_at','DESC');
 		$query->skip($page * $record)->take($record);
 		$result =  $query->get();		
-		foreach($result as $key=>$value){
+		foreach($result as $key=>$value){			
 			$value->commentsHtml = UniversalClass::replaceTagMentionLink($value->comments);
+			$value->createdTime = UniversalClass::timeString($value->created_at);
 		}
 		return $result;
     }
