@@ -254,10 +254,10 @@
                             </div>
                             <div class="usercommentsblock">
                                 <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{($comment->username)?$comment->username:$comment->name}}</a></div>
-                                <div class="usercomment"><?php echo $comment->comments ?></div>
+                                <div class="usercomment"><?php echo $comment->commentsHtml ?></div>
                             </div>
                             <?php
-                            if(empty($comment->comments)){?>
+                            if(empty($comment->commentsHtml)){?>
                             <div class="usercommentsblock">
                                 <div class="username">No Comments</div>
                             </div>
