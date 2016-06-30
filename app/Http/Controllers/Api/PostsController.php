@@ -47,6 +47,7 @@ class PostsController extends Controller
                 $value->total_likes = (string)(($total_likes>0)?$total_likes:0);
                
                 $value->shareUrl = UniversalClass::shareUrl($value->id);
+                $value->createdTime = UniversalClass::timeString($value->created_at);
 				
 				$followingDetails = Useractivity::getFollowDetailByUserId($value->user_id,$userId);
                 $value->is_following = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
