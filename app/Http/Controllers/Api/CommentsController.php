@@ -57,9 +57,15 @@ class CommentsController extends Controller
 
         // tag post if #tag present in comment
         //PostTags::tag($post_id, $result->comments);
+		if($result->approved){
+			$msg = "Comment create successfully";
+			$status = true;
+		}else{
+			$msg = "Inappropriate Content";
+			$status = false;
+		}
 
-
-        return ResponseClass::Prepare_Response($result,'Comment create successfully',true,200);
+        return ResponseClass::Prepare_Response($result,$msg,$status,200);
 
     }
 
