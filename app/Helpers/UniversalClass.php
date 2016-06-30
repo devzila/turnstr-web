@@ -2,6 +2,7 @@
 namespace App\Helpers;
 use Universal;
 use URL;
+use Carbon\Carbon;
 class UniversalClass{
 
     const KEY = "98hmn9h";
@@ -30,7 +31,11 @@ class UniversalClass{
         return $postUrl;
     }
 	static function timeString($pTime){
-		$etime = time() - $pTime;
+		
+		$carbonDate = new Carbon($pTime);
+		$carbonDate->timezone = 'America/New_York';
+		$cdt =  $carbonDate->toDayDateTimeString();
+		$etime = time() - strtotime($cdt);
 		if ($etime < 1){
 			return '0 seconds';
 		}
