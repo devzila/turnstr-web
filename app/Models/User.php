@@ -84,7 +84,20 @@ class User extends Authenticatable
         $user->profile_image = "http://graph.facebook.com/".$params['id']."/picture?type=large";
 
         $user->save();
-
+		if($user){
+            // Auto follow turnstr
+            $autofollow = array(
+                'user_id' => env('TURNSTR_USER_ID', 2),
+                'follower_id' => $user->id,
+                'activity' => 'follow',
+                'status' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            );
+            Useractivity::insert($autofollow);
+			$user->following = 1;
+			$user->save();                    
+        } 
         return $user;
     }
 
