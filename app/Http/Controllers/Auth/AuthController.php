@@ -116,9 +116,13 @@ class AuthController extends Controller
 			
         }
 		if(isset($user->email) && filter_var(($user->email), FILTER_VALIDATE_EMAIL)){
-			$authUser = User::where('email', $user->email)->first();			
+			$authUser = User::where('email', $user->email)->first();
+			if($authUser){
+				User::where('id',$authUser->id)->update(array('fb_token'=>$user->id));
+			}
 		}else{
-			return Socialite::driver('facebook')->with(['auth_type' => 'rerequest'])->redirect();
+			$authUser = User::where('fb_token', $user->id)->first();
+			//return Socialite::driver('facebook')->with(['auth_type' => 'rerequest'])->redirect();
 		}
         if(!$authUser){
 			$authUser = User::create([
@@ -130,15 +134,15 @@ class AuthController extends Controller
 				'profile_image' => "http://graph.facebook.com/".$user->id."/picture?type=large",
 			]);
 			$this->autoFollowCreatedUser($authUser);
-		}else{
-			User::where('id',$authUser->id)->update(array('fb_token'=>$user->id));
 		}
+		//else{
+			//User::where('id',$authUser->id)->update(array('fb_token'=>$user->id));
+		//}
 		
 		
 		
         Auth::login($authUser, true);
 		return view("generic.close");
-        //return redirect()->route('/');
     }
 	
 	private function autoFollowCreatedUser($user)
