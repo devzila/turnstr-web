@@ -262,7 +262,7 @@
                                 <div class="username">No Comments</div>
                             </div>
                             <?php }?>
-                            <div class="postedtime">{{ App\Helpers\UniversalClass::timeString(strtotime($comment->created_at))}}</div>
+                            <div class="postedtime">{{ App\Helpers\UniversalClass::timeString($comment->created_at)}}</div>
                             <div class="photocaption"></div>
                         </div>
                     @endforeach
