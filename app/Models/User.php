@@ -12,7 +12,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'username','fb_token','gender',
+        'name', 'email', 'password', 'username','fb_token','gender','profile_thumb_image','profile_image',
     ];
 
     /**
@@ -80,6 +80,8 @@ class User extends Authenticatable
         $user->email = $params['email'];
         $user->name = $params['first_name'] . ' ' . $params['last_name'];
         $user->fb_token = $params['id'];
+        $user->profile_thumb_image = "http://graph.facebook.com/".$params['id']."/picture?type=normal";
+        $user->profile_image = "http://graph.facebook.com/".$params['id']."/picture?type=large";
 
         $user->save();
 

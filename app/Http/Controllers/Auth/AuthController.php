@@ -126,7 +126,8 @@ class AuthController extends Controller
 				'email' => $user->email,
 				'fb_token' => $user->id,
 				//'gender' => ($user->gender == 'male')?'Male':'Female',
-				//'profile_image' => $user->avatar
+				'profile_thumb_image' => "http://graph.facebook.com/".$user->id."/picture?type=normal",
+				'profile_image' => "http://graph.facebook.com/".$user->id."/picture?type=large",
 			]);
 			$this->autoFollowCreatedUser($authUser);
 		}else{
