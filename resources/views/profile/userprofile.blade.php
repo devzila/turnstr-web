@@ -55,7 +55,7 @@
 	  @if($followers)
 		@foreach($followers as $fllow)  
 		  <div class="activity-list-item">
-			<div class="userthumb">
+			<div class="userthumb-all">
 				<a href="/userprofile/{{$fllow->id}}">
 					@if($fllow->profile_image)
 						<img class="img-circle" src="{{$fllow->profile_image}}" />
