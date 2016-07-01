@@ -22,7 +22,7 @@
 			        <div class="w-row "  >
 				        <div class="w-col w-col-4 profile-image-grid " ng-repeat="post in reddit.items">
 					        <div class="profile-upload-items">
-						        <a href="@{{post.shareUrl}}"><img src="@{{post.media1_thumb_url}}"></a>
+						        <a href="@{{post.shareUrl}}"><img src="@{{post.media1_thumb_url}}" height="300px" width="100%"></a>
 					        </div>
 					</div>
 				</div>
