@@ -60,7 +60,7 @@ class UniversalClass{
 	}
 	
 	static function replaceTagMentionLink($sentance){
-		$sentance = preg_quote($sentance, '/');
+		//$sentance = preg_quote($sentance, '/');
 		// find all #tag
 		preg_match_all('/#([^\W]+)/', $sentance, $matches);
 
