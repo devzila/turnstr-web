@@ -61,7 +61,7 @@ class CommentsController extends Controller
     	 ]);
 		
 		if($result->approved !=1){
-			$response = [ 'status'=>2,'msg'=>"Inappropriate Content"];
+			$response = [ 'status'=>2,'msg'=>"Sorry your comment seems offensive!"];
 			return response()->json($response,200);
 		}
 		
