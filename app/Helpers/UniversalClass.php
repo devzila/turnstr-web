@@ -60,8 +60,9 @@ class UniversalClass{
 	}
 	
 	static function replaceTagMentionLink($sentance){
+		$sentance = preg_quote($sentance, '/');
 		// find all #tag
-		preg_match_all('/#([^\s]+)/', $sentance, $matches);
+		preg_match_all('/#([^\W]+)/', $sentance, $matches);
 
 		if(!array_key_exists(1, $matches)){
 			return;
@@ -71,7 +72,7 @@ class UniversalClass{
 			$sentance = preg_replace("/([^>]|^)#$match\b/","$1<div class='tag'><a href='/tags?searchData=$match'>#$match</a></div>",$sentance);
 		}
 		
-		preg_match_all('/@([^\s]+)/', $sentance, $matches2);
+		preg_match_all('/@([^\W]+)/', $sentance, $matches2);
 		// generate Links For @mention
 		foreach($matches2[1] as $match2){
 			$sentance = preg_replace("/([^>]|^)@$match2\b/","$1<div class='tag'><a href='/userprofile/@$match2'>@$match2</a></div>",$sentance);
