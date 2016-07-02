@@ -16,15 +16,19 @@ class Settings extends Model
 		
 		if(!$profaneStr) return 1;
 		
-		$strings = explode(" ",$sentance);
+		$sentance = str_replace(","," ",$sentance);
 	
-		foreach($strings as $string){
-			if(empty(trim($string)) || $string == ",") continue;
+		$strings = explode(" ",$sentance);	
+		$profaneArray = explode(",",$profaneStr->profane_words);
 		
-			if (preg_match('/\b' . $string . '\b/i', (string)($profaneStr->profane_words))) { 
-			   return -1;
+		foreach($strings as $string){
+			if(empty(trim($string))) continue;
+		
+			if (in_array($string, $profaneArray)) {
+				return -1;
 			}
 		}
+	
 		
 		return 1;	
 	}
