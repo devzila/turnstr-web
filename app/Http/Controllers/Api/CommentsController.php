@@ -61,7 +61,7 @@ class CommentsController extends Controller
 			$msg = "Comment create successfully";
 			$status = true;
 		}else{
-			$msg = "Inappropriate Content";
+			$msg = "Sorry your comment seems offensive!";
 			$status = false;
 		}
 
