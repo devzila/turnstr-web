@@ -267,7 +267,7 @@ class PostsController extends Controller
     public function profilePosts()
     {
         $userId = DeviceSession::get()->user->id;
-        $postCount = Posts::where('user_id',$userId)->count();
+        $postCount = Posts::active()->where('user_id',$userId)->count();
 		$page = Input::get("page",0);
         $posts = Posts::selfPosts($userId,$page,self::POSTS_PER_PAGE);
 		
@@ -495,7 +495,7 @@ class PostsController extends Controller
             return ResponseClass::Prepare_Response('','Invalid user-id',false,200);
         }
         $data = array(); 
-        $postCount = Posts::where('user_id',$userId)->count();
+        $postCount = Posts::active()->where('user_id',$userId)->count();
         $isFollowing = Useractivity::getFollowDetailByUserId($userId,$currentUserId);
 
         $data['user'] = User::find($userId); 
