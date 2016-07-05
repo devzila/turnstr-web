@@ -30,7 +30,7 @@ class ShareController extends Controller
     {
         $decryptedPostId = UniversalClass::decrypt($id);
 		$data['page_title'] = "Turn Share";
-        $data['post'] = Posts::find($decryptedPostId);
+        $data['post'] = Posts::active()->find($decryptedPostId);
 		
 		if(!$data['post']){
 			return view('errors.404', $data);
