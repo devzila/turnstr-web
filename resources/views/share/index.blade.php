@@ -50,6 +50,33 @@
       </div>
     </div>
   </div>
+  
+  <div id="report-modal" class="modal post-modal small fade in">
+    <div class="w-container modal-contentn">
+      <div class="modal-window">
+        <h1 class="share-modal-heading" id="inappHead">Report Post</h1>
+        <div class="share-platforms">
+			<div id="inapp">
+			  <form>
+					<input type="hidden" name="pid" id="pid" value="{{$post->id}}">	  
+					<div class="radio">
+					  <label><input type="radio" name="optinapp" value="Inappropriate Content">Inappropriate Content</label>
+					</div>
+					<div class="radio">
+					  <label><input type="radio" name="optinapp" value="Offensive Content">Offensive Content</label>
+					</div>				
+			  </form>
+			</div>
+        </div>
+		<a class="w-inline-block close-modal" id="inappBtn" href="#">
+          <div>OK</div>
+        </a>
+        <a class="w-inline-block close-modal" id="inappClose" data-dismiss="modal" href="#">
+          <div>Close</div>
+        </a>
+      </div>
+    </div>
+  </div>
 @endsection
 @section('content')
 
@@ -201,7 +228,9 @@
 						<a class="w-inline-block dropdown-menu1" data-ix="dropdown" href="#"><img src="/assets/images/options.png">
 						</a>
 					  </div>
-					  <div class="dropdown-list" data-ix="hoverout"><a class="dropdown-link-item" href="#">Report</a><a class="dropdown-link-item" data-ix="show-modal" href="#">Share</a>
+					  <div class="dropdown-list" data-ix="hoverout">
+					  <a class="dropdown-link-item" data-toggle="modal" href="#report-modal">Report</a>
+					  <a class="dropdown-link-item" data-ix="show-modal" href="#">Share</a>
 					  </div>
 					</div>
 				@if($userdetail->name)
@@ -292,15 +321,7 @@
         <div class="col-md-3"></div>
     </div>
     
-	<!--<div>
-		<a class="icon-facebook" onclick="return share_social(this.href);" href="https://www.facebook.com/sharer/sharer.php?u={{ Request::fullUrl()}}&title={{$post->caption}}">FTest</a>
 
-		<a class="icon-twitter" onclick="return share_social(this.href);" href="http://twitter.com/share?url={{ Request::fullUrl()}}&title={{$post->caption}}">Ttest</a>
-	
-		<a class="tumblr-share-button"  data-notes="right" href="{{ Request::fullUrl()}}" canonicalUrl="{{ Request::fullUrl()}}"></a>
-		<script>!function(d,s,id){var js,ajs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://secure.assets.tumblr.com/share-button.js";ajs.parentNode.insertBefore(js,ajs);}}(document, "script", "tumblr-js");</script>
-	
-	</div>-->
     <style>
         .img-circle {
             border-radius: 50%;
@@ -328,7 +349,44 @@
             player.play();
         });
            
-
+		
+    </script>
+    <script>
+	(function(e) {
+	inappAppBusy = 0;
+	e(document).on('click',"#inappBtn",function(event){
+			event.preventDefault();
+			if(inappAppBusy == 1) return;
+			inappAppBusy = 1;
+			var inappBtn = e("#inappBtn");
+			inappBtn.attr('disabled','disabled');
+			var optinapp = e('input[name=optinapp]:checked').val();
+			if(typeof optinapp === "undefined") { alert("Please select one Option"); return; }
+			data = {
+					optinapp: optinapp,
+					_token: e('[name="csrf_token"]').attr('content')
+				};
+			e.ajax({
+				url: "/markInappropriate/"+e('#pid').val(),
+				type: "post",
+				data: data,
+				dataType: "json",
+				success: function(response) {					
+					e("#inapp").html(response.msg);
+					e("#inappClose").html("OK");					
+					e("#inappBtn").addClass("hide");					
+				},
+				error: function(){
+					
+				},
+				complete: function() {						
+					inappBtn.removeAttr('disabled');
+					inappAppBusy = 0;
+				}		
+				
+	   }); 
+	   }); 
+})(jQuery);	
     </script>
 	
 
