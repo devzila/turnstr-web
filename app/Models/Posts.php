@@ -13,7 +13,11 @@ class Posts extends Model
     /*
     * Function to search and returns images data
     */
-
+	public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
+	
     static function addExtraAttributes($posts){
         if(is_array($posts)){
             $touchedPosts = [];
@@ -294,6 +298,7 @@ class Posts extends Model
                     ->where('liked_id', $userId)
 					->where('status', 1);
             })
+			->active()
             ->orderBy('posts.created_at', 'desc')
             ->skip($page * $records)
             ->take($records)
