@@ -100,5 +100,6 @@ function customConfirm(confirmTitle,confirmContent) {
 }
 $('table.table').dataTable();
 </script>
+@yield('additional_js')
 </body>
 </html>

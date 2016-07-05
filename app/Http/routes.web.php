@@ -83,6 +83,16 @@ Route::group(['middleware' => ['web','auth'], 'prefix' => 'admin'], function () 
         'as' => 'comment_approve'
     ]);
 	
+	Route::post('posts/activate', [
+        'uses' => 'Admin\PostController@activate',
+        'as' => 'posts_activate'
+    ]);
+	
+	Route::get('reports/{id}', [
+        'uses' => 'Admin\ReportController@index',
+        'as' => 'posts_activate'
+    ]);
+	
 	Route::get('settings/profane', [
         'uses' => 'Admin\SettingsController@profane',
         'as' => 'profane'
