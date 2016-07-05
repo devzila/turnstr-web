@@ -2,6 +2,7 @@
 namespace App\Helpers;
 use Universal;
 use URL;
+use Carbon\Carbon;
 class UniversalClass{
 
     const KEY = "98hmn9h";
@@ -29,8 +30,9 @@ class UniversalClass{
         $postUrl = URL::to('/').'/share/'.$postId;
         return $postUrl;
     }
-	static function timeString($pTime){
-		$etime = time() - $pTime;
+	static function timeString($pTime){	
+		
+		$etime = time() - strtotime($pTime);
 		if ($etime < 1){
 			return '0 seconds';
 		}
@@ -58,8 +60,9 @@ class UniversalClass{
 	}
 	
 	static function replaceTagMentionLink($sentance){
+		//$sentance = preg_quote($sentance, '/');
 		// find all #tag
-		preg_match_all('/#([^\s]+)/', $sentance, $matches);
+		preg_match_all('/#([^\W]+)/', $sentance, $matches);
 
 		if(!array_key_exists(1, $matches)){
 			return;
@@ -69,12 +72,19 @@ class UniversalClass{
 			$sentance = preg_replace("/([^>]|^)#$match\b/","$1<div class='tag'><a href='/tags?searchData=$match'>#$match</a></div>",$sentance);
 		}
 		
-		preg_match_all('/@([^\s]+)/', $sentance, $matches2);
+		preg_match_all('/@([^\W]+)/', $sentance, $matches2);
 		// generate Links For @mention
 		foreach($matches2[1] as $match2){
 			$sentance = preg_replace("/([^>]|^)@$match2\b/","$1<div class='tag'><a href='/userprofile/@$match2'>@$match2</a></div>",$sentance);
 		}
 		return $sentance;
+	}
+	
+	static function getTimeZone($ptime,$timezone = 'America/New_York'){
+		$carbonDate = new Carbon($ptime);
+		$carbonDate->timezone = $timezone;
+		$date = $carbonDate->toDayDateTimeString();
+		return date("Y-m-d h:i:s",strtotime($date));
 	}
 	
 }

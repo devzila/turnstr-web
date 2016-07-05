@@ -254,15 +254,15 @@
                             </div>
                             <div class="usercommentsblock">
                                 <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{($comment->username)?$comment->username:$comment->name}}</a></div>
-                                <div class="usercomment"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($comment->comments) ?></div>
+                                <div class="usercomment"><?php echo $comment->commentsHtml ?></div>
                             </div>
                             <?php
-                            if(empty($comment->comments)){?>
+                            if(empty($comment->commentsHtml)){?>
                             <div class="usercommentsblock">
                                 <div class="username">No Comments</div>
                             </div>
                             <?php }?>
-                            <div class="postedtime">{{ App\Helpers\UniversalClass::timeString(strtotime($comment->created_at))}}</div>
+                            <div class="postedtime">{{ App\Helpers\UniversalClass::timeString($comment->created_at)}}</div>
                             <div class="photocaption"></div>
                         </div>
                     @endforeach
@@ -308,7 +308,7 @@
     </style>
 @endsection
 @section('additional_js')
-    <script src="https://cdn.rawgit.com/vinayakjadhav/jR3DCarousel/v0.0.8/dist/jR3DCarousel.min.js"></script>
+    <script src="/assets/js/custom/jR3DCarousel.min.js"></script>
     <script>
         var obj = $('.jR3DCarouselGallery').jR3DCarousel({
             "width": 400,

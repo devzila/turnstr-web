@@ -46,20 +46,26 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {	
-		file_put_contents(public_path()."/media/emoji.txt", $request->input('comments'));
+		//file_put_contents(public_path()."/media/emoji.txt", $request->input('comments'));
 		
          $post_id = $request->input('post_id');
-         $result = Comments::create([
+         $result = Comments::createComment([
             'user_id' => DeviceSession::get()->user->id,
             'post_id' => $post_id,
     		'comments' => $request->input('comments')
     	 ]);
 
         // tag post if #tag present in comment
-        PostTags::tag($post_id, $result->comments);
+        //PostTags::tag($post_id, $result->comments);
+		if($result->approved){
+			$msg = "Comment create successfully";
+			$status = true;
+		}else{
+			$msg = "Sorry your comment seems offensive!";
+			$status = false;
+		}
 
-
-        return ResponseClass::Prepare_Response($result,'Comment create successfully',true,200);
+        return ResponseClass::Prepare_Response($result,$msg,$status,200);
 
     }
 
@@ -143,7 +149,7 @@ class CommentsController extends Controller
 			$comments->delete();
 			return ResponseClass::Prepare_Response('','Deleted Successfuly',true,200);
 		}
-         return ResponseClass::Prepare_Response('','Error Occured. Please try again.',false,200);
+         return ResponseClass::Prepare_Response('','Sorry your comment seems offensive!',false,200);
 	}
 	
 }

@@ -52,17 +52,21 @@ class CommentsController extends Controller
 			$err = $validator->errors()->all();
             $response = [ 'status'=>2,'msg'=>$err];
 			return response()->json($response,200);
-        }		
-		
+        }	
          
-         $result = Comments::create([
+         $result = Comments::createComment([
             'user_id' => $user_id,
             'post_id' => $post_id,
     		'comments' => $comments
     	 ]);
-
+		
+		if($result->approved !=1){
+			$response = [ 'status'=>2,'msg'=>"Sorry your comment seems offensive!"];
+			return response()->json($response,200);
+		}
+		
         // tag post if #tag present in comment
-        PostTags::tag($post_id, $result->comments);
+        
 		$user =array();
 		$userDetail = User::find($user_id);
 		if($userDetail){
@@ -83,7 +87,7 @@ class CommentsController extends Controller
                                 <div class="username"><a href="/userprofile/'.$userDetail->id.'">'.$userDetail->username.'</a></div>
                                 <div class="usercomment">'.$comment_link.'</div>
                             </div>
-                                                        <div class="postedtime">0 seconds</div>
+                                                        <div class="postedtime">few seconds ago</div>
                             <div class="photocaption"></div>
                         </div>';
 		$response = [ 'status'=>1,'msg'=>"Successfully Added",'commentBlock'=>$commentBlock];

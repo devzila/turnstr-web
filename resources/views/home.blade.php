@@ -68,8 +68,7 @@
 										<div ng-if="!comment.username">@{{comment.name}}</div>
 									</a>
 								</div>
-                                <div class="usercomment"><?php $commentr = "{{comment.comments}}";
-								  echo App\Helpers\UniversalClass::replaceTagMentionLink($commentr) ?></div>
+                                <div class="usercomment" ng-bind-html="comment.commentsHtml"></div>
                             </div>
                             
                             <!--@if(empty($comment->comments))

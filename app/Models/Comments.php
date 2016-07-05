@@ -1,28 +1,56 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Settings;
+use App\Helpers\UniversalClass;
 use Illuminate\Database\Eloquent\Model;
 
 class Comments extends Model
 {
 
     protected $table = 'comments';
-    protected $fillable = ['user_id','post_id','comments']; 
-
-    public function scopeCommentsByPost($query, $post_id,$record = "") {
-    	$query->where('post_id',$post_id)->join('users','comments.user_id','=','users.id')
-    		  ->select('comments.*','users.username','users.profile_image','users.name','users.fb_token')->orderBy('comments.created_at','DESC');
-		if(!empty($record)){
-			$query->take($record);
+    protected $fillable = ['user_id','post_id','approved','comments']; 
+	const POSTS_PER_PAGE = 50;
+	public static function createComment($data){
+		$comment = new Comments;
+		
+		$approved = Settings::profaneFilter($data['comments']);
+		if($approved < 0) $approved = 0;
+		$comment->user_id = $data['user_id'];
+		$comment->post_id = $data['post_id'];
+		$comment->comments = $data['comments'];
+		$comment->approved = $approved;
+		$comment->save();
+		if($approved == 1){
+			PostTags::tag($data['post_id'],$data['comments']);
 		}
-		return $query->get();
+		return $comment;
+	}
+	
+	
+	public function scopeApproved($query)
+    {
+        return $query->where('approved', 1);
+    }
+	
+    public function scopeCommentsByPost($query, $post_id,$page = 0,$record=self::POSTS_PER_PAGE) {
+    	$query->where('post_id',$post_id)->join('users','comments.user_id','=','users.id')
+		->approved()
+		->select('comments.*','users.username','users.profile_image','users.name','users.fb_token')
+		->orderBy('comments.created_at','DESC');
+		$query->skip($page * $record)->take($record);
+		$result =  $query->get();		
+		foreach($result as $key=>$value){			
+			$value->commentsHtml = UniversalClass::replaceTagMentionLink($value->comments);
+			$value->createdTime = UniversalClass::timeString($value->created_at);
+		}
+		return $result;
     }
     /*
     * Get comments count by post id
     */
     public function scopeCommentsCountByPostId($query, $post_id) {
-        $res = $query->where('post_id',$post_id)->count();
+        $res = $query->where('post_id',$post_id)->approved()->count();
         return ($res>0) ? $res : -1 ;
     }
     /*

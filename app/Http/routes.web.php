@@ -80,6 +80,16 @@ Route::group(['middleware' => ['web','auth'], 'prefix' => 'admin'], function () 
     ]);
 	Route::post('comments/approve', [
         'uses' => 'Admin\CommentsController@approve',
-        'as' => 'user_update'
+        'as' => 'comment_approve'
     ]);
+	
+	Route::get('settings/profane', [
+        'uses' => 'Admin\SettingsController@profane',
+        'as' => 'profane'
+    ]);
+	Route::post('settings/profaneUpdate', [
+        'uses' => 'Admin\SettingsController@profaneUpdate',
+        'as' => 'profane'
+    ]);
+	
 });

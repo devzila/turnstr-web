@@ -25,6 +25,7 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 
 class PostsController extends Controller
 {
+	const POSTS_PER_PAGE = 25;
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +37,7 @@ class PostsController extends Controller
         // $selfposts = Posts::selfPosts(DeviceSession::get()->user->id);
 		$page = $request->input('page', 0);
 		$userId = DeviceSession::get()->user->id;
-        $res = Posts::getUserHomePosts($userId,$page);
+        $res = Posts::getUserHomePosts($userId,$page,self::POSTS_PER_PAGE);
 
         if (count($res)) {
             foreach ($res as $key => $value) {
@@ -47,6 +48,7 @@ class PostsController extends Controller
                 $value->total_likes = (string)(($total_likes>0)?$total_likes:0);
                
                 $value->shareUrl = UniversalClass::shareUrl($value->id);
+                $value->createdTime = UniversalClass::timeString($value->created_at);
 				
 				$followingDetails = Useractivity::getFollowDetailByUserId($value->user_id,$userId);
                 $value->is_following = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
@@ -229,9 +231,9 @@ class PostsController extends Controller
             $userId =  $userDevice->id;
         }
         
-		$page = Input::get('access_token',0);
+		$page = Input::get('page',0);
         
-        $imagesToExplore = Posts::getImages($userId,$searchData,$page,25);
+        $imagesToExplore = Posts::getImages($userId,$searchData,$page,self::POSTS_PER_PAGE);
 
         foreach ($imagesToExplore as $key => $value) {
             $arr1 = explode('.',$value->media1_url);
@@ -266,8 +268,9 @@ class PostsController extends Controller
     {
         $userId = DeviceSession::get()->user->id;
         $postCount = Posts::where('user_id',$userId)->count();
-        $posts = Posts::selfPosts($userId);
-
+		$page = Input::get("page",0);
+        $posts = Posts::selfPosts($userId,$page,self::POSTS_PER_PAGE);
+		
         foreach ($posts as $key => $value) {
             $arr1 = explode('.',$value->media1_url);
             $arr2 = explode('.',$value->media2_url);
@@ -485,6 +488,9 @@ class PostsController extends Controller
 			$userId = $userIdName;		
 		}
 		
+		$page = Input::get('page',0);
+		
+		
         if ($userId=='') {
             return ResponseClass::Prepare_Response('','Invalid user-id',false,200);
         }
@@ -493,7 +499,7 @@ class PostsController extends Controller
         $isFollowing = Useractivity::getFollowDetailByUserId($userId,$currentUserId);
 
         $data['user'] = User::find($userId); 
-        $data['post'] = Posts::getAllPostsByUserId($userId);
+        $data['post'] = Posts::getAllPostsByUserId($userId,$page,self::POSTS_PER_PAGE);
         if (!count($data['user'])) {
             return ResponseClass::Prepare_Response('','Invalid user details',false,200);
         }

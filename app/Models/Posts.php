@@ -146,7 +146,7 @@ class Posts extends Model
     * Function to return posts by id
     */
 
-    public function scopeSelfPosts($query, $userId='')
+    public function scopeSelfPosts($query, $userId='',$page=0,$offset = self::POSTS_PER_PAGE)
     {
         return $query->join('users','posts.user_id','=','users.id')
                     ->where('users.id',$userId)
@@ -161,10 +161,11 @@ class Posts extends Model
                         $join->where('followData.follower_id','=',$userId);
                         $join->on('followData.user_id','=','users.id');
                     })->distinct('posts.id')->orderBy('posts.updated_at','desc')
+					->skip($page * $offset)->take($offset)
                     ->get();
     }
 
-	public function scopeHomePagePosts($query, $userId='',$page=0)
+	public function scopeHomePagePosts($query, $userId='',$page=0,$offset = self::POSTS_PER_PAGE)
     {
         $first = DB::table('posts')->join('users','posts.user_id','=','users.id')->where('users.id','!=',$userId)
                     ->select('users.username','posts.user_id','users.profile_image','users.name','posts.total_likes','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.updated_at','posts.created_at','posts.caption','postData.status as liked','followData.status as is_following')
@@ -191,7 +192,7 @@ class Posts extends Model
                         $join->where('followData.follower_id','=',$userId);
                         $join->on('followData.user_id','=','users.id');
                     })->distinct('posts.id')->orderBy('posts.updated_at','desc')->union($first)
-                        ->skip($page * self::POSTS_PER_PAGE)->take(self::POSTS_PER_PAGE)
+                        ->skip($page * $offset)->take($offset)
                         ->get();
                     return  $finalContainer;
     }
