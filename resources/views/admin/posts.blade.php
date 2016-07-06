@@ -34,9 +34,9 @@
                                             <td>{{$k+1}}</td>
                                             <td>
 											@if($row->caption!='') 
-												<a  href="{{App\Helpers\UniversalClass::shareUrl($row->caption)}}" target="_blank">{{$row->caption}}</a>
+												<a  href="{{App\Helpers\UniversalClass::shareUrl($row->id)}}" target="_blank">{{$row->caption}}</a>
 											@else
-												"--"
+												{{App\Helpers\UniversalClass::shareUrl($row->id)}}
 											@endif
 											</td>
                                             <td>{{$row->name}}</td>
@@ -96,7 +96,7 @@
         var btn  = $("#"+btnId);
 		var  status = btn.attr("data-status-"+btnId);
 		var aname = (status)?"Activate":"InActivate";
-		var content = "Do you want to " + aname + " this Comment ?";
+		var content = "Do you want to " + aname + " this Turn ?";
 		
         $.confirm({
             title: title,
