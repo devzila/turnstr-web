@@ -54,7 +54,7 @@ Route::group(['middleware' => 'web'], function () {
 	Route::post('/markInappropriate/{id}',[
         'uses' => 'ReportController@markInappropriatePost',
         'as' => 'inapp',
-		'middleware' => 'auth'
+		//'middleware' => ''
     ]);	
 	
 	Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider');

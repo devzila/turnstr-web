@@ -19,7 +19,7 @@ class ReportController extends Controller {
 	public function markInappropriatePost($postId) {
 		
 		if(!isset(Auth::user()->id) || empty($postId)){			
-			$response = [ 'status'=>3,'msg'=>"Please Login"];
+			$response = [ 'status'=>3,'msg'=>"Please Login to mark this Inapprpriate"];
 			return response()->json($response,200);
 		}
 		

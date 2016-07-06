@@ -51,12 +51,12 @@
     </div>
   </div>
   
-  <div id="report-modal" class="modal post-modal small fade in">
+  <div id="report-modal" class="modal small fade in">
     <div class="w-container modal-contentn">
-      <div class="modal-window">
+      <div class="modal-window modal-inapp" >
         <h1 class="share-modal-heading" id="inappHead">Report Post</h1>
         <div class="share-platforms">
-			<div id="inapp">
+			<div id="inapp" class="inapp-content row">
 			  <form>
 					<input type="hidden" name="pid" id="pid" value="{{$post->id}}">	  
 					<div class="radio">
@@ -358,10 +358,9 @@
 			event.preventDefault();
 			if(inappAppBusy == 1) return;
 			inappAppBusy = 1;
-			var inappBtn = e("#inappBtn");
-			inappBtn.attr('disabled','disabled');
+			
 			var optinapp = e('input[name=optinapp]:checked').val();
-			if(typeof optinapp === "undefined") { alert("Please select one Option"); return; }
+			if(typeof optinapp === "undefined") { alert("Please select one Option"); inappAppBusy = 0; return; }
 			data = {
 					optinapp: optinapp,
 					_token: e('[name="csrf_token"]').attr('content')
@@ -379,8 +378,7 @@
 				error: function(){
 					
 				},
-				complete: function() {						
-					inappBtn.removeAttr('disabled');
+				complete: function() {				
 					inappAppBusy = 0;
 				}		
 				

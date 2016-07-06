@@ -15,7 +15,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>User ID</th>
-                                            <th>Name</th>
+                                            <th>Reported By</th>
                                             <th>User Name</th>
                                             <th>Report Content</th> 
                                         </tr>
