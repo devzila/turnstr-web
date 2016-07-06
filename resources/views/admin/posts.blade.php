@@ -36,7 +36,7 @@
 											@if($row->caption!='') 
 												<a  href="{{App\Helpers\UniversalClass::shareUrl($row->id)}}" target="_blank">{{$row->caption}}</a>
 											@else
-												{{App\Helpers\UniversalClass::shareUrl($row->id)}}
+												<a  href="{{App\Helpers\UniversalClass::shareUrl($row->id)}}" target="_blank">NULL</a>
 											@endif
 											</td>
                                             <td>{{$row->name}}</td>
