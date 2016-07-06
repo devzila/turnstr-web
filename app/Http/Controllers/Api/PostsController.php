@@ -223,14 +223,14 @@ class PostsController extends Controller
     public function explorer()
     {
         $searchData = Input::get('searchData');
-        $access_token = Input::get('access_token');
-        $userId = '';
-        $userDevice = User::userDetails($access_token);
+        //$access_token = Input::get('access_token');
+        //$userId = '';
+        //$userDevice = User::userDetails($access_token);
 
-        if (isset($userDevice->id)) {
-            $userId =  $userDevice->id;
-        }
-        
+        //if (isset($userDevice->id)) {
+         //   $userId =  $userDevice->id;
+        //}
+        $userId = DeviceSession::get()->user->id;
 		$page = Input::get('page',0);
         
         $imagesToExplore = Posts::getImages($userId,$searchData,$page,self::POSTS_PER_PAGE);
