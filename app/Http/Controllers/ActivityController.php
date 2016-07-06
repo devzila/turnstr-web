@@ -7,6 +7,7 @@ use App\Models\Posts;
 use App\Models\Comments;
 use App\Helpers\UniversalClass;
 use Auth;
+use Input;
 use Illuminate\Http\Request;
  /**
  * User Activity Class Web
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
  */
 
 class ActivityController extends Controller {
+	const POSTS_PER_PAGE = 20;
 	
 	public function __construct(Request $request){
 		$this->request = $request;
@@ -24,8 +26,8 @@ class ActivityController extends Controller {
 		$pageTitle = "Activity";
         $user_id = Auth::user()->id;
         $activityList = array();
-
-        $alreadyLiked = Useractivity::getLastTenActivity($user_id);
+		$page = Input::get('page', 0);
+        $alreadyLiked = Useractivity::getLastTenActivity($user_id,$page,self::POSTS_PER_PAGE);
 		
         foreach ($alreadyLiked as $key => $value) {
             if ($alreadyLiked[$key]->activity=='liked') {

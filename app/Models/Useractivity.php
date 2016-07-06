@@ -10,12 +10,13 @@ class Useractivity extends Model
      *
      * @var array
      */
+	const POSTS_PER_PAGE = 20;
     protected $table = 'user_activity';
     protected $fillable = [
         'user_id', 'follower_id', 'post_id', 'liked_id', 'activity', 'status','created_at'
     ];
     
-    public function scopeGetLastTenActivity($query,$user_id) {
+    public function scopeGetLastTenActivity($query,$user_id,$page=0,$offset=self::POSTS_PER_PAGE) {
 
         return $query->where(function ($query) use ($user_id) {
            //$query->where('user_activity.user_id',$user_id)
@@ -43,7 +44,8 @@ class Useractivity extends Model
                     'likeUser.name as likedby_name','likeUser.id as likedby_id',
                     'likeUser.profile_image as likedby_image','likeofUser.name as likedof_name',
                     'user_activity.status as activity_status','user_activity.created_at as activity_time')
-                        ->get();
+			 ->skip($page * $offset)->take($offset)
+             ->get();
 
     }
 //
