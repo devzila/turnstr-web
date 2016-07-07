@@ -32,7 +32,7 @@ class ActivityController extends Controller {
      * @var Object
      */
     protected $request;
-
+	const POSTS_PER_PAGE = 2;
 
     public function __construct(Request $request)
     {
@@ -74,11 +74,11 @@ class ActivityController extends Controller {
 
         $user_id = DeviceSession::get()->user->id; // who liked post
         $activityList = array();
-
-        $alreadyLiked = Useractivity::getLastTenActivity($user_id);
+		$page = Input::get('page', 0);
+        $alreadyLiked = Useractivity::getLastTenActivity($user_id,$page,self::POSTS_PER_PAGE);
 //        print_r($alreadyLiked);die;
         foreach ($alreadyLiked as $key => $value) {
-            if ($alreadyLiked[$key]->activity=='liked') {
+            if ($alreadyLiked[$key]->activity=='liked' || $alreadyLiked[$key]->activity=='comment') {
 
                 // Removing following details 
                 unset($alreadyLiked[$key]->following_name);

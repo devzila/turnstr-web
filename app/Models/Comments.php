@@ -2,6 +2,8 @@
 
 namespace App\Models;
 use App\Models\Settings;
+use App\Models\Posts;
+use App\Models\Useractivity;
 use App\Helpers\UniversalClass;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +16,9 @@ class Comments extends Model
 	public static function createComment($data){
 		$comment = new Comments;
 		
+		$posts = Posts::find($data['post_id']);
+		
+		
 		$approved = Settings::profaneFilter($data['comments']);
 		if($approved < 0) $approved = 0;
 		$comment->user_id = $data['user_id'];
@@ -22,6 +27,7 @@ class Comments extends Model
 		$comment->approved = $approved;
 		$comment->save();
 		if($approved == 1){
+			Useractivity::commentActivity($posts->id,$posts->user_id,$data['user_id'],$comment->id);
 			PostTags::tag($data['post_id'],$data['comments']);
 		}
 		return $comment;
