@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
  */
 
 class ActivityController extends Controller {
-	const POSTS_PER_PAGE = 20;
+	const POSTS_PER_PAGE = 2;
 	
 	public function __construct(Request $request){
 		$this->request = $request;
@@ -45,7 +45,11 @@ class ActivityController extends Controller {
             }
         }
 		
-		return view("activity.activity",['activities'=>$alreadyLiked,'page_title'=>$pageTitle]);
+		if($page>0){
+			return view("activity.loadactivity",['activities'=>$alreadyLiked,'page_title'=>$pageTitle,'loadCount'=>self::POSTS_PER_PAGE]);
+		}
+		
+		return view("activity.activity",['activities'=>$alreadyLiked,'page_title'=>$pageTitle,'loadCount'=>self::POSTS_PER_PAGE]);
     }
 	/*
 	* followId (user_id of user you are following)
