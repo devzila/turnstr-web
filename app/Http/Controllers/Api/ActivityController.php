@@ -32,7 +32,7 @@ class ActivityController extends Controller {
      * @var Object
      */
     protected $request;
-	const POSTS_PER_PAGE = 2;
+	const POSTS_PER_PAGE = 10;
 
     public function __construct(Request $request)
     {

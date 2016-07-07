@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
  */
 
 class ActivityController extends Controller {
-	const POSTS_PER_PAGE = 2;
+	const POSTS_PER_PAGE = 10;
 	
 	public function __construct(Request $request){
 		$this->request = $request;
