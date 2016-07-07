@@ -217,10 +217,11 @@
 						</a>
 					@endif
 					</div>
+					<div class="post-stats-label pull-right">{{ App\Helpers\UniversalClass::timeString($post->created_at)}}</div>
 				</div>
 				<div class="w-clearfix post-content">
 					@if($post->caption)
-						<div class="photocaption"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($post->caption) ?></div>
+						<div class="photocaption">{{ App\Helpers\UniversalClass::replaceTagMentionLink($post->caption)}}</div>
 					@endif
 					
 					<div class="dropdown-control">
