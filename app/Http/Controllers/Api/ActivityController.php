@@ -58,12 +58,15 @@ class ActivityController extends Controller {
     public function likePost(LikeRequest $LikeRequest) {
 
         $likedBy = DeviceSession::get()->user->id; // who liked post
-        $likedOf = Input::get('post_user'); // who's post is liked
+        //$likedOf = Input::get('post_user'); // who's post is liked
         $post_id = Input::get('post_id'); // post id
         $like_status = Input::get('like_status'); // like/unlike
 		
-		Useractivity::likeUnlikeStatus($post_id,$likedOf,$likedBy,$like_status);
-        
+		$post = Posts::find($post_id);
+		if($post)
+			Useractivity::likeUnlikeStatus($post_id,$post->user_id,$likedBy,$like_status);
+        else
+			return ResponseClass::Prepare_Response('','Something is Wrong',false,200);
         return ResponseClass::Prepare_Response('','Action performed successfully',true,200);
         
     }
