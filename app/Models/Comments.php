@@ -12,7 +12,7 @@ class Comments extends Model
 
     protected $table = 'comments';
     protected $fillable = ['user_id','post_id','approved','comments']; 
-	const POSTS_PER_PAGE = 50;
+	const POSTS_PER_PAGE = 100;
 	public static function createComment($data){
 		$comment = new Comments;
 		
@@ -39,11 +39,11 @@ class Comments extends Model
         return $query->where('approved', 1);
     }
 	
-    public function scopeCommentsByPost($query, $post_id,$page = 0,$record=self::POSTS_PER_PAGE) {
+    public function scopeCommentsByPost($query, $post_id,$page = 0,$record=self::POSTS_PER_PAGE,$orderBy="ASC") {
     	$query->where('post_id',$post_id)->join('users','comments.user_id','=','users.id')
 		->approved()
 		->select('comments.*','users.username','users.profile_image','users.name','users.fb_token')
-		->orderBy('comments.created_at','DESC');
+		->orderBy('comments.created_at',$orderBy);
 		$query->skip($page * $record)->take($record);
 		$result =  $query->get();		
 		foreach($result as $key=>$value){			
