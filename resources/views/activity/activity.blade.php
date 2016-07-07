@@ -16,7 +16,7 @@
 				@include('activity.loadactivity')
 				@if(count($activities) >= $loadCount)
 					<div id="loadMore"></div>
-					<div class="w-clearfix">
+					<div class="w-clearfix load-more">
 					<div >
 					<a href="javascript:void(0);" class="load_more" data-page="1"><img  class="loader-img" src="/assets/images/loadmore.png"  height="64px" width="64px" /></a>
 					<a href="javascript:void(0);" class="loading hide"><img   src="/assets/images/preloader.gif"  height="64px" width="64px"></a>
@@ -31,7 +31,7 @@
     
     <script>
 (function(e) {
-	 var page=1,loadMoreBusy=0,loadCount=<?php echo $loadCount;?>;
+	 var page=1,loadMoreBusy=0;
 	 e(document).on('click','.load_more',function(){
         
         e('.load_more').addClass('hide');        
