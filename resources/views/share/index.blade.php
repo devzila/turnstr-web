@@ -77,6 +77,29 @@
       </div>
     </div>
   </div>
+  
+  <div id="delete-modal" class="modal small fade in">
+    <div class="w-container modal-contentn">
+      <div class="modal-window modal-inapp" >
+        <h1 class="share-modal-heading">Delete Post</h1>
+        <div class="share-platforms">
+			<div id="deleteConfirm"> Do you want to Delete this Post?</div>
+			<div id="deleteMessage"></div>
+        </div>
+		<a class="w-inline-block close-modal" id="deletePost" data-post="{{$post->id}}" href="javascript:;">
+          <div>OK</div>
+        </a>
+		<a class="w-inline-block close-modal hide" id="postDeletedPost"  href="javascript:;">
+          <div>OK</div>
+        </a>
+        <a class="w-inline-block close-modal" data-dismiss="modal" id="deletePostClose" href="javascript:;">
+          <div>Close</div>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  
 @endsection
 @section('content')
 
@@ -234,6 +257,9 @@
 						<a class="dropdown-link-item" data-toggle="modal" href="#report-modal">Report</a>
 					  @endif
 					  <a class="dropdown-link-item" data-ix="show-modal" href="#">Share</a>
+					  @if(isset(Auth::user()->id) && Auth::user()->id == $userdetail->id)
+						<a class="dropdown-link-item" data-toggle="modal" href="#delete-modal">Delete</a>
+					  @endif
 					  </div>
 					</div>
 				@if($userdetail->name)
@@ -343,41 +369,7 @@
            
 		
     </script>
-    <script>
-	(function(e) {
-	inappAppBusy = 0;
-	e(document).on('click',"#inappBtn",function(event){
-			event.preventDefault();
-			if(inappAppBusy == 1) return;
-			inappAppBusy = 1;
-			
-			var optinapp = e('input[name=optinapp]:checked').val();
-			if(typeof optinapp === "undefined") { alert("Please select one Option"); inappAppBusy = 0; return; }
-			data = {
-					optinapp: optinapp,
-					_token: e('[name="csrf_token"]').attr('content')
-				};
-			e.ajax({
-				url: "/markInappropriate/"+e('#pid').val(),
-				type: "post",
-				data: data,
-				dataType: "json",
-				success: function(response) {					
-					e("#inapp").html(response.msg);
-					e("#inappClose").html("OK");					
-					e("#inappBtn").addClass("hide");					
-				},
-				error: function(){
-					
-				},
-				complete: function() {				
-					inappAppBusy = 0;
-				}		
-				
-	   }); 
-	   }); 
-})(jQuery);	
-    </script>
+
 	
 
 

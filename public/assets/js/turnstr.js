@@ -165,7 +165,68 @@ var signinWin;
         signinWin.focus();
         return false;
     });
-		
+	inappAppBusy = 0;
+	e(document).on('click',"#inappBtn",function(event){
+			event.preventDefault();
+			if(inappAppBusy == 1) return;
+			inappAppBusy = 1;
+			
+			var optinapp = e('input[name=optinapp]:checked').val();
+			if(typeof optinapp === "undefined") { alert("Please select one Option"); inappAppBusy = 0; return; }
+			data = {
+					optinapp: optinapp,
+					_token: e('[name="csrf_token"]').attr('content')
+				};
+			e.ajax({
+				url: "/markInappropriate/"+e('#pid').val(),
+				type: "post",
+				data: data,
+				dataType: "json",
+				success: function(response) {					
+					e("#inapp").html(response.msg);
+					e("#inappClose").html("OK");					
+					e("#inappBtn").addClass("hide");					
+				},
+				error: function(){
+					
+				},
+				complete: function() {				
+					inappAppBusy = 0;
+				}		
+				
+	   }); 
+	   }); 
+	   
+	   e(document).on('click',"#deletePost",function(event){
+			event.preventDefault();
+			e("#deletePost").addClass("hide");
+			e("#deletePostClose").addClass("hide");
+			var post_id = e("#deletePost").attr("data-post");
+			data = {					
+				_token: e('[name="csrf_token"]').attr('content')
+			};
+			e.ajax({
+				url: "/deletePost/"+post_id,
+				type: "post",
+				data:data,
+				dataType: "json",
+				success: function(response) {										
+					e("#postDeletedPost").removeClass("hide");
+					e("#deleteConfirm").addClass("hide");
+					e("#deleteMessage").html(response.msg);								
+				},
+				error: function() {										
+					e("#deletePostClose").addClass("hide");
+					e("#deleteConfirm").addClass("hide");
+					e("#deleteMessage").html("Something went wrong. Please try Again.");
+					window.location.reload();
+				},
+			}); 
+	   });
+	   e(document).on('click',"#postDeletedPost",function(event){
+			event.preventDefault();
+			window.location.href="/";
+	   });	
 		
 		
 })(jQuery);

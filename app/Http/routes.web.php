@@ -57,6 +57,11 @@ Route::group(['middleware' => 'web'], function () {
 		//'middleware' => ''
     ]);	
 	
+	Route::post('/deletePost/{id}',[
+        'uses' => 'HomeController@deletePost',
+        'as' => 'deletePost',		
+    ]);	
+	
 	Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider');
 	Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback');
     
