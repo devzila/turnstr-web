@@ -264,13 +264,8 @@
 					</div>
 				@endif
 				<div class="commentBLock">
-                @if($comments->isEmpty())
-                    <div class="w-clearfix userinfo">
-                        <div class="usercommentsblock">
-                            <div class="username">No Comment</div>
-                        </div>
-                    </div>
-                @else
+                @if(!$comments->isEmpty())
+                    
                     @foreach($comments as $comment)
                         <div class="w-clearfix userinfo">
                             <div class="userthumb">
@@ -287,13 +282,7 @@
                             <div class="usercommentsblock">
                                 <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{($comment->username)?$comment->username:$comment->name}}</a></div>
                                 <div class="usercomment"><?php echo $comment->commentsHtml ?></div>
-                            </div>
-                            <?php
-                            if(empty($comment->commentsHtml)){?>
-                            <div class="usercommentsblock">
-                                <div class="username">No Comments</div>
-                            </div>
-                            <?php }?>
+                            </div>                            
                             <div class="postedtime">{{ App\Helpers\UniversalClass::timeString($comment->created_at)}}</div>
                             <div class="photocaption"></div>
                         </div>
