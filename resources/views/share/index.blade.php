@@ -229,7 +229,9 @@
 						</a>
 					  </div>
 					  <div class="dropdown-list" data-ix="hoverout">
-					  <a class="dropdown-link-item" data-toggle="modal" href="#report-modal">Report</a>
+					  @if(isset(Auth::user()->id) && Auth::user()->id != $userdetail->id)
+						<a class="dropdown-link-item" data-toggle="modal" href="#report-modal">Report</a>
+					  @endif
 					  <a class="dropdown-link-item" data-ix="show-modal" href="#">Share</a>
 					  </div>
 					</div>
