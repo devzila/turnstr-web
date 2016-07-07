@@ -497,6 +497,7 @@ class PostsController extends Controller
         $data = array(); 
         $postCount = Posts::active()->where('user_id',$userId)->count();
         $isFollowing = Useractivity::getFollowDetailByUserId($userId,$currentUserId);
+        $isFollowing = (count($isFollowing) && isset($isFollowing->status)) ? (int)($isFollowing->status) : 0 ;;
 
         $data['user'] = User::find($userId); 
         $data['post'] = Posts::getAllPostsByUserId($userId,$page,self::POSTS_PER_PAGE);
@@ -508,11 +509,12 @@ class PostsController extends Controller
                 $value->id = (string)($value->id);
                 $commentsCount = comments::commentsCountByPostId($value->id);
                 $value->comments_count = (string)($commentsCount);
+                $value->is_following = $isFollowing;
             }
         }
         $data['user']->id = (string)($data['user']->id);
         $data['user']->post_count = (string)$postCount;
-        $data['user']->is_following = (count($isFollowing) && isset($isFollowing->status)) ? (int)($isFollowing->status) : 0 ;
+        $data['user']->is_following = $isFollowing ;
 
         return ResponseClass::Prepare_Response($data,'Other user data',true,200);
     }
