@@ -141,15 +141,11 @@ class CommentsController extends Controller
         return ResponseClass::Prepare_Response(['comments'=>$comments,'is_liked'=>$like],'List of comments',true,200);
     }
 	
-	public function  deleteUserComment(){
-		$user_id = DeviceSession::get()->user->id;
+	public function  deleteUserComment(){		
 		$comment_id = Input::get('comment_id');
-        $comments = Comments::find($comment_id);
-        if($comments && $comments->user_id == $user_id){
-			$comments->delete();
-			return ResponseClass::Prepare_Response('','Deleted Successfuly',true,200);
-		}
-         return ResponseClass::Prepare_Response('','Sorry your comment seems offensive!',false,200);
+        $response = Comments::deleteUserComment($comment_id,DeviceSession::get()->user->id);
+		$status = ($response['status'] == 1)? true:false;
+        return ResponseClass::Prepare_Response('',$response['msg'],$status,200);
 	}
 	
 }

@@ -94,5 +94,17 @@ class CommentsController extends Controller
 		return response()->json($response,200);
 
     }
+	
+	
+	public function  deleteComment($comment_id){
+		
+		if(!isset(Auth::user()->id)){
+			$response = [ 'status'=>3,'msg'=>"Please Login to Delete Comment"];
+			return response()->json($response,200);
+		}		
+        $response = Comments::deleteUserComment($comment_id,Auth::user()->id);
+		
+        return response()->json($response,200);
+	}
     
 }
