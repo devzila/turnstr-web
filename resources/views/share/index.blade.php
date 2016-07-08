@@ -311,7 +311,7 @@
                             <div class="postedtime">
 								{{ App\Helpers\UniversalClass::timeString($comment->created_at)}}
 								@if(isset(Auth::user()->id) && Auth::user()->id == $comment->user_id)
-									<br><div class="pull-right"><a href="javascript:void(0);" data-comment="{{$comment->id}}" class="deleteComment" title="Delete Comment">x</a></div>
+									<br><div class="pull-right"><a href="javascript:void(0);" data-href="/deleteComment/{{$comment->id}}" data-id="{{$comment->id}}" data-cmsg="Do you want to delete this Comment?" class="deleteComment" title="Delete Comment">x</a></div>
 								@endif
 							</div>
                             <div class="photocaption"></div>
@@ -349,6 +349,7 @@
             border-radius: 50%;
         }
     </style>
+@include('generic.popup')
 @endsection
 @section('additional_js')
     <script src="/assets/js/custom/jR3DCarousel.min.js"></script>
@@ -373,40 +374,4 @@
            
 		
     </script>
-
-	<script>
-(function(e) {	
-	e(document).on('click',".deleteComment",function(event){
-			event.preventDefault();			
-			if(confirm("Do you Want to Delete this Comment!")){			
-				comment_id = e(this).attr("data-comment");
-				data = {					
-					_token: e('[name="csrf_token"]').attr('content')
-				};
-				e.ajax({
-				url: "/deleteComment/"+comment_id,
-				type: "post",
-				data:data,
-				dataType: "json",
-				success: function(response) {
-					if(response.status == 1)					
-						$( ".delete-user-comment-"+comment_id ).slideUp( "slow"	);	
-					else 
-						alert("Something is wrong. Please try again.");
-				},
-				error: function() {										
-					alert("Something is wrong. Please try again.");
-				},
-			}); 
-				
-				
-				
-			}
-			return;
-			
-	   });		
-})(jQuery);
-	</script>
-
-
 @endsection
