@@ -50,6 +50,56 @@
       </div>
     </div>
   </div>
+  
+  <div id="report-modal" class="modal small fade in">
+    <div class="w-container modal-contentn">
+      <div class="modal-window modal-inapp" >
+        <h1 class="share-modal-heading" id="inappHead">Report Post</h1>
+        <div class="share-platforms">
+			<div id="inapp" class="inapp-content row">
+			  <form>
+					<input type="hidden" name="pid" id="pid" value="{{$post->id}}">	  
+					<div class="radio">
+					  <label><input type="radio" name="optinapp" value="Inappropriate Content">Inappropriate Content</label>
+					</div>
+					<div class="radio">
+					  <label><input type="radio" name="optinapp" value="Offensive Content">Offensive Content</label>
+					</div>				
+			  </form>
+			</div>
+        </div>
+		<a class="w-inline-block close-modal" id="inappBtn" href="#">
+          <div>OK</div>
+        </a>
+        <a class="w-inline-block close-modal" id="inappClose" data-dismiss="modal" href="#">
+          <div>Close</div>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div id="delete-modal" class="modal small fade in">
+    <div class="w-container modal-contentn">
+      <div class="modal-window modal-inapp" >
+        <h1 class="share-modal-heading">Delete Post</h1>
+        <div class="share-platforms">
+			<div id="deleteConfirm"> Do you want to Delete this Post?</div>
+			<div id="deleteMessage"></div>
+        </div>
+		<a class="w-inline-block close-modal" id="deletePost" data-post="{{$post->id}}" href="javascript:;">
+          <div>OK</div>
+        </a>
+		<a class="w-inline-block close-modal hide" id="postDeletedPost"  href="javascript:;">
+          <div>OK</div>
+        </a>
+        <a class="w-inline-block close-modal" data-dismiss="modal" id="deletePostClose" href="javascript:;">
+          <div>Close</div>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  
 @endsection
 @section('content')
 
@@ -190,10 +240,11 @@
 						</a>
 					@endif
 					</div>
+					<div class="post-stats-label pull-right">{{ App\Helpers\UniversalClass::timeString($post->created_at)}}</div>
 				</div>
 				<div class="w-clearfix post-content">
 					@if($post->caption)
-						<div class="photocaption"><?php echo  App\Helpers\UniversalClass::replaceTagMentionLink($post->caption) ?></div>
+						<div class="photocaption">{{ App\Helpers\UniversalClass::replaceTagMentionLink($post->caption)}}</div>
 					@endif
 					
 					<div class="dropdown-control">
@@ -201,7 +252,14 @@
 						<a class="w-inline-block dropdown-menu1" data-ix="dropdown" href="#"><img src="/assets/images/options.png">
 						</a>
 					  </div>
-					  <div class="dropdown-list" data-ix="hoverout"><a class="dropdown-link-item" href="#">Report</a><a class="dropdown-link-item" data-ix="show-modal" href="#">Share</a>
+					  <div class="dropdown-list" data-ix="hoverout">
+					  @if(isset(Auth::user()->id) && Auth::user()->id != $userdetail->id)
+						<a class="dropdown-link-item" data-toggle="modal" href="#report-modal">Report</a>
+					  @endif
+					  <a class="dropdown-link-item" data-ix="show-modal" href="#">Share</a>
+					  @if(isset(Auth::user()->id) && Auth::user()->id == $userdetail->id)
+						<a class="dropdown-link-item" data-toggle="modal" href="#delete-modal">Delete</a>
+					  @endif
 					  </div>
 					</div>
 				@if($userdetail->name)
@@ -232,13 +290,8 @@
 					</div>
 				@endif
 				<div class="commentBLock">
-                @if($comments->isEmpty())
-                    <div class="w-clearfix userinfo">
-                        <div class="usercommentsblock">
-                            <div class="username">No Comment</div>
-                        </div>
-                    </div>
-                @else
+                @if(!$comments->isEmpty())
+                    
                     @foreach($comments as $comment)
                         <div class="w-clearfix userinfo">
                             <div class="userthumb">
@@ -255,13 +308,7 @@
                             <div class="usercommentsblock">
                                 <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{($comment->username)?$comment->username:$comment->name}}</a></div>
                                 <div class="usercomment"><?php echo $comment->commentsHtml ?></div>
-                            </div>
-                            <?php
-                            if(empty($comment->commentsHtml)){?>
-                            <div class="usercommentsblock">
-                                <div class="username">No Comments</div>
-                            </div>
-                            <?php }?>
+                            </div>                            
                             <div class="postedtime">{{ App\Helpers\UniversalClass::timeString($comment->created_at)}}</div>
                             <div class="photocaption"></div>
                         </div>
@@ -292,15 +339,7 @@
         <div class="col-md-3"></div>
     </div>
     
-	<!--<div>
-		<a class="icon-facebook" onclick="return share_social(this.href);" href="https://www.facebook.com/sharer/sharer.php?u={{ Request::fullUrl()}}&title={{$post->caption}}">FTest</a>
 
-		<a class="icon-twitter" onclick="return share_social(this.href);" href="http://twitter.com/share?url={{ Request::fullUrl()}}&title={{$post->caption}}">Ttest</a>
-	
-		<a class="tumblr-share-button"  data-notes="right" href="{{ Request::fullUrl()}}" canonicalUrl="{{ Request::fullUrl()}}"></a>
-		<script>!function(d,s,id){var js,ajs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://secure.assets.tumblr.com/share-button.js";ajs.parentNode.insertBefore(js,ajs);}}(document, "script", "tumblr-js");</script>
-	
-	</div>-->
     <style>
         .img-circle {
             border-radius: 50%;
@@ -328,8 +367,9 @@
             player.play();
         });
            
-
+		
     </script>
+
 	
 
 

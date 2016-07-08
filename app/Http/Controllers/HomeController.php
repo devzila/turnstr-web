@@ -43,7 +43,7 @@ class HomeController extends Controller
 		
 		if (count($posts)) {
             foreach ($posts as $key => $value) {
-				$value->comments = Comments::commentsByPost($value->id,0,2);
+				$value->comments = Comments::commentsByPost($value->id,0,2,"DESC");
                 $commentsCount = Comments::commentsCountByPostId($value->id);                
 				$commentsCount = ($commentsCount==-1)?0:$commentsCount;
                 $value->total_comments = (string)($commentsCount);
@@ -97,6 +97,27 @@ class HomeController extends Controller
         //return view('discover', ['posts'=>$imagesToExplore,'page_title'=>$pageTitle]);
     }
 
-	
+	public function deletePost($postId)
+    {
+		
+		if(!isset(Auth::user()->id)){
+			
+			$response = [ 'status'=>3,'msg'=>"Please Login"];
+			return response()->json($response,200);
+		}
+		
+		$userId = Auth::user()->id;
+		
+		$postFind = Posts::find($postId);
+		if(!$postId){
+			$response = [ 'status'=>2,'msg'=>"Your Post is Already Deleted"];
+			return response()->json($response,200);
+		}
+			
+        $post = Posts::where('id',$postId)->where('user_id', '=', Auth::user()->id)->delete();
+
+		$response = [ 'status'=>1,'msg'=>"Your Post Deleted successfuly"];
+		return response()->json($response,200);
+    }
 	
 }

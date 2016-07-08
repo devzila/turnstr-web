@@ -10,12 +10,13 @@ class Useractivity extends Model
      *
      * @var array
      */
+	const POSTS_PER_PAGE = 20;
     protected $table = 'user_activity';
     protected $fillable = [
         'user_id', 'follower_id', 'post_id', 'liked_id', 'activity', 'status','created_at'
     ];
     
-    public function scopeGetLastTenActivity($query,$user_id) {
+    public function scopeGetLastTenActivity($query,$user_id,$page=0,$offset=self::POSTS_PER_PAGE) {
 
         return $query->where(function ($query) use ($user_id) {
            //$query->where('user_activity.user_id',$user_id)
@@ -25,7 +26,7 @@ class Useractivity extends Model
                     ->where('user_activity.status',1);
         })
         ->leftjoin('posts as postData',function($join) {
-            $join->where('user_activity.activity','=','liked');
+             $join->where('user_activity.post_id','!=',0);            
             $join->on('user_activity.post_id','=','postData.id');
         })
         ->leftjoin('users as followData',function($join) {
@@ -43,7 +44,36 @@ class Useractivity extends Model
                     'likeUser.name as likedby_name','likeUser.id as likedby_id',
                     'likeUser.profile_image as likedby_image','likeofUser.name as likedof_name',
                     'user_activity.status as activity_status','user_activity.created_at as activity_time')
-                        ->get();
+			 ->skip($page * $offset)->take($offset)
+             ->get();
+
+    }
+
+    
+    public function scopeGetActivity($query,$user_id,$page=0,$offset=self::POSTS_PER_PAGE) {
+
+        return $query->where(function ($query) use ($user_id) {
+           //$query->where('user_activity.user_id',$user_id)
+                    $query->where('user_activity.follower_id','<>',$user_id)
+                    ->where('user_activity.liked_id','<>',$user_id)
+                    ->where('user_activity.user_id',$user_id)
+                    ->where('user_activity.status',1);
+        })
+        ->leftjoin('posts as postData',function($join) {
+            $join->where('user_activity.post_id','!=',0);			
+            $join->on('user_activity.post_id','=','postData.id');
+        })
+            ->leftjoin('users as followerUser','user_activity.follower_id','=','followerUser.id') // who is following
+            ->leftjoin('users as likeUser','user_activity.liked_id','=','likeUser.id') // who liked the post
+            ->orderBy('user_activity.created_at','DESC')
+            ->select('postData.media1_thumb_url','post_id as turn_id','user_activity.id as activity_id','user_activity.activity','user_activity.status',
+                    'followerUser.name as follower_name','followerUser.username as follower_username','followerUser.id as follower_id',
+                    'followerUser.profile_image as follower_image',
+                    'likeUser.name as likedby_name','likeUser.username as likedby_username','likeUser.id as likedby_id',
+                    'likeUser.profile_image as likedby_image',
+                    'user_activity.status as activity_status','user_activity.created_at as activity_time')
+			 ->skip($page * $offset)->take($offset)
+             ->get();
 
     }
 //
@@ -194,6 +224,24 @@ class Useractivity extends Model
         }
 		
 	}
+	
+	
+	public static function commentActivity($post_id,$commentOf,$commentBy,$comment_id){	
+			
+			if($commentOf == $commentBy) return;
+            $insArr = array(
+                    'user_id'=>$commentOf,
+                    'liked_id'=>$commentBy,
+                    'post_id'=>$post_id,
+                    'comment_id'=>$comment_id,
+                    'activity'=>'comment',
+                    'status'=>1,
+                    'created_at'=>date('Y-m-d H:i:s'),
+                    'updated_at'=>date('Y-m-d H:i:s')
+                );
+            Useractivity::insert($insArr);		
+	}
+	
 	
 	
 	

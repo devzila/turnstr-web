@@ -186,7 +186,7 @@ class UserController extends Controller {
             return ResponseClass::Prepare_Response('','Unauthorized user access',false,200);
         }
 
-        $postCount = Posts::where('user_id',$userId)->count();
+        $postCount = Posts::active()->where('user_id',$userId)->count();
         $usersData = User::where('id',$userId)->first();
 
         $usersData->postCount = (string)$postCount;

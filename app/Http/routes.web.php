@@ -51,6 +51,17 @@ Route::group(['middleware' => 'web'], function () {
 		'middleware' => 'auth'
     ]);	
 	
+	Route::post('/markInappropriate/{id}',[
+        'uses' => 'ReportController@markInappropriatePost',
+        'as' => 'inapp',
+		//'middleware' => ''
+    ]);	
+	
+	Route::post('/deletePost/{id}',[
+        'uses' => 'HomeController@deletePost',
+        'as' => 'deletePost',		
+    ]);	
+	
 	Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider');
 	Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback');
     
@@ -81,6 +92,16 @@ Route::group(['middleware' => ['web','auth'], 'prefix' => 'admin'], function () 
 	Route::post('comments/approve', [
         'uses' => 'Admin\CommentsController@approve',
         'as' => 'comment_approve'
+    ]);
+	
+	Route::post('posts/activate', [
+        'uses' => 'Admin\PostController@activate',
+        'as' => 'posts_activate'
+    ]);
+	
+	Route::get('reports/{id}', [
+        'uses' => 'Admin\ReportController@index',
+        'as' => 'posts_activate'
     ]);
 	
 	Route::get('settings/profane', [

@@ -101,7 +101,11 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
             'as' => 'OtherUser',
             'middleware' => []
         ]);
-		
+		 Route::post('explorer', [
+			'uses' => 'PostsController@explorer',
+			'as' => 'ExploreImages',
+			'middleware' => []
+		]);
 		Route::post('deleteComment', [
             'uses' => 'CommentsController@deleteUserComment',
             'as' => 'deleteUserComment',
@@ -140,11 +144,7 @@ Route::group(['prefix' => 'api'], function () {
         'middleware' => []
     ]);
     
-    Route::post('explorer', [
-        'uses' => 'PostsController@explorer',
-        'as' => 'ExploreImages',
-        'middleware' => []
-    ]);
+   
 	
     //shareURL
     Route::post('posts/shareUrl', [

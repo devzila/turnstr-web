@@ -223,14 +223,14 @@ class PostsController extends Controller
     public function explorer()
     {
         $searchData = Input::get('searchData');
-        $access_token = Input::get('access_token');
-        $userId = '';
-        $userDevice = User::userDetails($access_token);
+        //$access_token = Input::get('access_token');
+        //$userId = '';
+        //$userDevice = User::userDetails($access_token);
 
-        if (isset($userDevice->id)) {
-            $userId =  $userDevice->id;
-        }
-        
+        //if (isset($userDevice->id)) {
+         //   $userId =  $userDevice->id;
+        //}
+        $userId = DeviceSession::get()->user->id;
 		$page = Input::get('page',0);
         
         $imagesToExplore = Posts::getImages($userId,$searchData,$page,self::POSTS_PER_PAGE);
@@ -267,7 +267,7 @@ class PostsController extends Controller
     public function profilePosts()
     {
         $userId = DeviceSession::get()->user->id;
-        $postCount = Posts::where('user_id',$userId)->count();
+        $postCount = Posts::active()->where('user_id',$userId)->count();
 		$page = Input::get("page",0);
         $posts = Posts::selfPosts($userId,$page,self::POSTS_PER_PAGE);
 		
@@ -495,8 +495,9 @@ class PostsController extends Controller
             return ResponseClass::Prepare_Response('','Invalid user-id',false,200);
         }
         $data = array(); 
-        $postCount = Posts::where('user_id',$userId)->count();
+        $postCount = Posts::active()->where('user_id',$userId)->count();
         $isFollowing = Useractivity::getFollowDetailByUserId($userId,$currentUserId);
+        $isFollowing = (count($isFollowing) && isset($isFollowing->status)) ? (int)($isFollowing->status) : 0 ;;
 
         $data['user'] = User::find($userId); 
         $data['post'] = Posts::getAllPostsByUserId($userId,$page,self::POSTS_PER_PAGE);
@@ -508,11 +509,12 @@ class PostsController extends Controller
                 $value->id = (string)($value->id);
                 $commentsCount = comments::commentsCountByPostId($value->id);
                 $value->comments_count = (string)($commentsCount);
+                $value->is_following = $isFollowing;
             }
         }
         $data['user']->id = (string)($data['user']->id);
         $data['user']->post_count = (string)$postCount;
-        $data['user']->is_following = (count($isFollowing) && isset($isFollowing->status)) ? (int)($isFollowing->status) : 0 ;
+        $data['user']->is_following = $isFollowing ;
 
         return ResponseClass::Prepare_Response($data,'Other user data',true,200);
     }

@@ -37,6 +37,7 @@ class TagsController extends Controller
             ->join('post_tags', 'posts.id', '=', 'post_tags.post_id')
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->where('post_tags.tag_name', '=', $tag)
+			->where('posts.active','=',1)
             ->select('posts.*', 'users.name', 'users.profile_image', 'users.username')
             ->skip($page * self::POSTS_PER_PAGE)->take(self::POSTS_PER_PAGE)
             ->get();

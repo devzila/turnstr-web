@@ -7,6 +7,7 @@ use App\Models\Posts;
 use App\Models\Comments;
 use App\Helpers\UniversalClass;
 use Auth;
+use Input;
 use Illuminate\Http\Request;
  /**
  * User Activity Class Web
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
  */
 
 class ActivityController extends Controller {
+	const POSTS_PER_PAGE = 10;
 	
 	public function __construct(Request $request){
 		$this->request = $request;
@@ -24,61 +26,30 @@ class ActivityController extends Controller {
 		$pageTitle = "Activity";
         $user_id = Auth::user()->id;
         $activityList = array();
-
-        $alreadyLiked = Useractivity::getLastTenActivity($user_id);
-		
+		$page = Input::get('page', 0);
+        $alreadyLiked = Useractivity::getActivity($user_id,$page,self::POSTS_PER_PAGE);
         foreach ($alreadyLiked as $key => $value) {
-            if ($alreadyLiked[$key]->activity=='liked') {
-
-                // Removing following details 
-                unset($alreadyLiked[$key]->following_name);
-                unset($alreadyLiked[$key]->follower_name);
-                unset($alreadyLiked[$key]->follower_id);
-                unset($alreadyLiked[$key]->follower_image);
-
-                // fetching user and posts data
-                $userInfo = User::find($alreadyLiked[$key]->likedby_id);
-                $postInfo = Posts::find($alreadyLiked[$key]->turn_id);
-
-                // adding user info
-                if (count($userInfo)) {
-                    $postCount = Posts::where('user_id',$userInfo->id)->count();
-                    $userInfo->post_count = ($postCount>0) ? (string)$postCount : "0" ;
-                    $followingDetails = Useractivity::getFollowDetailByUserId($userInfo->id,$user_id);
-                    $userInfo->is_following = (count($followingDetails) && isset($followingDetails->status)) ? (int)($followingDetails->status) : 0 ;
-                    $userInfo->id = (string)($userInfo->id);
-                    $userInfoFinal =  $userInfo;
-                } else {
-                    $userInfoFinal =  '';
-                }
-                // adding post info
-                if (count($postInfo)) {
-                    $commentsCount = comments::commentsCountByPostId($alreadyLiked[$key]->turn_id);
-                    $postInfo->post_comments_count = ($commentsCount>0) ? (string)$commentsCount : "0" ;
-                    $postInfoFinal =  $postInfo;
-                    $postInfo->id =  (string)($postInfo->id);
-                    // adding share url
-                    $postInfo->shareUrl = UniversalClass::shareUrl($alreadyLiked[$key]->turn_id);
-                } else {
-                    $postInfoFinal =  '';
-                }                
-                $value->user_info = $userInfoFinal;
-                $value->post_info = $postInfoFinal;
-               
-            } else {
-                
-                unset($alreadyLiked[$key]->likedby_name);
-                unset($alreadyLiked[$key]->likedby_id);
-                unset($alreadyLiked[$key]->likedby_image);
-                unset($alreadyLiked[$key]->likedof_name);
-               
-                $userInfo = User::find($alreadyLiked[$key]->follower_id);
-                
-                $value->user_info = (count($userInfo)) ? $userInfo : '' ;
-                $value->is_following = $alreadyLiked[$key]->status;
+            if ($alreadyLiked[$key]->activity=='liked' || $alreadyLiked[$key]->activity=='comment') {
+				$value->user_info_profile_image = $value->likedby_image;
+				$value->user_info_id = $value->likedby_id;
+				$value->user_info_name = $value->likedby_name;               
+				$value->user_info_username = $value->likedby_username;               
+				
+				            
+            } else {                
+                $value->user_info_profile_image = $value->follower_image;
+				$value->user_info_id = $value->follower_id;
+				$value->user_info_name = $value->follower_name;
+				$value->user_info_username = $value->follower_username;				
+							
             }
         }
-		return view("activity.activity",['activities'=>$alreadyLiked,'page_title'=>$pageTitle]);
+		
+		if($page>0){
+			return view("activity.loadactivity",['activities'=>$alreadyLiked,'page_title'=>$pageTitle,'loadCount'=>self::POSTS_PER_PAGE]);
+		}
+		
+		return view("activity.activity",['activities'=>$alreadyLiked,'page_title'=>$pageTitle,'loadCount'=>self::POSTS_PER_PAGE]);
     }
 	/*
 	* followId (user_id of user you are following)

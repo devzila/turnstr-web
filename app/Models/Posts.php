@@ -13,7 +13,11 @@ class Posts extends Model
     /*
     * Function to search and returns images data
     */
-
+	public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
+	
     static function addExtraAttributes($posts){
         if(is_array($posts)){
             $touchedPosts = [];
@@ -78,8 +82,9 @@ class Posts extends Model
             $returnData->select('users.username','posts.user_id','users.name','posts.total_likes','users.profile_image','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.updated_at','posts.created_at','posts.caption');
         }
 
-            return  $returnData
-                    ->orderBy('posts.created_at','desc')
+            return  $returnData			
+                    ->active()
+					->orderBy('posts.created_at','desc')
                     ->skip($page * $offset)->take($offset)
                     ->get();
     }
@@ -160,7 +165,9 @@ class Posts extends Model
                         $join->where('followData.activity','=','follow');
                         $join->where('followData.follower_id','=',$userId);
                         $join->on('followData.user_id','=','users.id');
-                    })->distinct('posts.id')->orderBy('posts.updated_at','desc')
+                    })->distinct('posts.id')
+					->active()
+					->orderBy('posts.created_at','desc')
 					->skip($page * $offset)->take($offset)
                     ->get();
     }
@@ -223,7 +230,7 @@ class Posts extends Model
 
     public function scopeGetAllPostsByUserId($query, $user_id='',$page=0,$offset=self::POSTS_PER_PAGE)
     {
-        return $query->where('user_id',$user_id)
+        return $query->active()->where('user_id',$user_id)
 		->orderBy('posts.created_at','desc')
 		->skip($page * $offset)->take($offset)
 		->get();
@@ -231,7 +238,7 @@ class Posts extends Model
 	
 	public function scopeGetAllPostsCountByUserId($query, $user_id='')
     {
-        $res = $query->where('user_id',$user_id)->count();
+        $res = $query->active()->where('user_id',$user_id)->count();
 		return ($res > 0) ? $res : -1 ;
     }
 
@@ -294,6 +301,7 @@ class Posts extends Model
                     ->where('liked_id', $userId)
 					->where('status', 1);
             })
+			->active()
             ->orderBy('posts.created_at', 'desc')
             ->skip($page * $records)
             ->take($records)

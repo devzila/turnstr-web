@@ -76,8 +76,7 @@
                                 <div class="username">No Comments</div>
                             </div>
                             @endif-->
-                            <div class="postedtime"><?php //$created_at = "{{comment.created_at}}"; 
-							//echo App\Helpers\UniversalClass::timeString(strtotime($created_at)) ?></div>
+                            <div class="postedtime">@{{ comment.createdTime}}</div>
                             <div class="photocaption"></div>
                         </div>
 						</div>

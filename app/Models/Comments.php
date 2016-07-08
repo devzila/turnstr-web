@@ -2,6 +2,8 @@
 
 namespace App\Models;
 use App\Models\Settings;
+use App\Models\Posts;
+use App\Models\Useractivity;
 use App\Helpers\UniversalClass;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,9 +12,12 @@ class Comments extends Model
 
     protected $table = 'comments';
     protected $fillable = ['user_id','post_id','approved','comments']; 
-	const POSTS_PER_PAGE = 50;
+	const POSTS_PER_PAGE = 100;
 	public static function createComment($data){
 		$comment = new Comments;
+		
+		$posts = Posts::find($data['post_id']);
+		
 		
 		$approved = Settings::profaneFilter($data['comments']);
 		if($approved < 0) $approved = 0;
@@ -22,6 +27,7 @@ class Comments extends Model
 		$comment->approved = $approved;
 		$comment->save();
 		if($approved == 1){
+			Useractivity::commentActivity($posts->id,$posts->user_id,$data['user_id'],$comment->id);
 			PostTags::tag($data['post_id'],$data['comments']);
 		}
 		return $comment;
@@ -33,11 +39,11 @@ class Comments extends Model
         return $query->where('approved', 1);
     }
 	
-    public function scopeCommentsByPost($query, $post_id,$page = 0,$record=self::POSTS_PER_PAGE) {
+    public function scopeCommentsByPost($query, $post_id,$page = 0,$record=self::POSTS_PER_PAGE,$orderBy="ASC") {
     	$query->where('post_id',$post_id)->join('users','comments.user_id','=','users.id')
 		->approved()
 		->select('comments.*','users.username','users.profile_image','users.name','users.fb_token')
-		->orderBy('comments.created_at','DESC');
+		->orderBy('comments.created_at',$orderBy);
 		$query->skip($page * $record)->take($record);
 		$result =  $query->get();		
 		foreach($result as $key=>$value){			
