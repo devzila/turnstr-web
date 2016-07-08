@@ -99,7 +99,6 @@
     </div>
   </div>
   
-  
 @endsection
 @section('content')
 
@@ -293,7 +292,7 @@
                 @if(!$comments->isEmpty())
                     
                     @foreach($comments as $comment)
-                        <div class="w-clearfix userinfo">
+                        <div class="w-clearfix userinfo delete-user-comment-{{$comment->id}}">
                             <div class="userthumb">
 								<a href="/userprofile/{{$comment->user_id}}">
 									@if(!empty($comment->profile_image))
@@ -309,7 +308,12 @@
                                 <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{($comment->username)?$comment->username:$comment->name}}</a></div>
                                 <div class="usercomment"><?php echo $comment->commentsHtml ?></div>
                             </div>                            
-                            <div class="postedtime">{{ App\Helpers\UniversalClass::timeString($comment->created_at)}}</div>
+                            <div class="postedtime">
+								{{ App\Helpers\UniversalClass::timeString($comment->created_at)}}
+								@if(isset(Auth::user()->id) && Auth::user()->id == $comment->user_id)
+									<br><div class="pull-right"><a href="javascript:void(0);" data-comment="{{$comment->id}}" class="deleteComment" title="Delete Comment">x</a></div>
+								@endif
+							</div>
                             <div class="photocaption"></div>
                         </div>
                     @endforeach
@@ -370,7 +374,39 @@
 		
     </script>
 
-	
+	<script>
+(function(e) {	
+	e(document).on('click',".deleteComment",function(event){
+			event.preventDefault();			
+			if(confirm("Do you Want to Delete this Comment!")){			
+				comment_id = e(this).attr("data-comment");
+				data = {					
+					_token: e('[name="csrf_token"]').attr('content')
+				};
+				e.ajax({
+				url: "/deleteComment/"+comment_id,
+				type: "post",
+				data:data,
+				dataType: "json",
+				success: function(response) {
+					if(response.status == 1)					
+						$( ".delete-user-comment-"+comment_id ).slideUp( "slow"	);	
+					else 
+						alert("Something is wrong. Please try again.");
+				},
+				error: function() {										
+					alert("Something is wrong. Please try again.");
+				},
+			}); 
+				
+				
+				
+			}
+			return;
+			
+	   });		
+})(jQuery);
+	</script>
 
 
 @endsection

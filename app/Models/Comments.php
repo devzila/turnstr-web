@@ -68,5 +68,17 @@ class Comments extends Model
                     ->select('comments.comments','comments.id','comments.approved','comments.created_at','posts.caption','users.name as user_name')
                     ->get();
     }
-
+	
+	public function scopeDeleteUserComment($query, $comment_id, $user_id){
+		
+		$comments = $query->find($comment_id);
+        if($comments && $comments->user_id == $user_id){
+			$comments->delete();
+			$response = [ 'status'=>1,'msg'=>"Successfully Deleted"];
+		}else{
+			$response = [ 'status'=>2,'msg'=>"Something is wrong. Please Try after Sometime!"];
+		}
+		return $response;
+	}
+	
 }
