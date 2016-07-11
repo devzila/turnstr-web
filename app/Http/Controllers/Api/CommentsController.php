@@ -10,6 +10,7 @@ use Response;
 use App\Models\Useractivity;
 use App\Models\Comments;
 use App\Models\DeviceSession;
+use App\Models\Posts;
 use Input;
 use App\Models\PostTags;
 use Mail;
@@ -135,10 +136,15 @@ class CommentsController extends Controller
         $comments = Comments::commentsByPost($postId);
 
         $likeData = Useractivity::getActivityById($user_id,$postId);
-        
+        $posts = Posts::find($postId);
+		$isFollowing = 0;
+		if($posts){
+			$isFollowing = Useractivity::getFollowDetailByUserId($posts->user_id,$user_id);
+			$isFollowing = (count($isFollowing) && isset($isFollowing->status)) ? (int)($isFollowing->status) : 0 ;
+		}
         $like = (isset($likeData->status)) ? $likeData->status : 0 ;
         
-        return ResponseClass::Prepare_Response(['comments'=>$comments,'is_liked'=>$like],'List of comments',true,200);
+        return ResponseClass::Prepare_Response(['comments'=>$comments,'is_liked'=>$like,'is_Following'=>$isFollowing],'List of comments',true,200);
     }
 	
 	public function  deleteUserComment(){		
