@@ -109,8 +109,8 @@
             position: absolute !important;
     }
     .plyr audio, .plyr video {
-        width: 100%;
-        min-height: 400px;
+        width: 400px;
+        height: 400px;
         vertical-align: middle;
         border-radius: inherit;
     }
