@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Helpers\ResponseClass;
+use App\Helpers\UniversalClass;
 use Response;
 use App\Models\Useractivity;
 use App\Models\Comments;
@@ -139,14 +140,16 @@ class CommentsController extends Controller
         $posts = Posts::find($postId);
 		$isFollowing = 0;
 		$postUserID = 0;
+		$postUrl = "";
 		if($posts){
+			$postUrl = UniversalClass::shareUrl($posts->id);
 			$postUserID = $posts->user_id;
 			$isFollowing = Useractivity::getFollowDetailByUserId($posts->user_id,$user_id);
 			$isFollowing = (count($isFollowing) && isset($isFollowing->status)) ? (int)($isFollowing->status) : 0 ;
 		}
         $like = (isset($likeData->status)) ? $likeData->status : 0 ;
         
-        return ResponseClass::Prepare_Response(['comments'=>$comments,'is_liked'=>$like,'is_Following'=>$isFollowing,'postUserID'=>$postUserID],'List of comments',true,200);
+        return ResponseClass::Prepare_Response(['comments'=>$comments,'is_liked'=>$like,'is_Following'=>$isFollowing,'postUserID'=>$postUserID,'postUrl'=>$postUrl],'List of comments',true,200);
     }
 	
 	public function  deleteUserComment(){		
