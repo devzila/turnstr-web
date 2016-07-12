@@ -99,7 +99,6 @@
     </div>
   </div>
   
-  
 @endsection
 @section('content')
 
@@ -110,8 +109,8 @@
             position: absolute !important;
     }
     .plyr audio, .plyr video {
-        width: 100%;
-        min-height: 400px;
+        width: 400px;
+        height: 400px;
         vertical-align: middle;
         border-radius: inherit;
     }
@@ -293,7 +292,7 @@
                 @if(!$comments->isEmpty())
                     
                     @foreach($comments as $comment)
-                        <div class="w-clearfix userinfo">
+                        <div class="w-clearfix userinfo delete-user-comment-{{$comment->id}}">
                             <div class="userthumb">
 								<a href="/userprofile/{{$comment->user_id}}">
 									@if(!empty($comment->profile_image))
@@ -309,7 +308,12 @@
                                 <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{($comment->username)?$comment->username:$comment->name}}</a></div>
                                 <div class="usercomment"><?php echo $comment->commentsHtml ?></div>
                             </div>                            
-                            <div class="postedtime">{{ App\Helpers\UniversalClass::timeString($comment->created_at)}}</div>
+                            <div class="postedtime">
+								{{ App\Helpers\UniversalClass::timeString($comment->created_at)}}
+								@if(isset(Auth::user()->id) && Auth::user()->id == $comment->user_id)
+									<br><div class="pull-right"><a href="javascript:void(0);" data-href="/deleteComment/{{$comment->id}}" data-id="{{$comment->id}}" data-cmsg="Do you want to delete this Comment?" class="deleteComment" title="Delete Comment">x</a></div>
+								@endif
+							</div>
                             <div class="photocaption"></div>
                         </div>
                     @endforeach
@@ -345,6 +349,7 @@
             border-radius: 50%;
         }
     </style>
+@include('generic.popup')
 @endsection
 @section('additional_js')
     <script src="/assets/js/custom/jR3DCarousel.min.js"></script>
@@ -369,8 +374,4 @@
            
 		
     </script>
-
-	
-
-
 @endsection

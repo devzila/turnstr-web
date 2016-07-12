@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Helpers\ResponseClass;
+use App\Helpers\UniversalClass;
 use Response;
 use App\Models\Useractivity;
 use App\Models\Comments;
 use App\Models\DeviceSession;
+use App\Models\Posts;
 use Input;
 use App\Models\PostTags;
 use Mail;
@@ -135,21 +137,26 @@ class CommentsController extends Controller
         $comments = Comments::commentsByPost($postId);
 
         $likeData = Useractivity::getActivityById($user_id,$postId);
-        
+        $posts = Posts::find($postId);
+		$isFollowing = 0;
+		$postUserID = 0;
+		$postUrl = "";
+		if($posts){
+			$postUrl = UniversalClass::shareUrl($posts->id);
+			$postUserID = $posts->user_id;
+			$isFollowing = Useractivity::getFollowDetailByUserId($posts->user_id,$user_id);
+			$isFollowing = (count($isFollowing) && isset($isFollowing->status)) ? (int)($isFollowing->status) : 0 ;
+		}
         $like = (isset($likeData->status)) ? $likeData->status : 0 ;
         
-        return ResponseClass::Prepare_Response(['comments'=>$comments,'is_liked'=>$like],'List of comments',true,200);
+        return ResponseClass::Prepare_Response(['comments'=>$comments,'is_liked'=>$like,'is_Following'=>$isFollowing,'postUserID'=>$postUserID,'postUrl'=>$postUrl],'List of comments',true,200);
     }
 	
-	public function  deleteUserComment(){
-		$user_id = DeviceSession::get()->user->id;
+	public function  deleteUserComment(){		
 		$comment_id = Input::get('comment_id');
-        $comments = Comments::find($comment_id);
-        if($comments && $comments->user_id == $user_id){
-			$comments->delete();
-			return ResponseClass::Prepare_Response('','Deleted Successfuly',true,200);
-		}
-         return ResponseClass::Prepare_Response('','Sorry your comment seems offensive!',false,200);
+        $response = Comments::deleteUserComment($comment_id,DeviceSession::get()->user->id);
+		$status = ($response['status'] == 1)? true:false;
+        return ResponseClass::Prepare_Response('',$response['msg'],$status,200);
 	}
 	
 }

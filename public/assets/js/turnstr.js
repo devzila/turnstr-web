@@ -1,4 +1,4 @@
-var signinWin;
+var signinWin,cAlertMessage,cAlertTitle;
 (function(e) {	
 		
 		e(document).on("click", ".followbttn", function() {	
@@ -228,10 +228,55 @@ var signinWin;
 			window.location.href="/";
 	   });	
 		
+	   e(document).on('show.bs.modal','#cAlert', function (e) {
+
+		$(this).find('.modal-body .cAlertMessage').text(cAlertMessage);
+		if(cAlertTitle)
+			$(this).find('.panel-title').text(cAlertTitle);
+		cAlertMessage ="";
+		cAlertTitle ="";
+	});
+	e(document).on('click','.deleteComment', function (e) {
+		e.preventDefault();
+		var url=$(this).attr('data-href'); 
+		var cmsg=$(this).attr('data-cmsg');
+		var data_id=$(this).attr('data-id');
+		$('#cmsg').html(cmsg);
+		$('#confirmModal').modal({ backdrop: 'static', keyboard: false }).one('click', '#deleteConfirm', function() {
+			
+			data = {					
+				_token: $('[name="csrf_token"]').attr('content')
+			};
+			$.ajax({
+				url: url,
+				type: "post",
+				data:data,
+				dataType: "json",
+				success: function(response) {
+					if(response.status == 1){
+						$(".delete-user-comment-"+data_id ).slideUp( "fast"	);
+					}
+					else 
+						cAlert("Something is wrong. Please try again.","Alert!");
+				},
+				error: function() {										
+					cAlert("Something is wrong. Please try again.","Alert!");
+				},
+			}); 
+		});
+
+	});
+
 		
 })(jQuery);
 
 function share_social(url){
-			window.open(url,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
-			return false;	
-		}
+	window.open(url,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+	return false;	
+}
+		
+function cAlert(cAlertMessage1,cAlertTitle1){
+	cAlertMessage = cAlertMessage1;
+	cAlertTitle = cAlertTitle1;
+	$('#cAlert').modal('show');
+}

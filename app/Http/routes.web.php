@@ -60,12 +60,19 @@ Route::group(['middleware' => 'web'], function () {
 	Route::post('/deletePost/{id}',[
         'uses' => 'HomeController@deletePost',
         'as' => 'deletePost',		
-    ]);	
+    ]);
+	Route::post('/deleteComment/{id}',[
+        'uses' => 'CommentsController@deleteComment',
+        'as' => 'deletePost',		
+    ]);		
 	
 	Route::get('auth/facebook', 'Auth\AuthController@redirectToProvider');
 	Route::get('auth/facebook/callback', 'Auth\AuthController@handleProviderCallback');
     
 });
+
+
+
 
 Route::group(['middleware' => ['web','auth'], 'prefix' => 'admin'], function () {
 
