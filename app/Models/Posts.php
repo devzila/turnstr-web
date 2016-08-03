@@ -10,13 +10,19 @@ class Posts extends Model
 {
     const POSTS_PER_PAGE = 10;
     protected $fillable = ['user_id', 'caption', 'media1_url','media2_url','media3_url','media4_url', 'media1_thumb_url', 'media2_thumb_url', 'media3_thumb_url', 'media4_thumb_url'];
-    /*
+    
+	public function post_media()
+    {
+        return $this->hasMany('App\Models\PostMedia','post_id');
+    }
+	/*
     * Function to search and returns images data
     */
 	public function scopeActive($query)
     {
         return $query->where('active', 1);
     }
+	
 	
     static function addExtraAttributes($posts){
         if(is_array($posts)){
