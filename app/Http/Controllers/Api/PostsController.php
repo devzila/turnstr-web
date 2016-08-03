@@ -424,7 +424,7 @@ class PostsController extends Controller
 			$imageDetail = $files['image'];
 			$media_type = "image";
 			$filePath = '/';
-			//$s3Upload = $s3->put($filePath.$fileNames[$i], file_get_contents($imageDetail), 'public');
+			$s3Upload = $s3->put($filePath.$fileNames[$i], file_get_contents($imageDetail), 'public');
 			
 			// Move Thumb Image or Video Image
 			if(isset($files['video'])){
@@ -432,14 +432,14 @@ class PostsController extends Controller
 				$extension = $files['video']->getClientOriginalExtension();
                 $thumbNames[$i] = Uuid::uuid1()->toString() . '.' . $extension;
                 $videoDetail = $files['video'];//->move($destinationPath, $thumbNames[$i]);
-				//$s3UploadVideo = $s3->put($filePath.$thumbNames[$i], file_get_contents($videoDetail), 'public');
+				$s3UploadVideo = $s3->put($filePath.$thumbNames[$i], file_get_contents($videoDetail), 'public');
 			}else
 			if(isset($files['image'])){
 				$extension = $files['image']->getClientOriginalExtension();
 				$image_thumb = Image::make($imageDetail)->resize(400,400);
 				$image_thumb = $image_thumb->stream();
                 $thumbImgNames[$i] = $awsUrl .'/thumb_'.$fileNames[$i];
-				//$s3UploadThumb = $s3->put($filePath.'thumb_'.$fileNames[$i], $image_thumb->__toString(), 'public');
+				$s3UploadThumb = $s3->put($filePath.'thumb_'.$fileNames[$i], $image_thumb->__toString(), 'public');
 			}
 			
 			$post_media[] = [
