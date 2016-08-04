@@ -247,6 +247,8 @@ class PostsController extends Controller
             $imagesToExplore[$key]->media3_type = end($arr3);
             $imagesToExplore[$key]->media4_type = end($arr4);
             
+			$value->media = Posts::find($value->id)->post_media;
+			
 			$imagesToExplore[$key]->is_following = ($value->follow > 0) ? (int)($value->follow) : 0;
 			
             // getting comments count

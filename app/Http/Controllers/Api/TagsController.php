@@ -42,6 +42,9 @@ class TagsController extends Controller
 		$userId = DeviceSession::get()->user->id;
 		if($userId && $posts){			
             foreach ($posts as $key => $value) {
+				
+				$value->media = Posts::find($value->id)->post_media;
+				
 				$commentsCount = Comments::commentsCountByPostId($value->id);
 				$value->total_comments = (string)(($commentsCount>0)?$commentsCount:0);
 				 
