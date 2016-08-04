@@ -287,9 +287,9 @@ class Posts extends Model
 
       }
 	  
-	  public function scopeGetUserHomePosts($query, $userId, $page = 0,  $records = self::POSTS_PER_PAGE){
+	  public function scopeGetUserHomePosts($query, $userId, $page = 0,  $records = self::POSTS_PER_PAGE , $isApi = false){
 
-        return  $query
+        $result =  $query
             ->join('users','posts.user_id','=','users.id')
             ->select('posts.*','users.name', 'users.profile_image','users.profile_thumb_image','users.username','users.fb_token')
 			->where('users.id',$userId)
@@ -312,6 +312,12 @@ class Posts extends Model
             ->skip($page * $records)
             ->take($records)
             ->get();
+			if($isApi === true){
+					foreach($result as $key=>$value){
+						$value->media = Posts::find($value->id)->post_media;
+					}
+			}			
+			return $result;
       }
 	  
 	  

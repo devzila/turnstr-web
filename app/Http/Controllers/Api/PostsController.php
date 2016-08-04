@@ -24,9 +24,10 @@ use Image;
 use File;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
+
 class PostsController extends Controller
 {
-	const POSTS_PER_PAGE = 25;
+	const POSTS_PER_PAGE = 20;
     /**
      * Display a listing of the resource.
      *
@@ -38,7 +39,7 @@ class PostsController extends Controller
         // $selfposts = Posts::selfPosts(DeviceSession::get()->user->id);
 		$page = $request->input('page', 0);
 		$userId = DeviceSession::get()->user->id;
-        $res = Posts::getUserHomePosts($userId,$page,self::POSTS_PER_PAGE);
+        $res = Posts::getUserHomePosts($userId,$page,10,true);
 
         if (count($res)) {
             foreach ($res as $key => $value) {
@@ -447,6 +448,8 @@ class PostsController extends Controller
 				'media_url' => $awsUrl . '/' . $fileNames[$i],
 				'media_thumb_url' => isset($thumbNames[$i]) ? $awsUrl . '/' . $thumbNames[$i] : $thumbImgNames[$i],
 				'media_type' => $media_type,
+				"created_at"=>date('Y-m-d H:i:s'),
+				"updated_at"=>date('Y-m-d H:i:s'),
 			];		
 			
 			$i++;
