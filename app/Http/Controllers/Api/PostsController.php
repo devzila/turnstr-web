@@ -27,7 +27,7 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 
 class PostsController extends Controller
 {
-	const POSTS_PER_PAGE = 20;
+	const POSTS_PER_PAGE = 18;
     /**
      * Display a listing of the resource.
      *
@@ -276,14 +276,7 @@ class PostsController extends Controller
         $posts = Posts::selfPosts($userId,$page,self::POSTS_PER_PAGE);
 		
         foreach ($posts as $key => $value) {
-            $arr1 = explode('.',$value->media1_url);
-            $arr2 = explode('.',$value->media2_url);
-            $arr3 = explode('.',$value->media3_url);
-            $arr4 = explode('.',$value->media4_url);
-            $posts[$key]->media1_type = end($arr1);
-            $posts[$key]->media2_type = end($arr2);
-            $posts[$key]->media3_type = end($arr3);
-            $posts[$key]->media4_type = end($arr4);
+            $value->media = Posts::find($value->id)->post_media;
             $posts[$key]->shareUrl = UniversalClass::shareUrl($value->id);
         }
         return ResponseClass::Prepare_Response(['postDetails'=>$posts,'post_count'=>$postCount],'List of posts',true,200);
@@ -607,6 +600,7 @@ class PostsController extends Controller
         }
         if (count($data['post'])) {
             foreach ($data['post'] as $key => $value) {
+				$value->media = Posts::find($value->id)->post_media;
                 $value->id = (string)($value->id);
                 $commentsCount = comments::commentsCountByPostId($value->id);
                 $value->comments_count = (string)($commentsCount);
