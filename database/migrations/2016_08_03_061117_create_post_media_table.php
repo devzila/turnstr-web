@@ -20,7 +20,7 @@ class CreatePostMediaTable extends Migration
 			$table->enum('media_type', ['image','video']);			
 			$table->timestamps();
 			$table->foreign('post_id')
-					->references('id')->on('posts');
+					->references('id')->on('posts')->onDelete('cascade');
 				
         });
     }
