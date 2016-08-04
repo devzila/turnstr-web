@@ -44,11 +44,11 @@ class Posts extends Model
 
     static function addExtraFields($post)
     {
-        for($i = 1; $i<=4; $i++){
+        /*for($i = 1; $i<=4; $i++){
             $newProp = "media".$i."_type";
             $mediaProp = "media" . $i . "_url";
             $post->$newProp = pathinfo($post->$mediaProp, PATHINFO_EXTENSION);
-        }
+        }*/
 
         $post->shareUrl = UniversalClass::shareUrl($post->id);
 
@@ -73,7 +73,7 @@ class Posts extends Model
         }
         if ($userId!='') {
             $returnData->where('users.id','!=',$userId)
-                    ->select('users.username','posts.user_id','users.name','users.profile_image','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.updated_at','posts.created_at','posts.total_likes','posts.caption','postData.status as liked','followData.status as follow')
+                    ->select('users.username','posts.user_id','users.name','users.profile_image','posts.id','posts.media1_thumb_url','posts.updated_at','posts.created_at','posts.total_likes','posts.caption','postData.status as liked','followData.status as follow')
                     ->leftjoin('user_activity as postData',function($join) use ($userId) {
                         $join->where('postData.activity','=','liked');
                         $join->where('postData.liked_id','=',$userId);
@@ -85,7 +85,7 @@ class Posts extends Model
                         $join->on('followData.user_id','=','users.id');
                     })->distinct('posts.id');
         } else {
-            $returnData->select('users.username','posts.user_id','users.name','posts.total_likes','users.profile_image','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.updated_at','posts.created_at','posts.caption');
+            $returnData->select('users.username','posts.user_id','users.name','posts.total_likes','users.profile_image','posts.id','posts.media1_thumb_url','posts.updated_at','posts.created_at','posts.caption');
         }
 
             return  $returnData			
@@ -161,7 +161,7 @@ class Posts extends Model
     {
         return $query->join('users','posts.user_id','=','users.id')
                     ->where('users.id',$userId)
-                     ->select('users.username','posts.user_id','users.profile_image','users.name','posts.total_likes','posts.id','posts.media1_thumb_url','posts.media2_thumb_url','posts.media3_thumb_url','posts.media4_thumb_url','posts.media4_url','posts.media1_url','posts.media2_url','posts.media3_url','posts.updated_at','posts.created_at','posts.caption','postData.status as liked','followData.status as is_following')
+                     ->select('users.username','posts.user_id','users.profile_image','users.name','posts.total_likes','posts.id','posts.media1_thumb_url','posts.updated_at','posts.created_at','posts.caption','postData.status as liked','followData.status as is_following')
                     ->leftjoin('user_activity as postData',function($join) use ($userId) {
                         $join->where('postData.activity','=','liked');
                         $join->where('postData.liked_id','=',$userId);
