@@ -453,7 +453,7 @@ class PostsController extends Controller
 		
 		$r = PostMedia::insert($post_media);
 		$posts->active = 1;
-		$posts->media1_thumb_url = $thumbNames[0] ? $awsUrl . '/' . $thumbNames[0] : $thumbImgNames[0];
+		$posts->media1_thumb_url = isset($thumbNames[0]) ? $awsUrl . '/' . $thumbNames[0] : $thumbImgNames[0];
 		$posts->save();
 		
 		 // tag post if #tag present in caption
