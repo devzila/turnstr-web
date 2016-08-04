@@ -29,14 +29,9 @@ Route::group(['middleware' => ['turnstr.api'], 'prefix' => 'api'], function () {
 
     Route::post('posts/upload', [
         //'uses' => 'PostsController@upload',
-        'uses' => 'PostsController@uploadFileToS3Aws',
+        //'uses' => 'PostsController@uploadFileToS3Aws',
+        'uses' => 'PostsController@uploadTurn',
         'as' => 'UploadPhoto',
-        'middleware' => []
-    ]);
-	
-	Route::post('posts/uploadS3', [
-        'uses' => 'PostsController@uploadFileToS3Aws',
-        'as' => 'UploadPhotoS3',
         'middleware' => []
     ]);
 	

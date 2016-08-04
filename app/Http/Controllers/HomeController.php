@@ -75,15 +75,7 @@ class HomeController extends Controller
         $imagesToExplore = Posts::getImages($userId,$searchData,$page);
 
         foreach ($imagesToExplore as $key => $value) {
-            $arr1 = explode('.',$value->media1_url);
-            $arr2 = explode('.',$value->media2_url);
-            $arr3 = explode('.',$value->media3_url);
-            $arr4 = explode('.',$value->media4_url);
-            $imagesToExplore[$key]->media1_type = end($arr1);
-            $imagesToExplore[$key]->media2_type = end($arr2);
-            $imagesToExplore[$key]->media3_type = end($arr3);
-            $imagesToExplore[$key]->media4_type = end($arr4);
-            
+                       
 			$imagesToExplore[$key]->is_following = ($value->follow > 0) ? (int)($value->follow) : 0;
 			
             // getting comments count

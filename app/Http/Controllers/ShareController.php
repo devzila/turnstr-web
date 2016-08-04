@@ -31,10 +31,12 @@ class ShareController extends Controller
         $decryptedPostId = UniversalClass::decrypt($id);
 		$data['page_title'] = "Turn Share";
         $data['post'] = Posts::active()->find($decryptedPostId);
-		
+        
 		if(!$data['post']){
 			return view('errors.404', $data);
 		}
+		
+		$data['post_media'] = Posts::find($decryptedPostId)->post_media;
 		
 		$user_id = $data['post']->user_id;
 		//$mainUserId = Auth::user()->id;

@@ -17,15 +17,17 @@ use App\Models\Useractivity;
 use App\Models\Comments;
 use App\Helpers\UniversalClass;
 use App\Models\Api;
+use App\Models\PostMedia;
 use Rhumsaa\Uuid\Uuid;
 use URL;
 use Image;
 use File;
 use Illuminate\Contracts\Filesystem\Filesystem;
 
+
 class PostsController extends Controller
 {
-	const POSTS_PER_PAGE = 25;
+	const POSTS_PER_PAGE = 18;
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +39,7 @@ class PostsController extends Controller
         // $selfposts = Posts::selfPosts(DeviceSession::get()->user->id);
 		$page = $request->input('page', 0);
 		$userId = DeviceSession::get()->user->id;
-        $res = Posts::getUserHomePosts($userId,$page,self::POSTS_PER_PAGE);
+        $res = Posts::getUserHomePosts($userId,$page,10,true);
 
         if (count($res)) {
             foreach ($res as $key => $value) {
@@ -245,6 +247,8 @@ class PostsController extends Controller
             $imagesToExplore[$key]->media3_type = end($arr3);
             $imagesToExplore[$key]->media4_type = end($arr4);
             
+			$value->media = Posts::find($value->id)->post_media;
+			
 			$imagesToExplore[$key]->is_following = ($value->follow > 0) ? (int)($value->follow) : 0;
 			
             // getting comments count
@@ -272,14 +276,7 @@ class PostsController extends Controller
         $posts = Posts::selfPosts($userId,$page,self::POSTS_PER_PAGE);
 		
         foreach ($posts as $key => $value) {
-            $arr1 = explode('.',$value->media1_url);
-            $arr2 = explode('.',$value->media2_url);
-            $arr3 = explode('.',$value->media3_url);
-            $arr4 = explode('.',$value->media4_url);
-            $posts[$key]->media1_type = end($arr1);
-            $posts[$key]->media2_type = end($arr2);
-            $posts[$key]->media3_type = end($arr3);
-            $posts[$key]->media4_type = end($arr4);
+            $value->media = Posts::find($value->id)->post_media;
             $posts[$key]->shareUrl = UniversalClass::shareUrl($value->id);
         }
         return ResponseClass::Prepare_Response(['postDetails'=>$posts,'post_count'=>$postCount],'List of posts',true,200);
@@ -372,6 +369,103 @@ class PostsController extends Controller
 
 
     }
+	
+	/**
+     * 
+	 * N Turn Upload
+     * @Image Uploading  Amazon
+     * @server S3 V3
+     */
+	
+	public function uploadTurn(Request $request){
+		
+		$files = [
+            'media' => $request->file('media'),
+        ];
+
+        $rules = [
+            'media' => 'required',
+        ];
+		
+        $validator = Validator::make($files, $rules);
+        if ($validator->fails()) {
+            return ResponseClass::Prepare_Response('','validation fails',false, 200);
+        }
+		
+		$media = $request->file('media');
+		
+		
+		$awsUrl = env('AWS_URL','https://s3-us-west-2.amazonaws.com/stage-turnstr');	
+		$filePath = '/';		
+		
+		$s3 = \Storage::disk('s3');
+		
+		$fileNames =[];
+        $thumbNames = [];
+        $extensionArr = array();
+		
+		$posts = new Posts;
+		$posts->user_id = DeviceSession::get()->user->id;
+		$posts->caption = $request->get('caption');
+		$posts->media1_thumb_url = "";
+		$posts->active = 0;
+		$posts->save();
+		//'media1_thumb_url' => $thumbNames[0] ? $awsUrl . '/' . $thumbNames[0] : $thumbImgNames[0],
+		
+		$i = 0;
+		foreach($media as $files){
+			$extension = $files['image']->getClientOriginalExtension();
+			// Move Uploaded Image/Video
+			$fileNames[$i] = Uuid::uuid1()->toString() . '.' . $extension;
+			$imageDetail = $files['image'];
+			$media_type = "image";
+			$filePath = '/';
+			$s3Upload = $s3->put($filePath.$fileNames[$i], file_get_contents($imageDetail), 'public');
+			
+			// Move Thumb Image or Video Image
+			if(isset($files['video'])){
+				$media_type = "video";
+				$extension = $files['video']->getClientOriginalExtension();
+                $thumbNames[$i] = Uuid::uuid1()->toString() . '.' . $extension;
+                $videoDetail = $files['video'];//->move($destinationPath, $thumbNames[$i]);
+				$s3UploadVideo = $s3->put($filePath.$thumbNames[$i], file_get_contents($videoDetail), 'public');
+			}else
+			if(isset($files['image'])){
+				$extension = $files['image']->getClientOriginalExtension();
+				$image_thumb = Image::make($imageDetail)->resize(400,400);
+				$image_thumb = $image_thumb->stream();
+                $thumbImgNames[$i] = $awsUrl .'/thumb_'.$fileNames[$i];
+				$s3UploadThumb = $s3->put($filePath.'thumb_'.$fileNames[$i], $image_thumb->__toString(), 'public');
+			}
+			
+			$post_media[] = [
+				'post_id' => $posts->id,
+				'media_url' => $awsUrl . '/' . $fileNames[$i],
+				'media_thumb_url' => isset($thumbNames[$i]) ? $awsUrl . '/' . $thumbNames[$i] : $thumbImgNames[$i],
+				'media_type' => $media_type,
+				"created_at"=>date('Y-m-d H:i:s'),
+				"updated_at"=>date('Y-m-d H:i:s'),
+			];		
+			
+			$i++;
+
+		}
+		
+		$r = PostMedia::insert($post_media);
+		$posts->active = 1;
+		$posts->media1_thumb_url = $thumbNames[0] ? $awsUrl . '/' . $thumbNames[0] : $thumbImgNames[0];
+		$posts->save();
+		
+		 // tag post if #tag present in caption
+        PostTags::tag($posts->id, $posts->caption);
+
+
+        //Posts::addExtraAttributes($posts);
+
+        return ResponseClass::Prepare_Response($posts,'uploaded successfuly',true,200);
+		
+	}
+	
 	
 	/**
      * 
@@ -506,6 +600,7 @@ class PostsController extends Controller
         }
         if (count($data['post'])) {
             foreach ($data['post'] as $key => $value) {
+				$value->media = Posts::find($value->id)->post_media;
                 $value->id = (string)($value->id);
                 $commentsCount = comments::commentsCountByPostId($value->id);
                 $value->comments_count = (string)($commentsCount);
