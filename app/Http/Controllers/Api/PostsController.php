@@ -422,12 +422,15 @@ class PostsController extends Controller
 			$filePath = '/';
 			$s3Upload = $s3->put($filePath.$fileNames[$i], file_get_contents($imageDetail), 'public');
 			
+			$thumbNames[$i] = '';
+            $thumbImgNames[$i] = '';
+			
 			// Move Thumb Image or Video Image
-			if(isset($files['video'])){
+			if(isset($files['videoimage'])){
 				$media_type = "video";
-				$extension = $files['video']->getClientOriginalExtension();
+				$extension = $files['videoimage']->getClientOriginalExtension();
                 $thumbNames[$i] = Uuid::uuid1()->toString() . '.' . $extension;
-                $videoDetail = $files['video'];//->move($destinationPath, $thumbNames[$i]);
+                $videoDetail = $files['videoimage'];//->move($destinationPath, $thumbNames[$i]);
 				$s3UploadVideo = $s3->put($filePath.$thumbNames[$i], file_get_contents($videoDetail), 'public');
 			}else
 			if(isset($files['image'])){
@@ -441,7 +444,7 @@ class PostsController extends Controller
 			$post_media[] = [
 				'post_id' => $posts->id,
 				'media_url' => $awsUrl . '/' . $fileNames[$i],
-				'media_thumb_url' => isset($thumbNames[$i]) ? $awsUrl . '/' . $thumbNames[$i] : $thumbImgNames[$i],
+				'media_thumb_url' => $thumbNames[$i] ? $awsUrl . '/' . $thumbNames[$i] : $thumbImgNames[$i],
 				'media_type' => $media_type,
 				"created_at"=>date('Y-m-d H:i:s'),
 				"updated_at"=>date('Y-m-d H:i:s'),
@@ -453,7 +456,7 @@ class PostsController extends Controller
 		
 		$r = PostMedia::insert($post_media);
 		$posts->active = 1;
-		$posts->media1_thumb_url = isset($thumbNames[0]) ? $awsUrl . '/' . $thumbNames[0] : $thumbImgNames[0];
+		$posts->media1_thumb_url = $thumbNames[0] ? $awsUrl . '/' . $thumbNames[0] : $thumbImgNames[0];
 		$posts->save();
 		
 		 // tag post if #tag present in caption
