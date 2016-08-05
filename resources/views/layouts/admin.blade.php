@@ -98,7 +98,14 @@ function customConfirm(confirmTitle,confirmContent) {
     });
     return res;
 }
-$('table.table').dataTable();
+$('table.table').dataTable(
+{
+  "ordering": false,
+  "paging": false,
+  "lengthChange": false
+}
+);
+
 </script>
 @yield('additional_js')
 </body>

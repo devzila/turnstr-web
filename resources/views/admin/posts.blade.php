@@ -31,7 +31,7 @@
                                         @if (count($all_posts))
                                         @foreach ($all_posts as $k=>$row)
                                         <tr>
-                                            <td>{{$k+1}}</td>
+                                            <td>{{$row->id}}</td>
                                             <td>
 											@if($row->caption!='') 
 												<a  href="{{App\Helpers\UniversalClass::shareUrl($row->id)}}" target="_blank">{{$row->caption}}</a>
@@ -60,6 +60,8 @@
                                         @endif
                                     </tbody>
                                 </table>
+								<hr>
+								<div class="paginate pull-right">{!! $all_posts->render() !!}</div>
                             </div>
                         </div>
                     </div>

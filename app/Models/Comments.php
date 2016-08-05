@@ -66,7 +66,8 @@ class Comments extends Model
     	return $query->leftjoin('posts','comments.post_id','=','posts.id')
                     ->leftjoin('users','comments.user_id','=','users.id')
                     ->select('comments.comments','comments.id','comments.approved','comments.created_at','posts.caption','users.name as user_name')
-                    ->get();
+					->orderBy('id','desc')
+                    ->paginate(10);
     }
 	
 	public function scopeDeleteUserComment($query, $comment_id, $user_id){

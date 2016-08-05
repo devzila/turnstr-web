@@ -28,7 +28,7 @@
                                         @if (count($all_comments))
                                         @foreach ($all_comments as $k=>$row)
                                         <tr>
-                                            <td>{{$k+1}}</td>
+                                            <td>{{$row->id}}</td>
                                             <td>{{($row->user_name!='') ? $row->user_name : "--" }}</td>
                                             <td>{{($row->caption!='') ? $row->caption : "--" }}</td>
                                             <td>{{($row->comments!='') ? $row->comments : "--" }}</td>
@@ -50,6 +50,8 @@
                                         @endif
                                     </tbody>
                                 </table>
+								<hr>
+								<div class="paginate pull-right">{!! $all_comments->render() !!}</div>
                             </div>
                         </div>
                     </div>
