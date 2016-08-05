@@ -28,7 +28,7 @@
                                         @if (count($all_users))
                                         @foreach ($all_users as $k=>$row)
                                         <tr>
-                                            <td>{{$k+1}}</td>
+                                            <td>{{ $row->id}}</td>
                                             <td>{{($row->name!='') ? $row->name : "--" }}</td>
                                             <td>{{($row->gender!='') ? $row->gender : "--" }}</td>
                                             <td>{{($row->email!='') ? $row->email : "--" }}</td>
@@ -45,9 +45,14 @@
                                             </td>
                                         </tr>
                                         @endforeach
+										
+										
+										
                                         @endif
                                     </tbody>
                                 </table>
+								<hr>
+								<div class="paginate pull-right">{!! $all_users->render() !!}</div>
                             </div>
                         </div>
                     </div>

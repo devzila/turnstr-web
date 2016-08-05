@@ -16,6 +16,7 @@ class PostController extends Controller {
      */
     protected $request;
 
+	const RECORDS_PAGE = 10;
 
     public function __construct(Request $request)
     {
@@ -26,7 +27,7 @@ class PostController extends Controller {
     public function index(){
 
         $data = array();
-        $posts = Posts::getAllPosts();
+        $posts = Posts::getAllPosts(0,self::RECORDS_PAGE);
 		foreach($posts as $key=>$value){
 			$report = Report::getReportCountByPost($value->id);
 			$value->report_count = ($report>0)?$report:0;

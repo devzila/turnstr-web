@@ -15,7 +15,8 @@ class UserController extends Controller {
      * @var Object
      */
     protected $request;
-
+	
+	const RECORDS_PAGE = 10;
 
     public function __construct(Request $request)
     {
@@ -26,7 +27,7 @@ class UserController extends Controller {
     public function index(){
 
         $data = array();
-        $data['all_users'] = User::get();
+        $data['all_users'] = User::orderBy('id','DESC')->paginate(self::RECORDS_PAGE);
         return view('admin/listUsers',$data);
 
     }

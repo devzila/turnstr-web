@@ -259,7 +259,8 @@ class Posts extends Model
         return $query
                     ->leftjoin('users','posts.user_id','=','users.id')
                     ->select('posts.*','users.name')
-                    ->get();
+					->orderBy('id','desc')
+                    ->paginate(10);
     }
 
 
