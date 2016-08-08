@@ -103,3 +103,13 @@
         }
     </style>
 @endsection
+@section('additional_js')
+<script src="/assets/js/twemoji.min.js"></script>
+<script> 
+ window.onload = function() {
+		  twemoji.size = '16x16';
+		  twemoji.parse(document.body);
+		}   
+		
+</script>
+@endsection

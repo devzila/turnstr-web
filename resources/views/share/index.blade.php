@@ -250,7 +250,7 @@
                 @if(!$comments->isEmpty())
                     
                     @foreach($comments as $comment)
-                        <div class="w-clearfix userinfo delete-user-comment-{{$comment->id}}">
+                        <div class="w-clearfix emoji userinfo delete-user-comment-{{$comment->id}}">
                             <div class="userthumb">
 								<a href="/userprofile/{{$comment->user_id}}">
 									@if(!empty($comment->profile_image))
@@ -311,7 +311,7 @@
 @endsection
 @section('additional_js')
     <script src="/assets/js/custom/jR3DCarousel.min.js"></script>
-	<script src="//twemoji.maxcdn.com/twemoji.min.js"></script> 
+	<script src="/assets/js/twemoji.min.js"></script> 
     <script>
         var obj = $('.jR3DCarouselGallery').jR3DCarousel({
             "width": 400,

@@ -130,7 +130,7 @@ var signinWin,cAlertMessage,cAlertTitle;
 				dataType: "json",
 				success: function(response) {						
 					if(response.status == 1){						
-						e( ".commentBLock" ).append( response.commentBlock );
+						e( ".commentBLock" ).append( twemoji.parse(response.commentBlock ));
 						totalComments.html(function(i, val) { return +val+1 });						
 					}if(response.status == 2 || response.status == 3){						
 						commentError.html(response.msg);						
@@ -143,7 +143,6 @@ var signinWin,cAlertMessage,cAlertTitle;
 					hasError.removeClass("hide").addClass("show");		
 				},
 				complete: function() {
-					twemoji.parse(document.body);
 					commentPost.removeAttr('disabled');
 				}
 			});
