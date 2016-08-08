@@ -76,7 +76,7 @@
                                 <div class="username">No Comments</div>
                             </div>
                             @endif-->
-                            <div class="postedtime">@{{ comment.createdTime}}</div>
+                            <div class="postedtime time-ago">@{{ comment.createdTime}}</div>
                             <div class="photocaption"></div>
                         </div>
 						</div>
