@@ -197,11 +197,11 @@
 						</a>
 					@endif
 					</div>
-					<div class="post-stats-label pull-right">{{ App\Helpers\UniversalClass::timeString($post->created_at)}}</div>
+					<div class="post-stats-label time-ago pull-right">{{ App\Helpers\UniversalClass::timeString($post->created_at)}}</div>
 				</div>
 				<div class="w-clearfix post-content">
 					@if($post->caption)
-						<div class="photocaption">{{ App\Helpers\UniversalClass::replaceTagMentionLink($post->caption)}}</div>
+						<div class="photocaption caption-name">{{ App\Helpers\UniversalClass::replaceTagMentionLink($post->caption)}}</div>
 					@endif
 					
 					<div class="dropdown-control">
@@ -250,7 +250,7 @@
                 @if(!$comments->isEmpty())
                     
                     @foreach($comments as $comment)
-                        <div class="w-clearfix userinfo delete-user-comment-{{$comment->id}}">
+                        <div class="w-clearfix emoji userinfo delete-user-comment-{{$comment->id}}">
                             <div class="userthumb">
 								<a href="/userprofile/{{$comment->user_id}}">
 									@if(!empty($comment->profile_image))
@@ -266,7 +266,7 @@
                                 <div class="username"><a href="/userprofile/{{$comment->user_id}}">{{($comment->username)?$comment->username:$comment->name}}</a></div>
                                 <div class="usercomment"><?php echo $comment->commentsHtml ?></div>
                             </div>                            
-                            <div class="postedtime">
+                            <div class="postedtime time-ago">
 								{{ App\Helpers\UniversalClass::timeString($comment->created_at)}}
 								@if(isset(Auth::user()->id) && Auth::user()->id == $comment->user_id)
 									<br><div class="pull-right"><a href="javascript:void(0);" data-href="/deleteComment/{{$comment->id}}" data-id="{{$comment->id}}" data-cmsg="Do you want to delete this Comment?" class="deleteComment" title="Delete Comment">x</a></div>
@@ -311,6 +311,7 @@
 @endsection
 @section('additional_js')
     <script src="/assets/js/custom/jR3DCarousel.min.js"></script>
+	<script src="/assets/js/twemoji.min.js"></script> 
     <script>
         var obj = $('.jR3DCarouselGallery').jR3DCarousel({
             "width": 400,
@@ -329,7 +330,10 @@
             player = document.querySelector('.js-media-player').plyr;
             player.play();
         });
-           
+        window.onload = function() {
+		  twemoji.size = '16x16';
+		  twemoji.parse(document.body);
+		}   
 		
     </script>
 @endsection

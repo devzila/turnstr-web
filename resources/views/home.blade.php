@@ -37,7 +37,7 @@
 					</div>										
                     <div class="usercommentsblock">
                         <div class="username"><a href="/userprofile/@{{$post.user_id}}">@{{ post.name}}</a></div>
-                        <div class="usercomment" ng-bind-html="post.caption"></div>
+                        <div class="usercomment caption-name " ng-bind-html="post.caption"></div>
                     </div>
                 </div>
 				
@@ -102,4 +102,14 @@
             border-radius: 50%;
         }
     </style>
+@endsection
+@section('additional_js')
+<script src="/assets/js/twemoji.min.js"></script>
+<script> 
+ window.onload = function() {
+		  twemoji.size = '16x16';
+		  twemoji.parse(document.body);
+		}   
+		
+</script>
 @endsection
