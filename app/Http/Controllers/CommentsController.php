@@ -79,7 +79,7 @@ class CommentsController extends Controller
 			
 		}
 		$comment_link = UniversalClass::replaceTagMentionLink($comments);
-		$commentBlock = '<div class="w-clearfix userinfo">
+		$commentBlock = '<div class="w-clearfix userinfo delete-user-comment-'.$result->id.'">
                             <div class="userthumb">
 								<a href="/userprofile/'.$userDetail->id.'"><img src="'.$profile_image.'" class="img-circle"></a>
 							</div>
@@ -87,7 +87,10 @@ class CommentsController extends Controller
                                 <div class="username"><a href="/userprofile/'.$userDetail->id.'">'.$userDetail->username.'</a></div>
                                 <div class="usercomment">'.$comment_link.'</div>
                             </div>
-                                                        <div class="postedtime">few seconds ago</div>
+                                                        <div class="postedtime time-ago">
+								few second ago
+																	<br><div class="pull-right"><a title="Delete Comment" class="deleteComment" data-cmsg="Do you want to delete this Comment?" data-id="'.$result->id.'" data-href="/deleteComment/'.$result->id.'" href="javascript:void(0);">x</a></div>
+															</div>
                             <div class="photocaption"></div>
                         </div>';
 		$response = [ 'status'=>1,'msg'=>"Successfully Added",'commentBlock'=>$commentBlock];

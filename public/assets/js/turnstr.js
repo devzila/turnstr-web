@@ -142,7 +142,8 @@ var signinWin,cAlertMessage,cAlertTitle;
 					commentError.html("Comment is not Added.");
 					hasError.removeClass("hide").addClass("show");		
 				},
-				complete: function() {						
+				complete: function() {
+					twemoji.parse(document.body);
 					commentPost.removeAttr('disabled');
 				}
 			});
@@ -254,7 +255,7 @@ var signinWin,cAlertMessage,cAlertTitle;
 				dataType: "json",
 				success: function(response) {
 					if(response.status == 1){
-						$(".delete-user-comment-"+data_id ).slideUp( "fast"	);
+						$(".delete-user-comment-"+data_id ).slideUp( "slow"	);
 					}
 					else 
 						cAlert("Something is wrong. Please try again.","Alert!");

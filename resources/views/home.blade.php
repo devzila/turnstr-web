@@ -37,7 +37,7 @@
 					</div>										
                     <div class="usercommentsblock">
                         <div class="username"><a href="/userprofile/@{{$post.user_id}}">@{{ post.name}}</a></div>
-                        <div class="usercomment" ng-bind-html="post.caption"></div>
+                        <div class="usercomment caption-name " ng-bind-html="post.caption"></div>
                     </div>
                 </div>
 				

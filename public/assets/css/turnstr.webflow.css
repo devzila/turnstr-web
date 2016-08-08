@@ -1269,3 +1269,11 @@ height:100%;
 .load-more{
 	margin-top:10px;
 }
+
+.caption-name{
+	font-size:16px;
+	color:#262626;
+}
+.time-ago{
+	font-size:12px;
+}
