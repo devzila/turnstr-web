@@ -58,6 +58,7 @@ class UserController extends Controller {
             'username'=>$userData['username'],
             'phone_number'=>$userData['phone_number'],
             'gender'=>$userData['gender'],
+            'is_verified'=>$userData['is_verified'],
             'bio'=>$userData['bio'],
             'website'=>$userData['website']
         );

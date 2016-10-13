@@ -48,7 +48,7 @@
 										<label for='gender'>Gender</label>
 									</div>
 									<div class="col-lg-8">
-										<select name="gender" id="gender">
+										<select name="gender" id="gender" class="form-control">
 											<option value="">Select</option>
 											<option value="Male" @if ($user_details->gender == "Male") Selected @endif > Male</option>
 											<option value="Female" @if ($user_details->gender == "Female") Selected @endif>Female</option>
@@ -83,6 +83,19 @@
 									</div>
 									<div class="col-lg-8">
 										<input  class="form-control" id="phone_number" name="phone_number" value="{{$user_details->phone_number}}">
+									</div>
+								</div>                                
+                            </div>
+                            <div class="row">                               
+								<div class="form-group col-lg-10">
+									<div class="col-lg-2 text-align-right">
+										<label for='is_verified'>Verified</label>
+									</div>
+									<div class="col-lg-8">
+										<select name="is_verified" id="is_verified" class="form-control">
+											<option value="1" @if ($user_details->is_verified == 1) Selected @endif >Verified</option>
+											<option value="0" @if ($user_details->is_verified == 0) Selected @endif > Not Verified</option>
+										</select>
 									</div>
 								</div>                                
                             </div>
