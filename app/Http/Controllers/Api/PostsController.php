@@ -33,6 +33,11 @@ class PostsController extends Controller
      */
     public function index(Request $request)
     {
+
+        //***********  temporary code to disable signup *********************//
+        return ResponseClass::Prepare_Response('','Unable to fetch data',false,200);
+        // ******************************
+
         // $posts = Posts::getPostsUserFollowing(DeviceSession::get()->user->id);
         // $selfposts = Posts::selfPosts(DeviceSession::get()->user->id);
 		$page = $request->input('page', 0);
