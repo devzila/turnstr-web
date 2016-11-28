@@ -94,7 +94,7 @@ class UserController extends Controller {
     public function login(UserLoginRequest $userLoginRequest){
 
         //***********  temporary code to disable signup *********************//
-        // return ResponseClass::Prepare_Response('','Unable to login',false,200);
+        return ResponseClass::Prepare_Response('','Unable to login',false,200);
         // ******************************
 
 

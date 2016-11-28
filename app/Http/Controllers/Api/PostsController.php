@@ -227,6 +227,11 @@ class PostsController extends Controller
      */
     public function explorer()
     {
+
+       //***********  temporary code to disable signup *********************//
+        return ResponseClass::Prepare_Response('','Unable to fetch data',false,200);
+        // ******************************
+
         $searchData = Input::get('searchData');
         //$access_token = Input::get('access_token');
         //$userId = '';
