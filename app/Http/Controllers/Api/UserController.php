@@ -56,10 +56,7 @@ class UserController extends Controller {
 
     public function register(UserRegistrationRequest $userRegistrationRequest){
 
-        //***********  temporary code to disable signup *********************//
-        return ResponseClass::Prepare_Response('','Unable to create user',false,200);
-        // ******************************
-
+ 
         $user = User::create([
             'name' => $this->request->get('name'),
             'email' => $this->request->get('email'),
@@ -92,10 +89,6 @@ class UserController extends Controller {
     }
 
     public function login(UserLoginRequest $userLoginRequest){
-
-        //***********  temporary code to disable signup *********************//
-        return ResponseClass::Prepare_Response('','Unable to login',false,200);
-        // ******************************
 
 
         $field = filter_var($this->request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
